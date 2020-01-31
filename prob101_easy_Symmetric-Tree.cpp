@@ -2,17 +2,6 @@
 
 /*Description
  * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
- *
- */
-
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
  */
 
 /**
@@ -76,7 +65,7 @@ public:
 private:
     int twoEqualTreeNodes(TreeNode* left, TreeNode* right)
     {
-        // 两个节点不相等，返回 0(包括一空一非空，两个均非空，但值不想等)
+        // 两个节点不相等，返回 0(包括一空一非空，两个均非空，但值不相等)
         // 两个节点相等，但是都为 nullptr, 返回 1
         // 两个节点相等，且都不为 nullptr, 返回 2
         if(left == nullptr && right != nullptr) return 0;
