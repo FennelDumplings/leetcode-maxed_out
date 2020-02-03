@@ -48,3 +48,21 @@ public:
         return head;
     }
 };
+
+
+class Solution_Recurrsion {
+public:
+    ListNode* reverseList(ListNode* head) {
+        // 空链表
+        if(head == nullptr) return head;
+        // 只有一个元素的链表
+        if(head -> next == nullptr) return head;
+
+        // 至少两个元素，iter初始为第二个
+        ListNode *iter = head -> next;
+        head -> next = nullptr;
+        ListNode *result = reverseList(iter);
+        iter -> next = head;
+        return result;
+    }
+};
