@@ -31,8 +31,7 @@ public:
                     int area = w * heights[index];
                     result = max(result, area);
                 }
-                if(st.top() == -1 || heights[st.top()] < heights[i])
-                    st.push(i);
+                st.push(i);
             }
         }
         while(st.top() != -1)
