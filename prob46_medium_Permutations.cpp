@@ -29,14 +29,14 @@ public:
         if(nums.empty()) return result;
         vector<int> cur_path;
         int n = nums.size();
-        vector<bool> nums_state(n, false);
-        dfs(nums, 0, cur_path, result, nums_state);
+        vector<bool> visited(n, false);
+        dfs(nums, 0, cur_path, result, visited);
         return result;
     }
 
 private:
     void dfs(vector<int> &nums, int pos, vector<int> &cur_path,
-            vector<vector<int> > &result, vector<bool> &nums_state)
+            vector<vector<int> > &result, vector<bool> &visited)
     {
         // pos 是当前考虑的路径的位置
         int n = nums.size();
@@ -47,12 +47,12 @@ private:
         }
         for(int i = 0; i < n; ++i)
         {
-            if(nums_state[i]) continue;
+            if(visited[i]) continue;
             cur_path.push_back(nums[i]);
-            nums_state[i] = true;
-            dfs(nums, pos + 1, cur_path, result, nums_state);
+            visited[i] = true;
+            dfs(nums, pos + 1, cur_path, result, visited);
             cur_path.pop_back();
-            nums_state[i] = false;
+            visited[i] = false;
         }
         return;
     }

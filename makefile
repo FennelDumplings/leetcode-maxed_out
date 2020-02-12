@@ -23,3 +23,9 @@ prob15: prob15_medium_3Sum.cpp
 
 prob18: prob18_medium_4Sum.cpp
 	g++ prob18_medium_4Sum.cpp -g -Wall -o ${DST_FOLD}prob18_medium_3Sum.out -std=c++11
+
+prob54: prob54_medium_spiral-matrix.cpp
+	g++ prob54_medium_spiral-matrix.cpp -g -Wall -o ${DST_FOLD}prob54_medium_spiral-matrix.out -std=c++11
+
+prob155: prob155_easy_Min-Stack.cpp
+	g++ prob155_easy_Min-Stack.cpp -g -Wall -o ${DST_FOLD}prob155_easy_Min-Stack.out -std=c++11
