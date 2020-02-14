@@ -144,3 +144,34 @@ private:
     }
 };
 
+// 解法2的优化写法
+class Solution_3 {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        if(n1 > n2) return findMedianSortedArrays(nums2, nums1);
+        int n = n1 + n2;
+        int k1 = (n + 1) / 2;
+        int k2 = (n + 2) / 2; // 直接找 2 次 K, 如果 n 为奇数，返回两次相同的值，可避免奇偶判断
+        int l1 = 0, l2 = 0;
+        return (_findKth(nums1, nums2, l1, l2, n1, n2, k1)
+                + _findKth(nums1, nums2, l1, l2, n1, n2, k2)) / 2.0;
+    }
+private:
+    int _findKth(vector<int>& nums1, vector<int>& nums2, int l1, int l2, int n1, int n2, int k)
+    {
+        if(l1 == n1) return nums2[l2 + k - 1];
+        if(l2 == n2) return nums1[l1 + k - 1];
+        if(k == 1) return min(nums1[l1], nums2[l2]);
+
+        int kk = k / 2;
+        int i = min(l1 + kk - 1, n1 - 1);
+        int j = min(l2 + kk - 1, n2 - 1);
+        if(nums1[i] <= nums2[j])
+            return _findKth(nums1, nums2, i + 1, l2, n1, n2, k - (i - l1 + 1));
+        else
+            return _findKth(nums1, nums2, l1, j + 1, n1, n2, k - (j - l2 + 1));
+    }
+};
+
