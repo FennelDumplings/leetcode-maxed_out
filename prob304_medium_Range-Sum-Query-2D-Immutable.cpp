@@ -59,7 +59,7 @@ public:
             return sums[row2][col2];
         else if(row1 == 0)
             return sums[row2][col2] - sums[row2][col1 - 1];
-        else if(col1 == 1)
+        else if(col1 == 0)
             return sums[row2][col2] - sums[row1 - 1][col2];
         else
             return sums[row2][col2] - sums[row2][col1 - 1]
