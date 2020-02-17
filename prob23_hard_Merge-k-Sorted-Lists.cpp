@@ -32,6 +32,7 @@ using namespace std;
  */
 
 // 自定义比较函数法一：pq 中存节点指针
+// 推荐写法
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
@@ -110,5 +111,87 @@ public:
             tail = tail -> next;
         }
         return result;
+    }
+};
+
+// 分治法 O(NlogN)
+// 递归分治
+class Solution_3 {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.empty()) return nullptr;
+        int n = lists.size();
+        ListNode *result = _mergeKLists(lists, 0, n - 1);
+        return result;
+
+    }
+
+private:
+    ListNode* _mergeKLists(vector<ListNode*>& lists, int left, int right)
+    {
+        if(left == right)
+            return lists[left];
+        if(left + 1 == right)
+            return _mergeTwoLists(lists[left], lists[right]);
+        int mid = left + (right - left) / 2;
+        ListNode *left_merged = _mergeKLists(lists, left, mid - 1);
+        ListNode *right_merged = _mergeKLists(lists, mid, right);
+        return _mergeTwoLists(left_merged, right_merged);
+    }
+
+    ListNode* _mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode *result = new ListNode(-1);
+        ListNode *cur = result;
+        while (l1 && l2) {
+            if(l1 -> val < l2 -> val) {
+                cur -> next = l1;
+                l1 = l1 -> next;
+            } else {
+                cur -> next = l2;
+                l2 = l2 -> next;
+            }
+            cur = cur -> next;
+        }
+        if(l1) cur->next = l1;
+        if(l2) cur->next = l2;
+        return result -> next;
+    }
+};
+
+// 分治法 O(NlogN)
+// 迭代分治
+class Solution_4 {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.empty()) return nullptr;
+        int n = lists.size();
+        while (n > 1)
+        {
+            // n 每轮减小一半
+            int k = (n + 1) / 2;
+            for(int i = 0; i < n / 2; ++i)
+                lists[i] = _mergeTwoLists(lists[i], lists[i + k]);
+            n = k;
+        }
+        return lists[0];
+    }
+
+private:
+    ListNode* _mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode *result = new ListNode(-1);
+        ListNode *cur = result;
+        while (l1 && l2) {
+            if(l1 -> val < l2 -> val) {
+                cur -> next = l1;
+                l1 = l1 -> next;
+            } else {
+                cur -> next = l2;
+                l2 = l2 -> next;
+            }
+            cur = cur -> next;
+        }
+        if(l1) cur->next = l1;
+        if(l2) cur->next = l2;
+        return result -> next;
     }
 };
