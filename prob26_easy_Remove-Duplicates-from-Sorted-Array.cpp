@@ -23,7 +23,7 @@ public:
     int removeDuplicates(vector<int>& nums) {
         if(nums.empty()) return 0;
         int n = nums.size();
-        if(n == 1) return 0;
+        if(n == 1) return 1;
         int left = 0;
         int cur = nums[left];
         for(int right = left + 1; right < n; ++right)
