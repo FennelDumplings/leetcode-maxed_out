@@ -24,7 +24,6 @@ using namespace std;
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
-        // string result = "";
         if(strs.empty()) return "";
         int n = strs.size();
         int iter = 0; // 遍历字符串的索引
