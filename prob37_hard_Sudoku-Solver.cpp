@@ -122,6 +122,7 @@ private:
 };
 
 // 哈希表的键在 0-9 之间，可以用 vector<int> 取代哈希表
+// 把 vector<int> 替换为 unordered_set<char> 死活对不了
 class Solution_2 {
 public:
     void solveSudoku(vector<vector<char>>& board) {
