@@ -85,7 +85,6 @@ public:
                     ++count;
                     break;
                 }
-                cout << start << " ";
                 tmp = nums[next];
                 nums[next] = nums[start];
                 nums[start] = tmp;
