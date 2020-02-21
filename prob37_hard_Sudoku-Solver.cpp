@@ -137,7 +137,7 @@ public:
                     col_state[j][int(board[i][j] - '0' - 1)] = true;
                     block_state[_get_block_id(i, j)][int(board[i][j] - '0' - 1)] = true;
                 }
-        _solveSudoku(board, 0);
+        _solveSudoku(board);
     }
 
 private:
@@ -145,33 +145,27 @@ private:
     vector<vector<bool> > col_state;
     vector<vector<bool> > block_state;
 
-    bool _solveSudoku(vector<vector<char>>& board, int pos)
+    bool _solveSudoku(vector<vector<char>>& board)
     {
-        int i = pos / 9;
-        int j = pos % 9;
-        if(board[i][j] != '.')
-        {
-            if(pos == 80)
-                return true;
-            else
-                return _solveSudoku(board, pos + 1);
-        }
-        char nums[9] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        for(int it = 0; it < 9; ++it)
-        {
-            char item = nums[it];
-            if(check(i, j, item))
-            {
-                board[i][j] = item;
-                update(i, j, item);
-                if(pos == 80) return true;
-                bool solved = _solveSudoku(board, pos + 1);
-                if(solved) return true;
-                rollback(i, j, item);
-                board[i][j] = '.';
-            }
-        }
-        return false;
+        for(int i = 0; i < 9; ++i)
+            for(int j = 0; j < 9; ++j)
+                if(board[i][j] == '.')
+                {
+                    for(char item = '1'; item <= '9'; ++item)
+                    {
+                        if(check(i, j, item))
+                        {
+                            board[i][j] = item;
+                            update(i, j, item);
+                            bool solved = _solveSudoku(board);
+                            if(solved) return true;
+                            rollback(i, j, item);
+                            board[i][j] = '.';
+                        }
+                    }
+                    return false;
+                }
+        return true;
     }
 
     void update(int i, int j, char item)
@@ -187,7 +181,6 @@ private:
         col_state[j][int(item - '0' - 1)] = false;
         block_state[_get_block_id(i, j)][int(item - '0' - 1)] = false;
     }
-
 
     // 对于当前点 (i, j)， 输入一种数字后，判断状态是否合法
     bool check(int i, int j, char item)
