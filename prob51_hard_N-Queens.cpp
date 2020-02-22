@@ -17,13 +17,12 @@ using namespace std;
 
 // 朴素 DFS
 // 无剪枝，无位运算优化
-// n = 7 时可跑出结果，n = 8 时 TLE
 class Solution {
 public:
     vector<vector<string>> solveNQueens(int n) {
         if(n <= 0) return vector<vector<string>>();
         if(n == 1) return vector<vector<string>>(1, vector<string>(1,"Q"));
-        //
+
         vector<vector<string> > result;
         vector<string> board(n, string(n, '.'));
         dfs(result, 0, board, n);
