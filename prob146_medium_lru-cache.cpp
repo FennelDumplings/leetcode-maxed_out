@@ -25,6 +25,7 @@
 
 using namespace std;
 
+// 哈希表 + 双向链表
 class LRUCache {
 public:
     LRUCache(int cap) {
