@@ -1,4 +1,4 @@
-// prob32: Search in Rotated Sorted Array
+// prob33: Search in Rotated Sorted Array
 
 /*
  * Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
