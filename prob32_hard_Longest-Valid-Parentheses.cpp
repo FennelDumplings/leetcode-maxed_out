@@ -18,6 +18,7 @@
 
 #include <string>
 #include <stack>
+#include <vector>
 
 using namespace std;
 
@@ -103,5 +104,43 @@ public:
             --start;
         }
         return max(result_l2r, result_r2l);
+    }
+};
+
+// 3. DP
+// dp[i] := 以 i 结尾的最长有效长度
+// 初始化至少两个值 dp[0] = 0, dp[1]
+// 只更新 s[i] = ')' 的情况，s[i] = '(' dp[i] = 0
+// s[i] = ')' 有两种情况
+// 1. '()' s[i] = ')' s[i - 1] = '(' dp[i] = dp[i - 2] + 2
+// 2. '))' s[i] = ')' s[i - 1] = ')' dp[i] = dp[i - 1] + 2 + dp[i - dp[i - 1] - 2]
+class Solution_3 {
+public:
+    int longestValidParentheses(string s) {
+        if(s.empty()) return 0;
+        int n = s.size();
+        if(n == 1) return 0;
+        vector<int> dp(n, 0);
+        if(s[0] == '(' && s[1] == ')') dp[1] = 2;
+        int result = dp[1];
+        for(int i = 2; i < n; ++i)
+        {
+            if(s[i] == ')')
+            {
+                if(s[i - 1] == '(')
+                    dp[i] = dp[i - 2] + 2;
+                else
+                {
+                    if(i - dp[i - 1] - 1 >= 0 && s[i - dp[i - 1] - 1] == '(')
+                    {
+                        dp[i] = dp[i - 1] + 2;
+                        if(i - dp[i - 1] - 2 >= 0)
+                            dp[i] += dp[i - dp[i - 1] - 2];
+                    }
+                }
+            }
+            result = max(result, dp[i]);
+        }
+        return result;
     }
 };
