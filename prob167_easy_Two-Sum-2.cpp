@@ -19,59 +19,21 @@ Output: index1=1, index2=2
 #include <vector>
 using namespace std;
 
-class Solution
-{
-    vector<int> twoSum(vector<int>& numbers, int target)
-    {
-        //题中假设了每组输入都刚好有一个结果，因此不用考虑numbers中元素个数为1和0的情况
-        int n = numbers.size(); //已知n >= 2
-        int head = 0;
-        int tail = n - 1;
-        //vector<int> result(2, 0);
-        while(head < tail)
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int n = numbers.size();
+        int left = 0, right = n - 1;
+        while(left < right)
         {
-            int sum = numbers[head] + numbers[tail];
-            if(sum == target)
-            {
-                //result[0] = head + 1;
-                //result[1] = tail + 1;
-                //break;
-                return vector<int>{head + 1, tail + 1};
-            }
-            else if(sum < target)
-            {
-                ++head;
-            }
+            if(numbers[left] + numbers[right] == target)
+                return vector<int>({left + 1, right + 1});
+            else if(numbers[left] + numbers[right] < target)
+                ++left;
             else
-            {
-                --tail;
-            }
+                --right;
         }
-        return vector<int>{0, 0};
+        return vector<int>({-1, -1});
     }
-}
+};
 
-
-int main()
-{
-    int n;
-    cout << "length of sorted array: " << endl;
-    cin >> n;
-    vector<int> nums(n, 0);
-    cout << "Input " << n << " numbers in ascending order: " << endl;
-    for(int i = 0; i < n; ++i)
-    {
-        cin >> nums[i];
-    }
-    for(int i = 0; i < n; ++i)
-    {
-        cout << nums[i] << " ";
-    }
-    cout << endl;
-    cout << "Input target: " << endl;
-    int tar;
-    cin >> tar;
-    Solution solution;
-    vector<int> res = solution.twoSum(nums, tar);
-    cout << "result: " << res[0] << ", " << res[1] << endl;
-}
