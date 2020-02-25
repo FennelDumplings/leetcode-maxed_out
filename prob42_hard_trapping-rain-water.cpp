@@ -96,7 +96,7 @@ public:
     }
 };
 
-// 4. 双指针class Solution {
+// 4. 双指针
 class Solution_3 {
 public:
     int trap(vector<int>& height) {
