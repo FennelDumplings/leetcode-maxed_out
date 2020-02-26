@@ -439,9 +439,10 @@ private:
         int n = nums.size();
         if(n == 1) return;
         int m = 11; // m 个桶, 每个桶里 100000/m 个数, 100000 单独是一个桶
-        _bucketsort(nums, m);
+        _bucketsort2(nums, m);
     }
 
+    // 用 vector 指针的 vector 存桶
     void _bucketsort(vector<int>& nums, int m)
     {
         // 数字 num -> 桶编号 i
@@ -464,6 +465,26 @@ private:
 
         for(int i = 0; i < m; ++i)
             delete buckets[i];
+    }
+
+    // 用vector的vector 存桶
+    void _bucketsort2(vector<int>& nums, int m)
+    {
+        // 数字 num -> 桶编号 i
+        // (num + 50000) / 1000
+        vector<vector<int> > buckets(m);
+
+        int n = nums.size();
+        for(int i = 0; i < n; ++i)
+            buckets[(nums[i] + 50000) / (100000 / (m - 1))].push_back(nums[i]);
+
+        for(int i = 0; i < m; ++i)
+            quicksort(buckets[i]);
+
+        int iter = 0;
+        for(vector<int> bucket: buckets)
+            for(int num: bucket)
+                nums[iter++] = num;
     }
 
     // 基数排序, 只能对正数用(以下代码用在含负数的数组报错)
