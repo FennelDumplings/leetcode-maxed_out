@@ -175,7 +175,7 @@ private:
         return head;
     }
 
-    // 归并排序, 这里只有自底向上写法
+    // 归并排序, 这里只有自顶向下写法
     // 另参考 leetcode prob148, 自顶向下和自底向上两种写法(自底向上好)
     ListNode* _mergeSortList(ListNode* head)
     {

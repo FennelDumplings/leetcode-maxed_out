@@ -14,6 +14,7 @@
 #include <stack>
 #include <cstdlib>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -27,7 +28,10 @@ public:
         // heapsort(nums);
         // bubblesort(nums);
         // quicksort(nums);
-        mergesort(nums);
+        // mergesort(nums);
+        // countingsort(nums);
+        // bucketsort(nums);
+        radixsort(nums);
         return nums;
     }
 
@@ -94,18 +98,18 @@ private:
                     min_index = j;
                 }
             }
-            swap(nums, i, min_index);
+            _swap(nums, i, min_index);
         }
     }
 
-    void swap(vector<int> &nums, int i, int j)
+    // 堆排序
+    void heapsort(vector<int>& nums)
     {
-        int tmp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = tmp;
+        // heapsort1(nums);
+        heapsort2(nums);
     }
 
-    void heapsort(vector<int>& nums)
+    void heapsort1(vector<int>& nums)
     {
         if(nums.empty()) return;
         int n = nums.size();
@@ -117,7 +121,7 @@ private:
         }
         for(i = n - 1; i > 0; --i)
         {
-            swap(nums, 0, i);
+            _swap(nums, 0, i);
             percolateDown(nums, 0, i);
         }
     }
@@ -139,6 +143,64 @@ private:
         nums[hole] = tmp;
     }
 
+    // 堆排序更好的模板, 从小到大排， 大顶堆
+    void heapsort2(vector<int>& nums)
+    {
+        if(nums.empty()) return;
+        int n = nums.size();
+        _heapsort(nums, n);
+    }
+
+    // 堆的元素下标从1开始
+    void push_down(vector<int>& heap, int size, int u)
+    {
+        int t = u, left = u * 2, right = u * 2 + 1;
+        if(left <= size && heap[left] > heap[t]) t = left;
+        if(right <= size && heap[right] > heap[t]) t = right;
+        if(t != u)
+        {
+            swap(heap[u], heap[t]);
+            push_down(heap, size, t);
+        }
+    }
+
+    void push_up(vector<int>& heap, int size, int u)
+    {
+        if(u > size) return;
+        while(u / 2 && heap[u / 2] < heap[u])
+        {
+            swap(heap[u / 2], heap[u]);
+            u /= 2;
+        }
+    }
+
+    void insert(vector<int>& heap, int size, int x)
+    {
+        heap[++size] = x;
+        push_up(heap, size, x);
+    }
+
+    void remove_top(vector<int>& heap, int size)
+    {
+        heap[1] = heap[size--];
+        push_down(heap, size, 1);
+    }
+
+    void _heapsort(vector<int>& heap, int size)
+    {
+        heap.push_back(0);
+        int n = size;
+        for(int i = n - 1; i >= 0; --i) heap[i + 1] = heap[i];
+        for(int i = 1; i <= size; ++i) push_up(heap, size, i); // 时间复杂度 O(N) 不是 O(NlogN)
+        for(int i = n; i >= 1; --i)
+        {
+            swap(heap[1], heap[size--]);
+            push_down(heap, size, 1);
+        }
+        for(int i = 0; i < n; ++i) heap[i] = heap[i + 1];
+        heap.pop_back();
+    }
+
     // 冒泡
     void bubblesort(vector<int>& nums)
     {
@@ -156,7 +218,7 @@ private:
             {
                 if(nums[j + 1] < nums[j])
                 {
-                    swap(nums, j, j + 1);
+                    _swap(nums, j, j + 1);
                     flag = true;
                 }
             }
@@ -164,12 +226,13 @@ private:
         }
     }
 
+    // 快排
     void quicksort(vector<int> &nums)
     {
         if(nums.empty()) return;
         int n = nums.size();
         if(n == 1) return;
-        _quicksort2(nums, 0, n - 1);
+        _quicksort3(nums, 0, n - 1);
     }
 
     void _quicksort1(vector<int> &nums, int low, int high)
@@ -206,18 +269,18 @@ private:
     {
         // 单指针划分
         int randIdx = rand() % (high - low + 1) + low; // 随机选择 pivot
-        swap(nums, randIdx, low);
+        _swap(nums, randIdx, low);
         int pivot = nums[low]; // 标准元素, 支点元素取最左边
         int index = high;
         for(int i = high; i > low; --i)
         {
             if(nums[i] >= pivot)
             {
-                swap(nums, i, index);
+                _swap(nums, i, index);
                 --index;
             }
         }
-        swap(nums, index, low);
+        _swap(nums, index, low);
         return index;
     }
 
@@ -225,7 +288,7 @@ private:
     {
         // 双指针划分
         int randIdx = rand() % (high - low + 1) + low; // 随机选择 pivot
-        swap(nums, randIdx, low);
+        _swap(nums, randIdx, low);
         int pivot = nums[low]; // 标准元素, 支点元素取最左边
         while(low < high)
         {
@@ -246,6 +309,20 @@ private:
         }
         nums[low] = pivot;
         return low;
+    }
+
+    // 快排最短模板, 不带 partition
+    void _quicksort3(vector<int>& nums, int l, int r)
+    {
+        if(l >= r) return;
+        int i = l - 1, j = r + 1, x = nums[(l + r) >> 1];// pivot 取中间点的值已经很好了，随机更好
+        while(i < j)
+        {
+            do j--; while(nums[j] > x);
+            do i++; while(nums[i] < x);
+            if(i < j) _swap(nums, i, j);
+            else _quicksort3(nums, l, j), _quicksort3(nums, j + 1, r); // 这一行代替了 partition
+        }
     }
 
     // 归并, 两种实现方式, 自顶向下
@@ -313,5 +390,108 @@ private:
         while(j <= high) tmp[k++] = nums[j++];
         for(k = 0, i = low; i <= high; ++k, ++i)
             nums[i] = tmp[k];
+    }
+
+    void _swap(vector<int> &nums, int i, int j)
+    {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+
+    // 计数排序,
+    // 1 <= A.length <= 10000
+    // -50000 <= A[i] <= 50000
+    void countingsort(vector<int>& nums)
+    {
+        if(nums.empty()) return;
+        int n = nums.size();
+        if(n == 1) return;
+        // 范围 [-50000, 50000] 映射到[0, 100000]
+        for(int i = 0; i < n; ++i)
+            nums[i] += 50000;
+        int m = 100001; //[0, 100000]
+        _countingsort(nums, m);
+        for(int i = 0; i < n; ++i) // 减回来
+            nums[i] -= 50000;
+    }
+
+    void _countingsort(vector<int>& nums, int m)
+    {
+        int n = nums.size();
+        vector<int> cnt(m + 1, 0);
+        for(int i = 0; i < n; ++i) cnt[nums[i]]++;
+
+        for(int i = 0, k = 0; i <= m; ++i)
+        {
+            while(cnt[i]){
+                nums[k++] = i;
+                cnt[i]--;
+            }
+        }
+    }
+
+    // 桶排序
+    // 范围 [-50000, 50000] 映射到[0, 100000]
+    void bucketsort(vector<int>& nums)
+    {
+        if(nums.empty()) return;
+        int n = nums.size();
+        if(n == 1) return;
+        int m = 11; // m 个桶, 每个桶里 100000/m 个数, 100000 单独是一个桶
+        _bucketsort(nums, m);
+    }
+
+    void _bucketsort(vector<int>& nums, int m)
+    {
+        // 数字 num -> 桶编号 i
+        // (num + 50000) / 1000
+        vector<vector<int>* > buckets(m, nullptr);
+        for(int i = 0; i < m; ++i)
+            buckets[i] = new vector<int>();
+
+        int n = nums.size();
+        for(int i = 0; i < n; ++i)
+            buckets[(nums[i] + 50000) / (100000 / (m - 1))] -> push_back(nums[i]);
+
+        for(int i = 0; i < m; ++i)
+            quicksort(*(buckets[i]));
+
+        int iter = 0;
+        for(vector<int> *bucket: buckets)
+            for(int num: *bucket)
+                nums[iter++] = num;
+
+        for(int i = 0; i < m; ++i)
+            delete buckets[i];
+    }
+
+    // 基数排序, 只能对正数用(以下代码用在含负数的数组报错)
+    // 且O(N)的常数较大，实际比 O(NlogN) 慢, 很少用
+    void radixsort(vector<int>& nums)
+    {
+        if(nums.empty()) return;
+        int n = nums.size();
+        if(n == 1) return;
+
+        // 定义桶
+        vector<vector<int> > cnt(10); // 数位一共有 10 种, 10 个桶
+        for(int i = 0; i < 10; ++i)
+        {
+            for(int j = 0; j < 10; ++j) cnt[j].clear();
+
+            for(int j = 0; j < n; ++j)
+                cnt[get(nums[j], i)].push_back(nums[j]);
+
+            for(int j = 0, k = 0; j < 10; ++j)
+                for(int num: cnt[j])
+                    nums[k++] = num;
+        }
+    }
+
+    int get(int x, int i) // 返回 x 的第 i 位
+    {
+        while(i--) x /= 10;
+        return x % 10;
     }
 };
