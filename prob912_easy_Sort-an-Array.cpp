@@ -411,12 +411,14 @@ private:
         for(int i = 0; i < n; ++i)
             nums[i] += 50000;
         int m = 100001; //[0, 100000]
-        _countingsort(nums, m);
+        // _countingsort1(nums, m);
+        _countingsort2(nums, m);
         for(int i = 0; i < n; ++i) // 减回来
             nums[i] -= 50000;
     }
 
-    void _countingsort(vector<int>& nums, int m)
+    // 不保证稳定, 也叫假计数排序
+    void _countingsort1(vector<int>& nums, int m)
     {
         int n = nums.size();
         vector<int> cnt(m + 1, 0);
@@ -429,6 +431,22 @@ private:
                 cnt[i]--;
             }
         }
+    }
+
+    // 保证稳定, 借助 cnt 数组的前缀和
+    void _countingsort2(vector<int>& nums, int m)
+    {
+        int n = nums.size();
+        vector<int> cnt(m + 1, 0);
+        for(int i = 0; i < n; ++i) cnt[nums[i]]++;
+
+        vector<int> presum_cnt(m + 2, 0);
+        for(int i = 1; i < m + 2; ++i)
+            presum_cnt[i] = presum_cnt[i - 1] + cnt[i - 1];
+        vector<int> tmp(nums.begin(), nums.end()); // nums 的副本
+
+        for(int i = n - 1; i >= 0; --i)
+            nums[--presum_cnt[tmp[i]]] = tmp[i];
     }
 
     // 桶排序
@@ -495,6 +513,17 @@ private:
         int n = nums.size();
         if(n == 1) return;
 
+        for(int i = 0; i < n; ++i)
+            nums[i] += 50000;
+        _radixsort(nums);
+        for(int i = 0; i < n; ++i) // 减回来
+            nums[i] -= 50000;
+
+    }
+
+    void _radixsort(vector<int>& nums)
+    {
+        int n = nums.size();
         // 定义桶
         vector<vector<int> > cnt(10); // 数位一共有 10 种, 10 个桶
         for(int i = 0; i < 10; ++i)
@@ -508,6 +537,7 @@ private:
                 for(int num: cnt[j])
                     nums[k++] = num;
         }
+
     }
 
     int get(int x, int i) // 返回 x 的第 i 位
