@@ -55,6 +55,7 @@ private:
     }
 
     // 双指针
+    // 类似与单指针 partition 的操作
     void _twopointers(vector<int>& nums)
     {
         if(nums.empty()) return;
@@ -62,7 +63,7 @@ private:
         if(n == 1) return;
 
         int left = 0, right = n - 1; // n >= 2, right >= 1
-        // left 的左侧都是 0, right 的右侧都是 1
+        // left 的左侧都是 0, right 的右侧都是 2
         for(int i = 0; i <= right;)
         {
             if(nums[i] == 0)

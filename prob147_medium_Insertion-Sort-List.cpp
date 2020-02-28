@@ -118,7 +118,7 @@ private:
     ListNode* _divide_list1(ListNode* head, ListNode* tail)
     {
         int pivot = head -> val;
-        ListNode* loc = head; // pivot 位置
+        ListNode* loc = head; // pivot 的位置 [head, loc) 比 pivot 小
         for(ListNode* i = head -> next; i != tail; i = i -> next)
             if(i -> val < pivot)
             {
