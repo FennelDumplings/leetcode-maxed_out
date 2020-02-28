@@ -29,3 +29,7 @@ prob54: prob54_medium_spiral-matrix.cpp
 
 prob155: prob155_easy_Min-Stack.cpp
 	g++ prob155_easy_Min-Stack.cpp -g -Wall -o ${DST_FOLD}prob155_easy_Min-Stack.out -std=c++11
+
+prob324: prob324_medium_Wiggle-Sort.cpp
+	g++ prob324_medium_Wiggle-Sort.cpp -g -Wall -o ${DST_FOLD}prob324_medium_Wiggle-Sort.out -std=c++11
+
