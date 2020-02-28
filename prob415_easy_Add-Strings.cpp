@@ -16,7 +16,25 @@
 
 using namespace std;
 
+// 一个不啰嗦的模板, 字符串加法，二进制加法
+// 但是跑的效果不如朴素写法好
 class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        string result;
+        int carry = 0, i = num1.size() - 1, j = num2.length() - 1;
+        while(i >= 0 || j >= 0 || carry != 0){
+            if(i >= 0) carry += num1[i--] - '0';
+            if(j >= 0) carry += num2[j--] - '0';
+            result = char(carry % 10 + '0') + result;
+            carry /= 10;
+        }
+        return result;
+    }
+};
+
+// 朴素写法，跑出的时空效果很好
+class Solution_2 {
 public:
     string addStrings(string num1, string num2) {
         return _add_2_channels(num1, num2);
