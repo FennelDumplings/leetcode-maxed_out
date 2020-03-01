@@ -49,7 +49,8 @@ public:
     }
 };
 
-
+// 递归的思路是栈的后进先出特性
+// 递归爆栈问题
 class Solution_Recurrsion {
 public:
     ListNode* reverseList(ListNode* head) {
