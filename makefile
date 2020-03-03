@@ -33,3 +33,6 @@ prob155: prob155_easy_Min-Stack.cpp
 prob324: prob324_medium_Wiggle-Sort.cpp
 	g++ prob324_medium_Wiggle-Sort.cpp -g -Wall -o ${DST_FOLD}prob324_medium_Wiggle-Sort.out -std=c++11
 
+prob239: prob239_hard_Sliding-Window-Maximum.cpp
+	g++ prob239_hard_Sliding-Window-Maximum.cpp -g -Wall -o ${DST_FOLD}prob239_hard_Sliding-Window-Maximum.out -std=c++11
+
