@@ -98,7 +98,7 @@ public:
 };
 
 // 排序的另一种写法
-class Solution_optim2 {
+class Solution_optim3 {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         unordered_map<string, vector<string>> dict;
@@ -110,10 +110,8 @@ public:
         }
 
         vector<vector<string>> res;
-        for (auto i = dict.begin(); i != dict.end(); i ++ )
-        {
+        for (auto i = dict.begin(); i != dict.end(); i++)
             res.push_back(move(i -> second));
-        }
 
         return res;
     }
