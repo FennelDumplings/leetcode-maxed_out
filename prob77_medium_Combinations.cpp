@@ -89,3 +89,37 @@ public:
         return results;
     }
 };
+
+// 二进制字典序
+// e.g. 1, 2, 3, 4  C(4, 2)
+// 0 0 1 1
+// 0 1 0 1
+// 0 1 1 0
+// 1 0 0 1
+// 1 0 1 0
+// 1 1 0 0
+// 性能最优
+class Solution_3 {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<int> nums(k, 0);
+        for(int i = 1; i <= k; ++i)
+            nums[i - 1] = i;
+        nums.push_back(n + 1); // 哨兵
+
+        vector<vector<int> > results;
+        int j = 0;
+        while(j < k)
+        {
+            results.push_back(vector<int>(nums.begin(), nums.begin() + k));
+            j = 0;
+            while(j < k && nums[j + 1] == nums[j] + 1)
+            {
+                nums[j] = j + 1; // 关键一行
+                ++j;
+            }
+            ++nums[j];
+        }
+        return results;
+    }
+};
