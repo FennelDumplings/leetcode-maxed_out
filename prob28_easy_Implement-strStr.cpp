@@ -57,7 +57,7 @@ public:
 };
 
 // 字符串哈希(RK算法)
-// 一个字符串 -> 当成26进制数，算出十进制数，对 long long 范围取模
+// 哈希值是字符的简单相加
 // 如果哈希值不同则不匹配，哈希值相同，则需要在逐字比对，因为可能碰撞
 class Solution_2 {
 public:
@@ -101,6 +101,102 @@ private:
         for(int i = 0; i < m; ++i)
             result += (s[i] - 'a');
         return result;
+    }
+};
+
+// 字符串哈希
+// 提前把主串上所有前缀的哈希都算出来
+// p, mod 的质数选取
+//     201326611
+//     402653189
+//     1610612741
+// hash[i] = (hash[i-1]*p + idx(A[i - 1])) % MOD; idx(x) = x + 1; i 从 1 开始
+//    hash[i] i = 1..n 求出之后，子串 [l..r] 的哈希值可以O(1)获取, 类似与前缀和的思路
+//    hash = ((hash[r] - hash[l - 1] * p ^ (r - l + 1)) % mod + mod) % mod
+// 如果哈希值不同则不匹配，哈希值相同，则需要在逐字比对，因为可能碰撞, 但碰撞概率极低
+class Solution_3_1 {
+public:
+    int strStr(string haystack, string needle) {
+        if(needle.empty()) return 0;
+        if(haystack.empty()) return -1;
+        int n = haystack.size(), m = needle.size();
+        if(n < m) return -1;
+
+        // n > 0, m > 0, n >= m
+        // 主串的前缀哈希数组
+        const int p = 201326611;
+        vector<unsigned long long> prefix_hash(n + 1, 0);
+        vector<unsigned long long> pp(n + 1, 0); //使用ull产生溢出相当于对2^64 取模，避免了低效的取模运算
+        pp[0] = 1;
+        for(int i = 1; i <= n; ++i)
+        {
+            prefix_hash[i] = prefix_hash[i - 1] * p + _idx(haystack[i - 1]);
+            pp[i] = pp[i - 1] * p;
+        }
+        // 模式串的哈希值
+        unsigned long long pattern_hash = 0;
+        for(int i = 0; i < m; ++i)
+            pattern_hash = (pattern_hash * p + _idx(needle[i]));
+
+        // 长度为 m 的子串, hash数组中对应位置 [l, r] -- [1..n-m+1, m..n]
+        // p 的幂，只需要 m - 1 次
+        for(int i = 1; i <= n - m + 1; ++i)
+        {
+            int l = i, r = i + m - 1;
+            unsigned long long hash = (prefix_hash[r] - prefix_hash[l - 1] * pp[m]);
+            if(hash == pattern_hash)
+                return i - 1;
+        }
+        return -1;
+    }
+
+private:
+    int _idx(char x)
+    {
+        return x - 'a' + 1;
+    }
+};
+class Solution_3_2 {
+public:
+    int strStr(string haystack, string needle) {
+        if(needle.empty()) return 0;
+        if(haystack.empty()) return -1;
+        int n = haystack.size(), m = needle.size();
+        if(n < m) return -1;
+
+        // n > 0, m > 0, n >= m
+        const int MOD = 1610612741;
+        const int p = 201326611;
+        // 主串的前缀哈希数组
+        vector<long long> prefix_hash(n + 1, 0);
+        vector<long long> pp(n + 1, 0); // 使用 MOD 的时候不能用 unsigned long long
+        pp[0] = 1;
+        for(int i = 1; i <= n; ++i)
+        {
+            prefix_hash[i] = (prefix_hash[i - 1] * p + _idx(haystack[i - 1])) % MOD;
+            pp[i] = (pp[i - 1] * p) % MOD;
+        }
+        // 模式串的哈希值
+        long long pattern_hash = 0;
+        for(int i = 0; i < m; ++i)
+            pattern_hash = (pattern_hash * p + _idx(needle[i])) % MOD;
+
+        // 长度为 m 的子串, hash数组中对应位置 [l, r] -- [1..n-m+1, m..n]
+        // p 的幂，只需要 m - 1 次
+        for(int i = 1; i <= n - m + 1; ++i)
+        {
+            int l = i, r = i + m - 1;
+            long long hash = ((prefix_hash[r] - prefix_hash[l - 1] * pp[m]) % MOD + MOD) % MOD;
+            if(hash == pattern_hash)
+                return i - 1;
+        }
+        return -1;
+    }
+
+private:
+    int _idx(char x)
+    {
+        return x - 'a' + 1;
     }
 };
 

@@ -83,7 +83,7 @@ private:
     }
 };
 
-// 字符串哈希, 本题不太适用
+// 字符串哈希, 本题不太适用 400ms
 // 因为要输出所有答案，冲突太多，会重建很多次滑窗的 key
 class Solution_2 {
 public:
@@ -94,35 +94,60 @@ public:
         // n >= m
         vector<int> result;
         vector<int> pattern_key = _build_key(p, 0, m - 1); // 传入闭区间
-        int pattern_hashcode = _build_hashcode(p, 0, m - 1); // 传入闭区间
-        int hashcode = _build_hashcode(s, 0, m - 1); // 传入闭区间
-        if(pattern_hashcode == hashcode && _compare(pattern_key, s, 0, m - 1)) // 传入闭区间
+        int pattern_hashcode1 = _build_hashcode1(p, 0, m - 1); // 传入闭区间
+        int pattern_hashcode2 = _build_hashcode2(p, 0, m - 1); // 传入闭区间
+        int hashcode1 = _build_hashcode1(s, 0, m - 1); // 传入闭区间
+        int hashcode2 = _build_hashcode2(s, 0, m - 1); // 传入闭区间
+        if(pattern_hashcode1 == hashcode1 && pattern_hashcode2 == hashcode2 && _compare(pattern_key, s, 0, m - 1)) // 传入闭区间
             result.push_back(0);
         for(int i = 1; i <= n - m; ++i)
         {
-            _modify_hashcode(s, hashcode, i, m);
-            if(pattern_hashcode == hashcode && _compare(pattern_key, s, i, m - 1 + i)) // 传入闭区间
+            _modify_hashcode1(s, hashcode1, i, m);
+            _modify_hashcode2(s, hashcode2, i, m);
+            if(pattern_hashcode1 == hashcode1 && pattern_hashcode2 == hashcode2 && _compare(pattern_key, s, i, m - 1 + i)) // 传入闭区间
                 result.push_back(i);
         }
         return result;
     }
 
 private:
-    int _build_hashcode(const string& s, int left, int right)
+    int _idx(char x)
+    {
+        return x - 'a' + 1;
+    }
+
+    int _build_hashcode1(const string& s, int left, int right)
     {
         // 调用方保证 left 和 right 的合法性
         int result = 0;
         for(int i = left; i <= right; ++i)
-            result += s[i] - 'a';
+            result += (_idx(s[i])) * (_idx(s[i]));
         return result;
     }
 
-    void _modify_hashcode(const string& s, int& hashcode, int idx, int m)
+    void _modify_hashcode1(const string& s, int& hashcode, int idx, int m)
     {
         int to_be_removed_idx = idx - 1;
         int new_idx = idx + m - 1;
-        hashcode -= s[to_be_removed_idx];
-        hashcode += s[new_idx];
+        hashcode -= _idx(s[to_be_removed_idx]) * _idx(s[to_be_removed_idx]);
+        hashcode += _idx(s[new_idx]) * _idx(s[new_idx]);
+    }
+
+    int _build_hashcode2(const string& s, int left, int right)
+    {
+        // 调用方保证 left 和 right 的合法性
+        int result = 0;
+        for(int i = left; i <= right; ++i)
+            result += _idx(s[i]);
+        return result;
+    }
+
+    void _modify_hashcode2(const string& s, int& hashcode, int idx, int m)
+    {
+        int to_be_removed_idx = idx - 1;
+        int new_idx = idx + m - 1;
+        hashcode -= _idx(s[to_be_removed_idx]);
+        hashcode += _idx(s[new_idx]);
     }
 
     bool _compare(const vector<int>& pattern_key, const string& s, int left, int right)
