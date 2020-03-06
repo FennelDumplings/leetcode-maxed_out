@@ -25,78 +25,96 @@
  */
 
 #include <vector>
+#include <algorithm>
+#include <deque>
 
 using namespace std;
 
-// 照搬prob209双指针，答案错
-// 因为A中可能有0或负数了
+// 单调队列 120ms
 class Solution {
 public:
     int shortestSubarray(vector<int>& A, int K) {
-        if(A.empty()) return 0;
         int n = A.size();
-        int result = 0;
-        int sum = 0;
-        int left = 0, right = 0;
-        while(right < n)
+        vector<int> sums(n + 1, 0);
+        for(int i = 1; i <= n; ++i)
+            sums[i] = sums[i - 1] + A[i - 1];
+        deque<int> dq; // dq 中存 A 的下标
+        dq.push_back(0); // 前缀和的0
+        int result = n + 1;
+        for(int i = 1; i <= n; ++i)
         {
-            if(left > right)
-                left = right;
-            if(sum + A[right] < K)
+            // 先更新队头的答案, 若满足下式则可以更新答案
+            // s[dq.front()] + K <= s[i]
+            while(!dq.empty() && sums[dq.front()] + K <= sums[i])
             {
-                sum += A[right];
-                ++right;
+                result = min(result, i - dq.front());
+                dq.pop_front();
             }
-            else
-            {
-                if(result > 0)
-                    result = min(result, right - left + 1);
-                else
-                    result = right - left + 1;
-                sum -= A[left];
-                ++left;
-            }
+
+            // 然后 i 进队之前先看有没有可以弹出的
+            while(!dq.empty() && sums[dq.back()] >= sums[i])
+                dq.pop_back();
+
+            dq.push_back(i);
         }
-        if(result == 0) return -1;
+        if(result == n + 1) return -1;
         return result;
     }
 };
 
-
-// 二分
+// BIT 写法 400ms
+// f 维护的是离散化后的前缀和 1 到 s(i) 中的最大的坐标值。
+// query 就是询问这个最大值，update 需要在树状数组上更新离散化后的 s(i) + K 这个位置为 i。
 class Solution_2 {
 public:
-    int shortestSubarray(vector<int>& A, int K) {
-        if(A.empty()) return 0;
-        int n = A.size();
-        int left = 1, right = n;
-        while(left <= right)
-        {
-            int mid = left + (right - left) / 2;
-            if(_check(A, mid, K))
-                right = mid - 1;
-            else
-                left = mid + 1;
-        }
-        if(left > n) return 0;
-        return left;
+
+    void update(vector<int> &f, int x, int y) {
+        int n = f.size();
+        for (; x < n; x += x & -x)
+            f[x] = max(f[x], y);
     }
 
-private:
-    bool _check(const vector<int>& A, int mid, int K)
-    {
+    int query(vector<int> &f, int x) {
+        int t = -1;
+        for (; x; x -= x & -x)
+            t = max(f[x], t);
+        return t;
+    }
+
+    int shortestSubarray(vector<int>& A, int K) {
         int n = A.size();
-        int sum = 0;
-        for(int i = 0; i < mid; ++i)
-            sum += A[i];
-        if(sum >= K) return true;
-        for(int i = 1; i + mid - 1 <= n - 1; ++i)
-        {
-            sum -= A[i - 1];
-            sum += A[i + mid - 1];
-            if(sum >= K)
-                return true;
+        vector<int> s(2 * n + 2, 0), d(2 * n + 2, 0);
+        vector<int> f(2 * n + 3, -1);
+
+        for (int i = 1; i <= n; i++) {
+            s[i] = s[i - 1] + A[i - 1];
+            d[i] = s[i];
         }
-        return false;
+        for (int i = n + 1; i <= 2 * n + 1; i++) {
+            s[i] = s[i - n - 1] + K;
+            d[i] = s[i];
+        }
+
+        sort(d.begin(), d.end());
+
+        // 离散化
+        for (int i = 0; i <= 2 * n + 1; i++)
+            s[i] = lower_bound(d.begin(), d.end(), s[i]) - d.begin() + 1;
+
+        update(f, s[n + 1], 0);
+
+        int ans = n + 1;
+
+        for (int i = 1; i <= n; i++) {
+            int t = query(f, s[i]);
+            if (t != -1)
+                ans = min(ans, i - t);
+            update(f, s[i + n + 1], i);
+        }
+
+        if (ans == n + 1)
+            ans = -1;
+
+        return ans;
     }
 };
