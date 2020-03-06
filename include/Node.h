@@ -27,5 +27,18 @@ struct Interval {
     Interval(int s, int e) : start(s), end(e) {}
 };
 
+// 线段树节点
+struct STNode {
+    int start;
+    int end;
+    int sum;
+    STNode *left;
+    STNode *right;
+    STNode(){}
+    STNode(int start, int end, int sum)
+        :start(start),end(end),sum(sum),left(nullptr),right(nullptr){}
+    STNode(int start, int end, int sum, STNode *left, STNode *right)
+        :start(start),end(end),sum(sum),left(left),right(right){}
+};
 
 #endif // NODE_H_INCLUDED
