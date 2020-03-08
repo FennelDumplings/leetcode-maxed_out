@@ -10,6 +10,14 @@ struct ListNode {
 };
 
 
+struct DoubleListNode {
+    int val;
+    DoubleListNode *next;
+    DoubleListNode *prev;
+    DoubleListNode(int x) : val(x), next(nullptr), prev(nullptr) {}
+};
+
+
 //Definition for a binary tree node.
 struct TreeNode {
     int val;
