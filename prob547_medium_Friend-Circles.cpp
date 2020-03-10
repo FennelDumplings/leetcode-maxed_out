@@ -69,9 +69,9 @@ public:
             _father[x] = y;
         else
         {
-            _father[x] = y;
+            _father[y] = x;
             if(_rank[x] == _rank[y])
-                ++_rank[y];
+                ++_rank[x];
         }
 
         --_set_size;
