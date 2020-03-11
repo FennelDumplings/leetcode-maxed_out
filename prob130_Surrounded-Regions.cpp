@@ -138,10 +138,10 @@ private:
         dfs_path.push_back(pair<int, int>(i, j));
 
         bool flag = false;
-        flag |= dfs(board, i + 1, j, dfs_path, visited);
-        flag |= dfs(board, i - 1, j, dfs_path, visited);
-        flag |= dfs(board, i, j + 1, dfs_path, visited);
-        flag |= dfs(board, i, j - 1, dfs_path, visited);
+        flag ||= dfs(board, i + 1, j, dfs_path, visited);
+        flag ||= dfs(board, i - 1, j, dfs_path, visited);
+        flag ||= dfs(board, i, j + 1, dfs_path, visited);
+        flag ||= dfs(board, i, j - 1, dfs_path, visited);
         return flag;
     }
 
