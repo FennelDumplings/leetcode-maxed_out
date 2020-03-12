@@ -57,3 +57,38 @@ public:
         return result;
     }
 };
+
+// Morris 遍历
+class Solution_3 {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(!root) return vector<int>();
+        vector<int> result;
+        TreeNode *cur1 = root;
+        TreeNode *cur2 = nullptr;
+        while(cur1)
+        {
+            cur2 = cur1 -> left;
+            if(cur2)
+            {
+                while(cur2 -> right && cur2 -> right != cur1)
+                    cur2 = cur2 -> right;
+                if(!(cur2 -> right))
+                {
+                    cur2 -> right = cur1; // 接线索
+                    result.push_back(cur1 -> val); // preOrder 推左子树非空的根
+                    cur1 = cur1 -> left;
+                    continue;
+                }
+                else
+                {
+                    cur2 -> right = nullptr; // 断开线索
+                }
+            }
+            else
+                result.push_back(cur1 -> val); // preOrder 推叶子或只有右子树的根
+            cur1 = cur1 -> right;
+        }
+        return result;
+    }
+};
