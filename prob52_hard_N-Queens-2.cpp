@@ -181,3 +181,33 @@ private:
         return true;
     }
 };
+
+// 状态压缩
+class Solution_3 {
+public:
+    int totalNQueens(int n) {
+        if(n <= 0) return 0;
+        if(n == 1) return 1;
+
+        int result = 0;
+        dfs(0, 0, 0, 0, n, result);
+        return result;
+    }
+
+private:
+    void dfs(int dep, int r, int s1, int s2, int n, int& cnt)
+    {
+        if(dep == n)
+        {
+            ++cnt;
+            return;
+        }
+
+        for(int i = 0; i < n; ++i)
+        {
+            int j = 1 << i;
+            if((j & r) || (j & s1) || (j & s2)) continue;
+            dfs(dep + 1, (j | r), (j | s1) << 1, (j | s2) >> 1, n, cnt);
+        }
+    }
+};
