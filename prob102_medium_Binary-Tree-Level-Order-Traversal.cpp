@@ -50,3 +50,37 @@ public:
         return result;
     }
 };
+
+// 不用队列层序遍历
+class Solution_2 {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int> > result;
+        if(root == nullptr) return result;
+        for(int i = 0; ;++i)
+        {
+            result.push_back(vector<int>());
+            if(!_levelOrder(root, result[i], i))
+            {
+                if(result[i].empty())
+                    result.pop_back();
+                break;
+            }
+        }
+        return result;
+    }
+
+private:
+    int _levelOrder(TreeNode* root, vector<int>& level_result, int level)
+    {
+        if(!root || level < 0)
+            return 0;
+        if(level == 0)
+        {
+            level_result.push_back(root -> val);
+            return 1;
+        }
+        return _levelOrder(root -> left, level_result, level - 1)
+            + _levelOrder(root -> right, level_result, level - 1);
+    }
+};
