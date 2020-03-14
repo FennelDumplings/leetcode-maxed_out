@@ -44,7 +44,7 @@ public:
     }
 };
 
-// 快慢指针(与普通解法比快很多 )
+// 快慢指针(与普通解法比快很多)
 class Solution_2 {
 public:
     int magicalString(int n) {
