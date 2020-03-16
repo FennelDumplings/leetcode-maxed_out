@@ -99,7 +99,7 @@ private:
 
 // 每次移动i时重新建mapping, 不是很好
 // 时间空间都上升明显
-class Solution {
+class Solution_2 {
 public:
     vector<int> findSubstring(string s, vector<string>& words) {
         if(s.empty() || words.empty()) return vector<int>();
