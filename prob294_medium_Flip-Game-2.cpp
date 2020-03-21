@@ -20,6 +20,7 @@
 using namespace std;
 
 // 记忆化搜索
+// 策梅洛定理
 class Solution {
 public:
     bool canWin(string s) {
@@ -36,7 +37,7 @@ private:
         int n = state.size();
         if(mapping.find(state) != mapping.end()) // 该状态已经算过
             return mapping[state];
-        for(int i = 0; i < n - 1; ++i)
+        for(int i = 0; i < n - 1; ++i) // 枚举所有次态
         {
             if(state[i] == '+' && state[i + 1] == '+')
             {
