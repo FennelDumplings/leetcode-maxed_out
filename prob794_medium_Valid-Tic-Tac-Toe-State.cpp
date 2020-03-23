@@ -57,6 +57,7 @@ public:
             return false;
         if(cnt_o == cnt_x && cnt_o == 0)
             return true;
+        if(_check3(board)) return true;
         if(cnt_o == cnt_x)
         {
             for(int i = 0; i < 3; ++i)
