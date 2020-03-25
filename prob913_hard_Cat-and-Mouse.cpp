@@ -44,56 +44,59 @@ using namespace std;
 // ref: https://www.acwing.com/solution/LeetCode/content/556/
 class Solution {
 public:
-    vector<vector<vector<int>>> f;
-    int solve(const vector<vector<int>>& graph, int t, int x, int y) {
-        if (t == graph.size() * 2)
+    int catMouseGame(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<vector<vector<int> > > dp(2 * n, vector<vector<int>>(n, vector<int>(n, -1)));
+        return solve(graph, 0, 1, 2, dp);
+    }
+
+private:
+    int solve(const vector<vector<int>>& graph, int t, int x, int y, vector<vector<vector<int> > >& dp)
+    {
+        if (t == (int)graph.size() * 2)
             return 0;
         if (x == y)
-            return f[t][x][y] = 2;
+            return dp[t][x][y] = 2;
         if (x == 0)
-            return f[t][x][y] = 1;
-        if (f[t][x][y] != -1)
-            return f[t][x][y];
+            return dp[t][x][y] = 1;
+        if (dp[t][x][y] != -1)
+            return dp[t][x][y];
 
 
         int who = t % 2;
         bool flag;
-        if (who == 0) { // Mouse goes next
+        if (who == 0)
+        { // Mouse goes next
             flag = true; // All ways are 2
-            for (int i = 0; i < graph[x].size(); i++) {
-                int nxt = solve(graph, t + 1, graph[x][i], y);
+            for (int i = 0; i < (int)graph[x].size(); i++)
+            {
+                int nxt = solve(graph, t + 1, graph[x][i], y, dp);
                 if (nxt == 1)
-                    return f[t][x][y] = 1;
+                    return dp[t][x][y] = 1;
                 else if (nxt != 2)
                     flag = false;
             }
             if (flag)
-                return f[t][x][y] = 2;
+                return dp[t][x][y] = 2;
             else
-                return f[t][x][y] = 0;
+                return dp[t][x][y] = 0;
         }
-        else { // Cat goes next
+        else
+        { // Cat goes next
             flag = true; // All ways are 1
-            for (int i = 0; i < graph[y].size(); i++)
+            for (int i = 0; i < (int)graph[y].size(); i++)
                 if (graph[y][i] != 0) {
-                    int nxt = solve(graph, t + 1, x, graph[y][i]);
+                    int nxt = solve(graph, t + 1, x, graph[y][i], dp);
                     if (nxt == 2)
-                        return f[t][x][y] = 2;
+                        return dp[t][x][y] = 2;
                     else if (nxt != 1)
                         flag = false;
                 }
             if (flag)
-                return f[t][x][y] = 1;
+                return dp[t][x][y] = 1;
             else
-                return f[t][x][y] = 0;
+                return dp[t][x][y] = 0;
         }
-
-    }
-
-    int catMouseGame(vector<vector<int>>& graph) {
-        int n = graph.size();
-        f = vector<vector<vector<int>>>(2 * n, vector<vector<int>>(n, vector<int>(n, -1)));
-        return solve(graph, 0, 1, 2);
     }
 };
 
@@ -111,8 +114,8 @@ public:
         for(int m = 0; m < N; ++m)
             for(int c = 0; c < N; ++c)
             {
-                degree[m][c][1] = graph[m].size();
-                degree[m][c][2] = graph[c].size();
+                degree[m][c][1] = graph[m].size(); // z = 1, 轮鼠动
+                degree[m][c][2] = graph[c].size(); // z = 2, 轮猫动
                 for(int x: graph[c])
                 {
                     if(x == 0)
@@ -136,18 +139,20 @@ public:
                     q.push(vector<int>({i, i, t, CAT}));
                 }
             }
-
+        // percolate 渗透
         while(!q.empty())
         {
             vector<int> node = q.front();
+            q.pop();
             int i = node[0], j = node[1], t = node[2], c = node[3]; // c 颜色
             for(vector<int> parent: _parents(graph, i, j, t))
             {
-                int i2 = node[0], j2 = node[1], t2 = node[2];
+                int i2 = parent[0], j2 = parent[1], t2 = parent[2];
                 if(color[i2][j2][t2] == DRAW)
                 {
                     if(t2 == c)
                     {
+                        // if the parent can make a winning move (ie. mouse to MOUSE), do so
                         color[i2][j2][t2] = c;
                         q.push(vector<int>({i2, j2, t2, c}));
                     }
