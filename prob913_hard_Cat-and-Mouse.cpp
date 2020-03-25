@@ -41,6 +41,7 @@
 using namespace std;
 
 // minimax + 记忆化递归
+// ref: https://www.acwing.com/solution/LeetCode/content/556/
 class Solution {
 public:
     vector<vector<vector<int>>> f;
