@@ -47,9 +47,106 @@
 
 using namespace std;
 
+// 状态压缩DP
+// 以行为状态
+// Ref: https://www.acwing.com/solution/LeetCode/content/8328/
+class Solution {
+public:
+    bool check(const vector<vector<char>>& seats, int i, int s1, int s2, int n) {
+        for (int j = 0; j < n; j++)
+            if (s2 & (1 << j)) {
+                if (seats[i][j] == '#')
+                    return false;
 
+                if (j > 0 && ((s1 & (1 << (j - 1))) || (s2 & (1 << (j - 1)))))
+                    return false;
 
-// 答案不对
+                if (j < n - 1 && ((s1 & (1 << (j + 1))) || (s2 & (1 << (j + 1)))))
+                    return false;
+            }
+
+        return true;
+    }
+
+    int maxStudents(vector<vector<char>>& seats) {
+        int m = seats.size(), n = seats[0].size();
+        vector<vector<int>> f(m + 1, vector<int>(1 << n, 0));
+        vector<int> c(1 << n, 0);
+
+        for (int s = 0; s < (1 << n); s++)
+            for (int j = 0; j < n; j++)
+                if (s & (1 << j))
+                    c[s]++;
+
+        f[0][0] = 0;
+        for (int i = 1; i <= m; i++)
+            for (int s1 = 0; s1 < (1 << n); s1++)
+                for (int s2 = 0; s2 < (1 << n); s2++)
+                    if (check(seats, i - 1, s1, s2, n))
+                        f[i][s2] = max(f[i][s2], f[i - 1][s1] + c[s2]);
+
+        int ans = 0;
+
+        for (int s = 0; s < (1 << n); s++)
+            ans = max(ans, f[m][s]);
+
+        return ans;
+    }
+};
+
+// 状态压缩 + 记忆化递归
+// Ref: https://leetcode-cn.com/problems/maximum-students-taking-exam/solution/can-jia-kao-shi-de-zui-da-xue-sheng-shu-by-leetcod/
+class Solution_1 {
+    int memory[8][1 << 8];
+    vector<int> compressed_seats;
+    int f(int X, int row_num, int width) {
+        if (memory[row_num][X] != -1)
+            return memory[row_num][X];
+        int ans = 0;
+        for (int scheme = 0; scheme != (1 << width); ++scheme) {
+            if (scheme & ~X || scheme & (scheme << 1))
+                continue;
+            int curans = 0;
+            for (int j = 0; j != width; ++j)
+                if ((1 << j) & scheme)
+                    ++curans;
+            if (row_num == compressed_seats.size() - 1)
+                ans = max(ans, curans);
+            else {
+                int next_seats = compressed_seats[row_num + 1];
+                next_seats &= ~(scheme << 1);
+                next_seats &= ~(scheme >> 1);
+                ans = max(ans, curans + f(next_seats, row_num + 1, width));
+            }
+        }
+        memory[row_num][X] = ans;
+        return ans;
+    }
+
+    int compress(vector<char>& row) {
+        int ans = 0;
+        for (char c : row) {
+            ans <<= 1;
+            if (c == '.')
+                ++ans;
+        }
+        return ans;
+    }
+
+public:
+    int maxStudents(vector<vector<char>>& seats) {
+        for (int i = 0; i != seats.size(); ++i)
+            for (int j = 0; j != (1 << seats[0].size()); ++j)
+                memory[i][j] = -1;
+        for (auto row: seats)
+            compressed_seats.push_back(compress(row));
+        return f(compressed_seats[0], 0, seats[0].size());
+    }
+};
+
+// 状态压缩DP
+// 以列做状态
+// 36ms, 击败26.51%
 class Solution_2 {
 public:
     int maxStudents(vector<vector<char> >& seats) {
