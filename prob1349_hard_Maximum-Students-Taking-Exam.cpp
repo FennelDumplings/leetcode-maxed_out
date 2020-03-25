@@ -59,7 +59,8 @@ public:
         {
             int avail = 0;
             for(int i = 0; i < m; ++i)
-                avail |= (1 << i);
+                if(seats[i][j] == '.')
+                    avail |= (1 << i);
             available[j + 1] = avail;
         }
 
