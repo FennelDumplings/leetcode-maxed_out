@@ -30,7 +30,7 @@ class Solution {
 public:
     vector<string> readBinaryWatch(int num) {
         vector<string> result;
-        for(int i = 0; i < min(num, 4); ++i)
+        for(int i = 0; i <= min(num, 4); ++i)
         {
             int j = num - i;
             for(int hour = 0; hour <= 11; ++hour)
