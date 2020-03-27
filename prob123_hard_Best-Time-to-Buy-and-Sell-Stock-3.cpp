@@ -29,25 +29,24 @@
 
 using namespace std;
 
+// 朴素 dp
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
         if(n <= 1) return 0;
-        int i = 0;
-        int max1 = 0, max2 = 0;
-        while(i < n - 1)
+        vector<vector<vector<int> > > dp(n, vector<vector<int> >(2, vector<int>(2, 0)));
+        dp[0][1][0] = -prices[0];
+        for(int i = 1; i < n; ++i)
         {
-            int j = i + 1;
-            while(j < n && prices[j] >= prices[j - 1])
-                ++j;
-            int item_sum = prices[j - 1] - prices[i];
-            if(item_sum > max2)
-                max2 = item_sum;
-            if(max2 > max1)
-                swap(max1, max2);
-            i = j;
+            dp[i][0][0] = dp[i - 1][0][0];
+            dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][0] - prices[i]);
+            for(int k = 1; k <= 2; ++k)
+            {
+                dp[i][0][k] = max(dp[i - 1][0][k], dp[i - 1][1][k - 1] + prices[i]);
+                dp[i][1][k] = max(dp[i - 1][1][k], dp[i - 1][0][k] - prices[i]);
+            }
         }
-        return max1 + max2;
+        return dp[n - 1][0][2];
     }
 };
