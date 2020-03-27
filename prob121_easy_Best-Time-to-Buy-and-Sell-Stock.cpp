@@ -52,7 +52,7 @@ public:
 //         dp[0][1][0] = INT_MIN, dp[0][1][1] = INT_MIN
 // 转移 dp[i][0][0] = dp[i - 1][0][0]
 //      dp[i][0][1] = max(dp[i - 1][0][1], dp[i - 1][1][0] + prices[i - 1])
-//      dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][1] - prices[i - 1])
+//      dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][0] - prices[i - 1])
 //      dp[i][1][1] 不存在
 class Solution_2 {
 public:
@@ -63,11 +63,11 @@ public:
         dp[0][0][1] = INT_MIN;
         dp[0][1][0] = -prices[0]; // 买入
         dp[0][1][1] = INT_MIN;
-        for(int i = 1; i <= n; ++i)
+        for(int i = 1; i < n; ++i)
         {
             dp[1][0][0] = dp[1 - 1][0][0];
             dp[i][0][1] = max(dp[i - 1][0][1], dp[i - 1][1][0] + prices[i - 1]);
-            dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][1] - prices[i - 1]);
+            dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][0] - prices[i - 1]);
         }
         return dp[n - 1][0][1];
     }
