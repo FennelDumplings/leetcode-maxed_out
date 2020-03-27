@@ -26,6 +26,7 @@
  */
 
 #include <vector>
+#include <climits>
 
 using namespace std;
 
@@ -33,21 +34,25 @@ using namespace std;
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
+        using ll = long long;
         int n = prices.size();
         if(n <= 1) return 0;
         int K = 2;
         vector<vector<vector<int> > > dp(n, vector<vector<int> >(2, vector<int>(K + 1, 0)));
         dp[0][1][0] = -prices[0];
+        for(int i = 0; i < n; ++i)
+            for(int k = 0; k <= K; ++k)
+                dp[i][1][0] = INT_MIN;
         for(int i = 1; i < n; ++i)
         {
             dp[i][0][0] = dp[i - 1][0][0];
-            dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][0] - prices[i]);
+            dp[i][1][0] = max((ll)dp[i - 1][1][0], (ll)dp[i - 1][0][0] - prices[i]);
             for(int k = 1; k < K; ++k)
             {
-                dp[i][0][k] = max(dp[i - 1][0][k], dp[i - 1][1][k - 1] + prices[i]);
-                dp[i][1][k] = max(dp[i - 1][1][k], dp[i - 1][0][k] - prices[i]);
+                dp[i][0][k] = max((ll)dp[i - 1][0][k], (ll)dp[i - 1][1][k - 1] + prices[i]);
+                dp[i][1][k] = max((ll)dp[i - 1][1][k], (ll)dp[i - 1][0][k] - prices[i]);
             }
-            dp[i][0][K] = max(dp[i - 1][0][K], dp[i - 1][1][K - 1] + prices[i]);
+            dp[i][0][K] = max((ll)dp[i - 1][0][K], (ll)dp[i - 1][1][K - 1] + prices[i]);
         }
         return dp[n - 1][0][K];
     }
