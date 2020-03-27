@@ -47,23 +47,29 @@ public:
 };
 
 // DP
-// dp[i][j] := 考虑前i天，第i天手中有股票和无股票时手上的现金
-// 初始化：dp[0][0] = 0, dp[0][1] = INT_MIN (初始手上现金为0)
-// 转移 dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i - 1])
-//      dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i - 1])
+// dp[i][j][k] := 考虑前i天，第i天手中有股票和无股票，且操作k次(含买和卖)时手上的现金
+// 初始化：dp[0][0][0] = 0, dp[0][0][1] = INT_MIN
+//         dp[0][1][0] = INT_MIN, dp[0][1][1] = INT_MIN
+// 转移 dp[i][0][0] = dp[i - 1][0][0]
+//      dp[i][0][1] = max(dp[i - 1][0][1], dp[i - 1][1][0] + prices[i - 1])
+//      dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][1] - prices[i - 1])
+//      dp[i][1][1] 不存在
 class Solution_2 {
 public:
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
         if(n <= 1) return 0;
-        vector<vector<int> > dp(n + 1, vector<int>(2, 0));
-        dp[0][1] = INT_MIN;
+        vector<vector<vector<int> > > dp(n + 1, vector<vector<int> >(2, vector<int>(2, 0)));
+        dp[0][0][1] = INT_MIN;
+        dp[0][1][0] = INT_MIN;
+        dp[0][1][1] = INT_MIN;
         for(int i = 1; i <= n; ++i)
         {
-            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i - 1]);
-            dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i - 1]);
+            dp[1][0][0] = dp[1 - 1][0][0];
+            dp[i][0][1] = max(dp[i - 1][0][1], dp[i - 1][1][0] + prices[i - 1]);
+            dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][1] - prices[i - 1]);
         }
-        return dp[n][0];
+        return dp[n][0][1];
     }
 };
 
