@@ -42,7 +42,7 @@ public:
         dp[0][1][0] = -prices[0];
         for(int i = 0; i < n; ++i)
             for(int k = 0; k <= K; ++k)
-                dp[i][1][0] = INT_MIN;
+                dp[i][1][k] = INT_MIN;
         for(int i = 1; i < n; ++i)
         {
             dp[i][0][0] = dp[i - 1][0][0];
@@ -54,6 +54,9 @@ public:
             }
             dp[i][0][K] = max((ll)dp[i - 1][0][K], (ll)dp[i - 1][1][K - 1] + prices[i]);
         }
-        return dp[n - 1][0][K];
+        int result = 0;
+        for(int k = 1; k <= K; ++k)
+            result = max(result, dp[n - 1][0][k]);
+        return result;
     }
 };
