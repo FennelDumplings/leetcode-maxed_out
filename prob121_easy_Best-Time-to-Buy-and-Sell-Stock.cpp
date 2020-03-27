@@ -85,3 +85,24 @@ public:
         return result;
     }
 };
+
+// 转换为最大子段和
+// diff 数组和 dp 数组均可优化掉
+class Solution_4 {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        if(n <= 1) return 0;
+        vector<int> diff(n - 1);
+        for(int i = 0; i < n - 1; ++i)
+            diff[i] = prices[i + 1] - prices[i];
+        int last = 0;
+        int result = 0;
+        for(int i = 0; i < n - 1; ++i)
+        {
+            last = max(0, last + diff[i]);
+            result = max(result, last);
+        }
+        return result;
+    }
+};
