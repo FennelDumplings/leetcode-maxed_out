@@ -31,6 +31,7 @@
 using namespace std;
 
 // 朴素 dp
+// 边界和初始化比较麻烦, 当 K 大时候会 MLE
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -41,7 +42,7 @@ public:
         vector<vector<vector<int> > > dp(n, vector<vector<int> >(2, vector<int>(K + 1, 0)));
         dp[0][1][0] = -prices[0];
         for(int i = 0; i < n; ++i)
-            for(int k = 0; k <= K; ++k)
+            for(int k = 1; k <= K; ++k)
                 dp[i][1][k] = INT_MIN;
         for(int i = 1; i < n; ++i)
         {
@@ -60,3 +61,5 @@ public:
         return result;
     }
 };
+
+// 贪心
