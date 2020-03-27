@@ -63,3 +63,31 @@ public:
 };
 
 // 贪心
+class Solution_2 {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        if(n <= 1) return 0;
+        vector<int> f(n, 0);
+        int lowest = prices[0];
+        for(int i = 1; i < n; ++i)
+        {
+            f[i] = f[i - 1];
+            if(prices[i] - lowest > 0)
+                f[i] = max(f[i], prices[i] - lowest);
+            else
+                lowest = prices[i];
+        }
+        int result = f[n - 1];
+        int highest = prices[n - 1];
+        for(int i = n - 2; i >= 1; --i)
+        {
+            if(highest - prices[i] > 0)
+                result = max(result, highest - prices[i] + f[i - 1]);
+            else
+                highest = prices[i];
+
+        }
+        return result;
+    }
+};

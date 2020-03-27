@@ -22,6 +22,11 @@
  *              Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
  */
 
+#include <vector>
+#include <climits>
+
+using namespace std;
+
 // 套用 porb121,123 可过的三维 dp，但这题 kk 可能很大，实测 MLE
 class Solution {
 public:
@@ -30,6 +35,7 @@ public:
         using ll = long long;
         int n = prices.size();
         if(n <= 1) return 0;
+        if(kk >= n / 2) return maxProfit_2(prices);
         int K = kk;
         vector<vector<vector<int> > > dp(n, vector<vector<int> >(2, vector<int>(K + 1, 0)));
         dp[0][1][0] = -prices[0];
@@ -52,6 +58,21 @@ public:
             result = max(result, dp[n - 1][0][k]);
         return result;
     }
-};
 
-// dp
+private:
+    int maxProfit_2(vector<int>& prices) {
+        int n = prices.size();
+        if(n <= 1) return 0;
+        int result = 0;
+        int i = 0;
+        while(i < n - 1)
+        {
+            int j = i + 1;
+            while(j < n && prices[j - 1] <= prices[j])
+                ++j;
+            result += prices[j - 1] - prices[i];
+            i = j;
+        }
+        return result;
+    }
+};
