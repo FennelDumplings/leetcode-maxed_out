@@ -56,13 +56,12 @@ public:
     }
 };
 
-// 快慢指针找环
-// 从 nums[0] 出发的环是重复数字
+// 排序后 nums[i] = i
 class Solution_3 {
 public:
     int findRepeatNumber(vector<int>& nums) {
         int n = nums.size();
-        for(int i = 0; i < 0; ++i)
+        for(int i = 0; i < n; ++i)
         {
             if(nums[i] == i) continue;
             while(nums[i] != i)
