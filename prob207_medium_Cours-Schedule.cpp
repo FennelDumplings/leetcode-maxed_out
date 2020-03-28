@@ -23,8 +23,8 @@ public:
         vector<int> indegrees(numCourses, 0);
         for(vector<int> &prerequisite: prerequisites)
         {
-            g[prerequisite[0]].push_back(prerequisite[1]);
-            ++indegrees[prerequisite[1]];
+            g[prerequisite[1]].push_back(prerequisite[0]);
+            ++indegrees[prerequisite[0]];
         }
 
         queue<int> q;
