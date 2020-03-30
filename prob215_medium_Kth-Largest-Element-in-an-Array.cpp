@@ -30,8 +30,8 @@ public:
     int findKthLargest(vector<int>& nums, int k) {
         int n = nums.size();
         if(n == 1) return nums[0];
-        return heapk(nums, k);
-        // return partition(nums, k, 0, n - 1);
+        // return heapk(nums, k);
+        return partition(nums, k, 0, n - 1);
     }
 
 private:

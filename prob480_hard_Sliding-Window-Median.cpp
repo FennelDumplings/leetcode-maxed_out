@@ -19,59 +19,128 @@
 
 #include <vector>
 #include <set>
+#include <queue>
+#include <unordered_map>
 
 using namespace std;
 
+// multiset 用法
 class Solution {
 public:
-    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
-        int n = nums.size();
-        bool odd = (k % 2 == 1);
-        multiset<int> setting;
-        for(int i = 0; i < k; ++i)
+    vector<double> medianSlidingWindow(vector<int>& nums, int k)
+    {
+        vector<double> result;
+        multiset<int> setting(nums.begin(), nums.begin() + k);
+
+        auto mid = next(setting.begin(), k / 2);
+
+        for (int i = k;; i++) {
+
+            // Push the current median
+            result.push_back(((double)(*mid) + *next(mid, k % 2 - 1)) * 0.5);
+
+            // If all done, break
+            if (i == (int)nums.size())
+                break;
+
+            // Insert incoming element
             setting.insert(nums[i]);
-        auto median_iter = setting.begin();
-        for(int i = 1; i <= k / 2; ++i)
-            ++median_iter;
-        vector<double> result(n + 1 - k, 0.0);
-        _update_median(result, 0, median_iter, odd);
-        for(int i = 1; i <= n - k; ++i)
-        {
-            // 出窗: nums[i - 1]
-            // 进窗: nums[i + k - 1]
-            if(nums[i - 1] == nums[i + k - 1]) continue;
-            auto it = setting.find(nums[i - 1]);
-            bool erase_median_iter = (it == median_iter);
-            int cur_median = (*median_iter);
-            if(erase_median_iter)
-                median_iter = setting.erase(it);
-            else
-                setting.erase(it);
-            setting.insert(nums[i + k - 1]);
-            if(nums[i + k - 1] <= cur_median && nums[i - 1] > cur_median)
-                --median_iter;
-            else if(nums[i + k - 1] > cur_median && nums[i - 1] < cur_median)
-                ++median_iter;
-            else if(nums[i - 1] == cur_median)
-            {
-                if(erase_median_iter && nums[i + k - 1] <= cur_median)
-                    --median_iter;
-                else if(!erase_median_iter && nums[i + k - 1] > cur_median)
-                    ++median_iter;
-            }
-            _update_median(result, i, median_iter, odd);
+            if (nums[i] < *mid)
+                mid--;                  // same as mid = prev(mid)
+
+            // Remove outgoing element
+            if (nums[i - k] <= *mid)
+                mid++;                  // same as mid = next(mid)
+
+            setting.erase(setting.lower_bound(nums[i - k]));
         }
+
         return result;
     }
+};
 
-private:
-    void _update_median(vector<double>& result, int idx, multiset<int>::iterator iter, bool odd)
-    {
-        result[idx] = (double)(*iter);
-        if(!odd)
+// 双堆模式
+class Solution_2 {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+        vector<double> result;
+        unordered_map<int, int> mapping;
+        priority_queue<int> max_heap; // 大顶堆，存较小的一半
+        priority_queue<int, vector<int>, greater<int> > min_heap; // 小顶堆，存较大的一半
+
+        int i = 0; // 划窗的当前值
+
+        // 堆的初始化
+        while(i < k)
         {
-            --iter;
-            result[idx] = (result[idx] + (*iter)) / 2;
+            max_heap.push(nums[i]);
+            ++i;
         }
+        for(int j = 0; j < k / 2; ++j)
+        {
+            min_heap.push(max_heap.top());
+            max_heap.pop();
+        }
+
+        // 正式迭代
+        while(true)
+        {
+            double cur_median;
+            if(k & 1)
+                cur_median = max_heap.top();
+            else
+                cur_median = ((double)max_heap.top() + min_heap.top()) * 0.5;
+            result.push_back(cur_median);
+
+            if(i >= (int)nums.size()) break;
+
+            int out_num = nums[i - k];
+            int in_num = nums[i];
+            ++i;
+            int balance = 0;
+
+            // 处理 out_num 出窗
+            balance += (out_num <= max_heap.top() ? -1 : 1);
+            mapping[out_num]++;
+
+            // 处理 in_num 入窗
+            if(!max_heap.empty() && in_num <= max_heap.top())
+            {
+                balance++;
+                max_heap.push(in_num);
+            }
+            else
+            {
+                balance--;
+                min_heap.push(in_num);
+            }
+
+            // 重平衡
+            if(balance < 0)
+            {
+                max_heap.push(min_heap.top());
+                min_heap.pop();
+                balance++;
+            }
+            if(balance > 0)
+            {
+                min_heap.push(max_heap.top());
+                max_heap.pop();
+                balance--;
+            }
+
+            // 删除无效的元素
+            while(mapping[max_heap.top()])
+            {
+                mapping[max_heap.top()]--;
+                max_heap.pop();
+            }
+            while(!min_heap.empty() && mapping[min_heap.top()])
+            {
+                mapping[min_heap.top()]--;
+                min_heap.pop();
+            }
+        }
+        return result;
     }
 };
