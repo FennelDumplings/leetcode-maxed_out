@@ -35,7 +35,7 @@ public:
         for(auto it1 = setting1.begin(); it1 != setting1.end(); ++it1)
         {
             if(setting2.find(*it1) != setting2.end())
-                result.push_back(*it1)
+                result.push_back(*it1);
         }
         return result;
     }

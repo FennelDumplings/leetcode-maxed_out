@@ -18,6 +18,7 @@
  * 1 <= m <= 10^6
  */
 
+// 递推法
 class Solution {
 public:
     int lastRemaining(int n, int m) {
@@ -27,5 +28,36 @@ public:
             idx = (idx + m) % i;
         }
         return idx;
+    }
+};
+
+// 递推法优化
+class Solution {
+public:
+    int lastRemaining(int n, int m) {
+        if (m == 1) return n - 1;
+        int last = 0, t = 1;
+        for (int i = 2; i <= n; i += t) {
+            t = (i - last + m - 3) / (m - 1);
+            if (i + t - 1 > n) {
+                last += (n - i + 1) * m;
+                break;
+            }
+            (last += t * m) %= (i + t - 1);
+        }
+        return last;
+    }
+};
+
+// 数学法
+// Ref 具体数学 -- 整数取阶
+class Solution {
+public:
+    int lastRemaining(int n, int m) {
+        long D = 1, end = (long)n * (m - 1);
+        while (D <= end) {
+            D = (m * D + m - 2) / (m - 1);
+        }
+        return (long)n * m - D;
     }
 };
