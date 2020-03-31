@@ -23,6 +23,7 @@ What if elements of nums2 are stored on disk, and the memory is limited such tha
 #include <vector>
 #include <unordered_map>
 
+// 用两个 HashMap
 class Solution {
 public:
     vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
@@ -40,5 +41,45 @@ public:
             result.insert(result.begin(), item.begin(), item.end());
         }
         return result;
+    }
+};
+
+// 用一个 hashmap
+class Solution_2 {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        if(nums1.empty() || nums2.empty())
+            return vector<int>();
+        unordered_map<int, int> mapping;
+        int n1 = nums1.size(), n2 = nums2.size();
+        if(n1 <= n2)
+        {
+            _record(nums1, mapping);
+            _stat(nums2, mapping, result);
+        }
+        else
+        {
+            _record(nums2, mapping);
+            _stat(nums1, mapping, result);
+        }
+        return result;
+    }
+
+private:
+    void _record(const vector<int>& nums, unordered_map<int, int>& mapping)
+    {
+        for(int num: nums)
+            ++mapping[num];
+    }
+
+    void _stat(const vector<int>& nums, unordered_map<int, int>& mapping, vector<int>& result)
+    {
+        for(int num: nums)
+        {
+            auto it = mapping.find(num);
+            if(it == mapping.end() || mapping[num] == 0) continue;
+            --mapping[num];
+            result.push_back(num);
+        }
     }
 };
