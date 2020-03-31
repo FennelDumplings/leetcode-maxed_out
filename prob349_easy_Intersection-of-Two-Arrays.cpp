@@ -20,7 +20,7 @@
  */
 
 #include <vector>
-#include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -28,17 +28,14 @@ class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
         if(nums1.empty() || nums2.empty()) return vector<int>();
-        unordered_map<int, int> mapping1, mapping2;
-        for(int num: nums1) ++mapping1[num];
-        for(int num: nums2) ++mapping2[num];
+        unordered_set<int> setting1, setting2;
+        for(int num: nums1) setting1.insert(num);
+        for(int num: nums2) setting2.insert(num);
         vector<int> result;
-        for(int it1 = mapping1.begin(); it != mapping1.end(); ++it)
+        for(auto it1 = setting1.begin(); it1 != setting1.end(); ++it1)
         {
-            if(mapping2.find(it1 -> first) != mapping2.end())
-            {
-                vector<int> item(min(it1 -> second, mapping2[it1 -> first]), it1 -> first);
-                result.insert(result.end(), item.begin(), item.end());
-            }
+            if(setting2.find(*it1) != setting2.end())
+                result.push_back(*it1)
         }
         return result;
     }
