@@ -22,6 +22,9 @@ What if elements of nums2 are stored on disk, and the memory is limited such tha
 
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
+
+using namespace std;
 
 // 用两个 HashMap
 class Solution {
@@ -52,6 +55,7 @@ public:
             return vector<int>();
         unordered_map<int, int> mapping;
         int n1 = nums1.size(), n2 = nums2.size();
+        vector<int> result;
         if(n1 <= n2)
         {
             _record(nums1, mapping);
@@ -81,5 +85,33 @@ private:
             --mapping[num];
             result.push_back(num);
         }
+    }
+};
+
+// 排序 + 双指针
+class Solution_3 {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        if(nums1.empty() || nums2.empty())
+            return vector<int>();
+        int n1 = nums1.size(), n2 = nums2.size();
+        sort(nums1.begin(), nums1.end());
+        sort(nums2.begin(), nums2.end());
+        vector<int> result;
+        int i1 = 0, i2 = 0;
+        while(i1 < n1 && i2 < n2)
+        {
+            if(nums1[i1] == nums2[i2])
+            {
+                result.push_back(nums1[i1]);
+                ++i1;
+                ++i2;
+            }
+            else if(nums1[i1] < nums2[i2])
+                ++i1;
+            else
+                ++i2;
+        }
+        return result;
     }
 };
