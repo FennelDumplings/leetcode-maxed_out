@@ -31,7 +31,8 @@ public:
         // mergesort(nums);
         // countingsort(nums);
         // bucketsort(nums);
-        radixsort(nums);
+        // radixsort(nums);
+        cocktailsort(nums);
         return nums;
     }
 
@@ -390,6 +391,26 @@ private:
         while(j <= high) tmp[k++] = nums[j++];
         for(k = 0, i = low; i <= high; ++k, ++i)
             nums[i] = tmp[k];
+    }
+
+    // 鸡尾酒排序
+    void cocktailsort(vector<int>& nums)
+    {
+        int n = nums.size();
+        int left = 0;
+        int right = n - 1;
+        while(left < right){
+            //前半轮，将最大元素放到后面
+            for(int i = left; i < right; i++)
+                if(nums[i] > nums[i + 1])
+                    _swap(nums, i, i + 1);
+            right--;
+            //后半轮，将最小元素放到前面
+            for(int i = right; i > left; i--)
+                if(nums[i] < nums[i - 1])
+                    _swap(nums, i, i - 1);
+            left++;
+        }
     }
 
     void _swap(vector<int> &nums, int i, int j)
