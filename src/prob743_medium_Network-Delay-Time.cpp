@@ -28,7 +28,7 @@
 
 using namespace std;
 
-// 邻接表的最短路模板
+// 带权邻接表的最短路模板
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int N, int K) {
@@ -36,10 +36,12 @@ public:
         for(vector<int> &edge: times)
             g[edge[0]].push_back({edge[1], edge[2]});
 
-        // vector<int> d = dijkstra_array(g, K, N);
+        // 求带权邻接表的最短路
+        vector<int> d = dijkstra_array(g, K, N);
         // vector<int> d = dijkstra_heap(g, K, N);
         // vector<int> d = bellman_ford(g, K, N);
-        vector<int> d = floyd(g, K, N);
+        // vector<int> d = spfa(g, K, N);
+        // vector<int> d = floyd(g, K, N);
 
         int res = 0;
         for(int i = 1; i <= N; i++)
@@ -54,19 +56,24 @@ public:
 private:
     vector<int> dijkstra_array(vector<vector<vector<int> > >& g, int start, int N)
     {
-        // 输入带权邻接表
+        // dijkstra 数组实现 O(E + V^2)
+        // 不能有负权
+
+        // 存放 start 到各个点的最短路径
         vector<int> d(N + 1, -1);
         d[start] = 0;
+        // 记录是否找到 start 到该点的最短路径
         vector<bool> visited(N + 1, false);
         visited[start] = true;
 
-        // 先对起点进行更新
+        // 初始化 start 到各个点的距离
         for(vector<int> son: g[start])
             d[son[0]] = son[1];
 
         for(int cnt = 1; cnt <= N - 1; ++cnt)
         {
             int min_val = INT_MAX / 2, min_idx = 0;
+            // 遍历所有节点，找到离 start 最近的节点
             for(int i = 1; i <= N; ++i)
             {
                 if(d[i] != -1 && !visited[i] && d[i] < min_val)
@@ -75,12 +82,17 @@ private:
                     min_val = d[i];
                 }
             }
+
+            // 标记离 start 最近距离节点已经找到
             visited[min_idx] = true;
+
+            // 根据刚刚找到的距离 start 最短的节点，
+            // 通过该节点更新 start 与其它节点的距离
             for(vector<int> son: g[min_idx])
             {
-                if(d[son[0]] != -1)
+                if(d[son[0]] != -1) // 之前路径与当前更新路径的最小值
                     d[son[0]] = min(d[son[0]], min_val + son[1]);
-                else
+                else // 该节点第一次访问，直接更新
                     d[son[0]] = min_val + son[1];
             }
         }
@@ -89,9 +101,13 @@ private:
 
     vector<int> dijkstra_heap(vector<vector<vector<int> > >& g, int start, int N)
     {
-        // 输入带权邻接表
+        // dijkstra 堆实现 O(ElogV + VlogV)
+        // 不能有负权
+
+        // 存放 start 到各个点的最短路径
         vector<int> d(N + 1, INT_MAX / 2);
         d[start] = 0;
+
         priority_queue<vector<int>, vector<vector<int> >, Cmp> pq; // 队列元素 (节点编号，到 start 的距离)
         pq.push({start, 0});
         while(!pq.empty())
@@ -111,17 +127,24 @@ private:
 
     vector<int> bellman_ford(vector<vector<vector<int> > >& g, int start, int N)
     {
+        // bellman ford  O(VE)
+        // 可以检测负环
+        // 松弛操作，它的原理是著名的定理：“三角形两边之和大于第三边”
         vector<int> d(N + 1, -1);
         d[start] = 0;
 
+        // 进行 N - 1 轮松弛
+        // 因为任意两点之间最短路最多包含 N - 1 条边
         for(int cnt = 1; cnt <= N - 1; ++cnt)
         {
+            // u: 源节点，v: 子节点, w: uv 的权
             for(int u = 1; u <= N; ++u)
             {
                 if(d[u] == -1) continue;
                 for(vector<int> &son: g[u])
                 {
                     int v = son[0], w = son[1];
+                    // 判断能否通过 u -> v 缩短 d[v] (松弛)
                     if(d[u] + w < d[v] || d[v] == -1)
                         d[v] = d[u] + w;
                 }
@@ -142,12 +165,20 @@ private:
 
     vector<int> spfa(vector<vector<vector<int> > >& g, int start, int N)
     {
+        // 与 bellman ford 相同, O(VE)
+        // 可以检测负环
+        // 在Bellman-Ford算法中，很多松弛操作其实都是没有必要的，
+        // 例如对于一条从 x 到 y 的边，如果连 x 都还没被松弛，那 y 肯定也还不能被 x 松弛，
+        // 为了避免“用一个还没有被松弛的点去松弛另外的点”的情况，我们用一个队列来存储已经被松弛过的点，
+        // 然后用队列里的点去松弛其他点，这就是SPFA算法的基本思想
         vector<int> d(N + 1, -1);
         d[start] = 0;
         queue<int, list<int> > q;
         q.push(start);
 
-        int n = 0; // 记录松弛次数
+        // 记录每个点到 start 的节点个数
+        vector<int> cnt(N + 1, 0);
+        cnt[start] = 1;
         while(!q.empty())
         {
             int cur = q.front();
@@ -156,9 +187,9 @@ private:
             {
                 if(d[son[0]] == -1 || d[son[0]] > d[cur] + son[1])
                 {
+                    cnt[son[0]] = cnt[cur] + 1;
+                    if(cnt[son[0]] > N) return d; // 若 son 到 start 的节点个数大于 N 了说明有负环
                     // 当最短距离发生变化且不在队列中时，将该节点加入队列
-                    ++n;
-                    // 若 n >= N 则有负环
                     d[son[0]] = d[cur] + son[1];
                     q.push(son[0]);
                 }
@@ -169,6 +200,8 @@ private:
 
     vector<int> floyd(vector<vector<vector<int> > >& g, int start, int N)
     {
+        // floyd 需要邻接矩阵 O(V^3)
+        // 可以做多源最短路
         vector<vector<int> > adj_matrix(N + 1, vector<int>(N + 1, -1));
         for(int i = 1; i <= N; ++i)
             adj_matrix[i][i] = 0;
@@ -176,9 +209,11 @@ private:
             for(vector<int> son: g[u])
                 adj_matrix[u][son[0]] = son[1];
 
+        // 遍历所有节点，其中 k 是用于松弛的点
         for(int k = 1; k <= N; ++k)
             for(int i = 1; i <= N; ++i)
                 for(int j = 1; j <= N; ++j)
+                    // 使用 k 松弛 i -> j 的最短路径
                     if(adj_matrix[i][k] != -1 && adj_matrix[k][j] != -1)
                     {
                         if(adj_matrix[i][j] != -1)

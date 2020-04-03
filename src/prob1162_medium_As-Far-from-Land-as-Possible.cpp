@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// 多源BFS
 class Solution {
 public:
     int maxDistance(vector<vector<int>>& grid) {
