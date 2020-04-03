@@ -28,10 +28,185 @@
 
 using namespace std;
 
-
-// dijkstra 模板 堆实现
-// 跑得很慢 700ms 5%
+// 邻接表的最短路模板
 class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+        vector<vector<vector<int> > > g(N + 1);
+        for(vector<int> &edge: times)
+            g[edge[0]].push_back({edge[1], edge[2]});
+
+        // vector<int> d = dijkstra_array(g, K, N);
+        // vector<int> d = dijkstra_heap(g, K, N);
+        // vector<int> d = bellman_ford(g, K, N);
+        vector<int> d = floyd(g, K, N);
+
+        int res = 0;
+        for(int i = 1; i <= N; i++)
+        {
+            if(d[i] == -1)
+                return -1;
+            res = max(res, d[i]);
+        }
+        return res;
+    }
+
+private:
+    vector<int> dijkstra_array(vector<vector<vector<int> > >& g, int start, int N)
+    {
+        // 输入带权邻接表
+        vector<int> d(N + 1, -1);
+        d[start] = 0;
+        vector<bool> visited(N + 1, false);
+        visited[start] = true;
+
+        // 先对起点进行更新
+        for(vector<int> son: g[start])
+            d[son[0]] = son[1];
+
+        for(int cnt = 1; cnt <= N - 1; ++cnt)
+        {
+            int min_val = INT_MAX / 2, min_idx = 0;
+            for(int i = 1; i <= N; ++i)
+            {
+                if(d[i] != -1 && !visited[i] && d[i] < min_val)
+                {
+                    min_idx = i;
+                    min_val = d[i];
+                }
+            }
+            visited[min_idx] = true;
+            for(vector<int> son: g[min_idx])
+            {
+                if(d[son[0]] != -1)
+                    d[son[0]] = min(d[son[0]], min_val + son[1]);
+                else
+                    d[son[0]] = min_val + son[1];
+            }
+        }
+        return d;
+    }
+
+    vector<int> dijkstra_heap(vector<vector<vector<int> > >& g, int start, int N)
+    {
+        // 输入带权邻接表
+        vector<int> d(N + 1, INT_MAX / 2);
+        d[start] = 0;
+        priority_queue<vector<int>, vector<vector<int> >, Cmp> pq; // 队列元素 (节点编号，到 start 的距离)
+        pq.push({start, 0});
+        while(!pq.empty())
+        {
+            vector<int> cur = pq.top();
+            pq.pop();
+            if(d[cur[0]] < cur[1]) continue;
+            for(vector<int> son: g[cur[0]])
+            {
+                if(d[son[0]] <= d[cur[0]] + son[1]) continue;
+                d[son[0]] = d[cur[0]] + son[1];
+                pq.push({son[0], d[son[0]]});
+            }
+        }
+        return d;
+    }
+
+    vector<int> bellman_ford(vector<vector<vector<int> > >& g, int start, int N)
+    {
+        vector<int> d(N + 1, -1);
+        d[start] = 0;
+
+        for(int cnt = 1; cnt <= N - 1; ++cnt)
+        {
+            for(int u = 1; u <= N; ++u)
+            {
+                if(d[u] == -1) continue;
+                for(vector<int> &son: g[u])
+                {
+                    int v = son[0], w = son[1];
+                    if(d[u] + w < d[v] || d[v] == -1)
+                        d[v] = d[u] + w;
+                }
+            }
+        }
+        /* 可以检测负环
+        for(int u = 1; u <= N; ++u)
+        {
+            for(vector<int> &son: g[u])
+            {
+                int v = son[0], w = son[1];
+                if(d[u] + w < d[v])
+                    // 有负环
+            }
+        }*/
+        return d;
+    }
+
+    vector<int> spfa(vector<vector<vector<int> > >& g, int start, int N)
+    {
+        vector<int> d(N + 1, -1);
+        d[start] = 0;
+        queue<int, list<int> > q;
+        q.push(start);
+
+        int n = 0; // 记录松弛次数
+        while(!q.empty())
+        {
+            int cur = q.front();
+            q.pop();
+            for(vector<int> &son: g[cur])
+            {
+                if(d[son[0]] == -1 || d[son[0]] > d[cur] + son[1])
+                {
+                    // 当最短距离发生变化且不在队列中时，将该节点加入队列
+                    ++n;
+                    // 若 n >= N 则有负环
+                    d[son[0]] = d[cur] + son[1];
+                    q.push(son[0]);
+                }
+            }
+        }
+        return d;
+    }
+
+    vector<int> floyd(vector<vector<vector<int> > >& g, int start, int N)
+    {
+        vector<vector<int> > adj_matrix(N + 1, vector<int>(N + 1, -1));
+        for(int i = 1; i <= N; ++i)
+            adj_matrix[i][i] = 0;
+        for(int u = 1; u <= N; ++u)
+            for(vector<int> son: g[u])
+                adj_matrix[u][son[0]] = son[1];
+
+        for(int k = 1; k <= N; ++k)
+            for(int i = 1; i <= N; ++i)
+                for(int j = 1; j <= N; ++j)
+                    if(adj_matrix[i][k] != -1 && adj_matrix[k][j] != -1)
+                    {
+                        if(adj_matrix[i][j] != -1)
+                            adj_matrix[i][j] = min(adj_matrix[i][j], adj_matrix[i][k] + adj_matrix[k][j]);
+                        else
+                            adj_matrix[i][j] = adj_matrix[i][k] + adj_matrix[k][j];
+                    }
+
+        vector<int> d(N + 1, -1);
+        for(int i = 1; i <= N; ++i)
+            d[i] = adj_matrix[start][i];
+
+        return d;
+    }
+
+    struct Cmp
+    {
+        bool operator() (const vector<int>& item1, const vector<int>& item2)
+        {
+            return item1[1] > item2[1]; // 最小堆
+        }
+    };
+};
+
+
+// dijkstra 堆实现
+// 跑得很慢 700ms 5%
+class Solution_1 {
 public:
     int networkDelayTime(vector<vector<int>>& times, int N, int K) {
         vector<vector<vector<int> > > g(N + 1);
@@ -112,8 +287,8 @@ private:
     };
 };
 
-// https://leetcode-cn.com/problems/network-delay-time/solution/c-bellman-forddijkstrafloydspfa-by-gez1994/
 
+// https://leetcode-cn.com/problems/network-delay-time/solution/c-bellman-forddijkstrafloydspfa-by-gez1994/
 // dijkstra 数组实现
 // 邻接矩阵 240ms
 class Solution_4 {
