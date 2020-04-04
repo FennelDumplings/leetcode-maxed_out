@@ -21,7 +21,48 @@
 
 using namespace std;
 
+// 队列存 i, j
 class Solution {
+public:
+    bool hasPath(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
+        int n = maze.size(), m = maze[0].size();
+        queue<vector<int> > q; // i, j
+        int dx[4] = {0, 0, 1, -1};
+        int dy[4] = {1, -1, 0, 0};
+        vector<vector<bool> > visited(n, vector<bool>(m, false));
+        visited[start[0]][start[1]] = true;
+        q.push(start);
+        while(!q.empty())
+        {
+            vector<int> cur = q.front();
+            q.pop();
+            if(cur == destination)
+                return true;
+            for(int d = 0; d < 4; ++d)
+            {
+                int i = cur[0], j = cur[1];
+                while(_check(i + dx[d], j + dy[d], n, m, maze))
+                {
+                    i += dx[d];
+                    j += dy[d];
+                }
+                if(visited[i][j]) continue;
+                visited[i][j] = true;
+                q.push({i, j});
+            }
+        }
+        return false;
+    }
+
+private:
+    bool _check(int i, int j, int n, int m, vector<vector<int> >& maze)
+    {
+        return i >= 0 && i < n && j >= 0 && j < m && maze[i][j] == 0;
+    }
+};
+
+// 队列存 i, j, d
+class Solution_2 {
 public:
     bool hasPath(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
         int n = maze.size(), m = maze[0].size();
