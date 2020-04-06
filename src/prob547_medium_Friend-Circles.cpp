@@ -43,11 +43,10 @@ class UnionFindSet {
 public:
     UnionFindSet(int n)
     {
-        _item_size = n;
         _set_size = n;
-        _father = vector<int>(_item_size, -1);
-        _rank = vector<int>(_item_size, 0);
-        for(int i = 0; i < _item_size; ++i)
+        _father = vector<int>(_set_size, -1);
+        _rank = vector<int>(_set_size, 0);
+        for(int i = 0; i < _set_size; ++i)
             _father[i] = i;
     }
 
@@ -77,11 +76,6 @@ public:
         --_set_size;
     }
 
-    int item_size()
-    {
-        return _item_size;
-    }
-
     int set_size()
     {
         return _set_size;
@@ -90,7 +84,6 @@ public:
 private:
     vector<int> _father;
     vector<int> _rank;
-    int _item_size;
     int _set_size;
 
     int _find(int x)

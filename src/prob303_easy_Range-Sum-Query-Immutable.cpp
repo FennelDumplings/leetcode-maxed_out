@@ -30,21 +30,16 @@ public:
         else
         {
             int n = nums.size();
-            sums = vector<int>(n, 0);
-            sums[0] = nums[0];
-            for(int i = 1; i < n; ++i)
-                sums[i] = sums[i - 1] + nums[i];
+            sums = vector<int>(n + 1, 0);
+            for(int i = 1; i <= n; ++i)
+                sums[i] = sums[i - 1] + nums[i - 1];
         }
     }
 
     int sumRange(int i, int j) {
         // 0 <= i <= j <= n-1
-        if(sums.empty())
-            return 0;
-        else if(i == 0)
-            return sums[j];
-        else
-            return sums[j] - sums[i - 1];
+        if(sums.empty()) return 0;
+        return sums[j + 1] - sums[i];
     }
 private:
     vector<int> sums;
