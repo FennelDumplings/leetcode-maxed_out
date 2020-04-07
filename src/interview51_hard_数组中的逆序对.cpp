@@ -11,6 +11,7 @@
  */
 
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -62,5 +63,142 @@ private:
         for(i = left, k = 0; i <= right; ++i, ++k)
             nums[i] = tmp[k];
         return res;
+    }
+};
+
+// 权值线段树
+struct STNode
+{
+    int start, end;
+    int cnt;
+    STNode *left, *right;
+    STNode(int s, int e, int c, STNode* l=nullptr, STNode* r=nullptr)
+        :start(s),end(e),cnt(c),left(l),right(r){}
+    ~STNode()
+    {
+        if(left)
+        {
+            delete left;
+            left = nullptr;
+        }
+        if(right)
+        {
+            delete right;
+            right = nullptr;
+        }
+    }
+};
+
+class SegmentTree
+{
+public:
+    SegmentTree()
+    {
+        root = nullptr;
+    }
+
+    ~SegmentTree()
+    {
+        if(root)
+        {
+            delete root;
+            root = nullptr;
+        }
+    }
+
+    void build(int start, int end)
+    {
+        if(start <= end)
+            root = _build(start, end);
+    }
+
+    void add(int index)
+    {
+        _add(root, index);
+    }
+
+    int query(int i, int j)
+    {
+        if(i > j) return 0;
+        return _query(root, i, j);
+    }
+
+
+private:
+    STNode *root;
+
+    STNode* _build(int start, int end)
+    {
+        if(start == end)
+            return new STNode(start, end, 0);
+        int mid = start + (end - start) / 2;
+        STNode *left = _build(start, mid);
+        STNode *right = _build(mid + 1, end);
+        return new STNode(start, end, 0, left, right);
+    }
+
+    void _add(STNode* root,int index)
+    {
+        if(!root) return;
+        if(root -> start == root -> end && root -> start == index)
+        {
+            ++(root -> cnt);
+            return;
+        }
+        int mid = root -> start + (root -> end - root -> start) / 2;
+        if(index > mid)
+            _add(root -> right, index);
+        else
+            _add(root -> left, index);
+        ++(root -> cnt);
+    }
+
+    int _query(STNode* root, int i, int j)
+    {
+        if(!root) return 0;
+        if(root -> start == i && root -> end == j)
+            return root -> cnt;
+        int mid = root -> start + (root -> end - root -> start) / 2;
+        if(j <= mid)
+            return _query(root -> left, i, j);
+        else if(i > mid)
+            return _query(root -> right, i, j);
+        else
+            return _query(root -> left, i, mid) + _query(root -> right, mid + 1, j);
+    }
+};
+
+class Solution_2 {
+public:
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size();
+        if(n <= 1) return 0;
+        vector<int> x; // 离散化后的值
+        for(int i: nums)
+            x.push_back(i);
+        sort(x.begin(), x.end());
+        x.erase(unique(x.begin(), x.end()), x.end());
+
+        int m = x.size();
+        SegmentTree segmenttree;
+        segmenttree.build(0, m - 1);
+        segmenttree.add(_find(nums[0], x));
+        int result = 0;
+        for(int i = 1; i < n; ++i)
+        {
+            int order = _find(nums[i], x);
+            if(order <= m - 1)
+                result += segmenttree.query(order + 1, m - 1);
+            segmenttree.add(order);
+        }
+        return result;
+    }
+
+private:
+    int _find(int v, const vector<int>& x)
+    {
+        // 返回 v 离散化后在 x 中的索引 从 0 开始
+        // 若为从 1 开始，再加上 1
+        return lower_bound(x.begin(), x.end(), v) - x.begin();
     }
 };
