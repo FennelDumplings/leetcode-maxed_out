@@ -30,7 +30,7 @@
 
 using namespace std;
 
-// 线段树模板写法,析构省略了
+// 线段树模板写法
 struct STNode {
     int start;
     int end;
@@ -42,12 +42,34 @@ struct STNode {
         :start(start),end(end),sum(sum),left(nullptr),right(nullptr){}
     STNode(int start, int end, int sum, STNode *left, STNode *right)
         :start(start),end(end),sum(sum),left(left),right(right){}
+    ~STNode()
+    {
+        if(left)
+        {
+            delete left;
+            left = nullptr;
+        }
+        if(right)
+        {
+            delete right;
+            right = nullptr;
+        }
+    }
 };
 
 class SegmentTree {
 public:
     SegmentTree(){
         root = nullptr;
+    }
+
+    ~SegmentTree()
+    {
+        if(root)
+        {
+            delete root;
+            root = nullptr;
+        }
     }
 
     void build(int start, int end, const vector<int>& vals)

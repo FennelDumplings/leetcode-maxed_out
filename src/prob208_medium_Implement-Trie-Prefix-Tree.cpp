@@ -39,7 +39,10 @@ struct TrieNode {
     {
         for(TrieNode *child: children)
             if(child)
+            {
                 delete child;
+                child = nullptr;
+            }
     }
 };
 
@@ -52,6 +55,7 @@ public:
 
     ~Trie() {
         delete root;
+        root = nullptr;
     }
 
     /** Inserts a word into the trie. */
