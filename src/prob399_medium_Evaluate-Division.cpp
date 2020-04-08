@@ -75,7 +75,7 @@ private:
     {
         if(_father[x] == x)
             return x;
-        int new_fa = _find(_father[x]);; // 路径压缩前的父节点
+        int new_fa = _find(_father[x]);; // 路径压缩后的父节点
         _weight[x] *= _weight[_father[x]];
         _father[x] = new_fa;
         return _father[x];
