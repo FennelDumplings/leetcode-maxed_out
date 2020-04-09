@@ -34,6 +34,7 @@
 #include <set>
 #include <unordered_set>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
 
@@ -113,16 +114,16 @@ public:
     }
 
 private:
-    bool bfs(unordered_set<vector<int>, MyHash>& blocked, vector<int>& source, vector<int>& target)
+    bool bfs(unordered_set<vector<int>, MyHash2>& blocked, vector<int>& source, vector<int>& target)
     {
         int n = 1000000, m = 1000000;
         int dx[4] = {0, 1, 0, -1};
         int dy[4] = {1, 0, -1, 0};
-        unordered_set<vector<int>, MyHash> visited;
+        unordered_set<vector<int>, MyHash2> visited;
         queue<vector<int> > q;
         int max_step = blocked.size() * (blocked.size() - 1) / 2;
         q.push(vector<int>({source[0], source[1]}));
-        visited.insert(vector<int>{source[0], source[1]});
+        visited.insert(vector<int>({source[0], source[1]}));
         int step = 1;
         while(!q.empty())
         {
