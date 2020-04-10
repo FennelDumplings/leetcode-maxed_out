@@ -21,6 +21,7 @@
 
 using namespace std;
 
+// 线段树 / 树状数组
 struct STNode
 {
     int start, end;
@@ -149,5 +150,56 @@ private:
     int _find(int v, const vector<int>& x)
     {
         return lower_bound(x.begin(), x.end(), v) - x.begin();
+    }
+};
+
+// CDQ 分治
+class Solution_2 {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        if(nums.empty()) return vector<int>();
+        int n = nums.size();
+        if(n == 1) return vector<int>({0});
+        vector<int> indexes(n, 0);
+        for(int i = 1; i < n; ++i)
+            indexes[i] = i;
+        vector<int> result(n, 0);
+        _mergesort(nums, indexes, result, 0, n - 1);
+        return result;
+    }
+
+private:
+    void _mergesort(const vector<int>& nums, vector<int>& indexes, vector<int>& result, int left, int right)
+    {
+        if(left == right) return;
+        int mid = left + (right - left) / 2;
+        _mergesort(nums, indexes, result, left, mid);
+        _mergesort(nums, indexes, result, mid + 1, right);
+        _merge(nums, indexes, result, left, mid, right);
+    }
+
+    void _merge(const vector<int>& nums, vector<int>& indexes, vector<int>& result, int left, int mid, int right)
+    {
+        vector<int> tmp(right - left + 1, 0);
+        int i = left, j = mid + 1, k = 0;
+        while(i <= mid && j <= right)
+        {
+            int pi = nums[indexes[i]], qj = nums[indexes[j]];
+            if(pi <= qj)
+            {
+                result[indexes[i]] += (j - mid - 1);
+                tmp[k++] = indexes[i++];
+            }
+            else
+                tmp[k++] = indexes[j++];
+        }
+        while(i <= mid)
+        {
+            result[indexes[i]] += (j - mid - 1);
+            tmp[k++] = indexes[i++];
+        }
+        while(j <= right) tmp[k++] = indexes[j++];
+        for(i = left, k = 0; i <= right; ++i, ++k)
+            indexes[i] = tmp[k];
     }
 };
