@@ -31,6 +31,7 @@
 
 using namespace std;
 
+// DFS + 搜索顺序
 class Solution {
 public:
     bool makesquare(vector<int>& nums) {
