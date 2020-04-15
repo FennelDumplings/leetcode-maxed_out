@@ -51,51 +51,52 @@ public:
     }
 
 private:
-    int solve(const vector<vector<int>>& graph, int t, int x, int y, vector<vector<vector<int> > >& dp)
+    int solve(const vector<vector<int>>& graph, int t, int m, int c, vector<vector<vector<int> > >& dp)
     {
         if (t == (int)graph.size() * 2)
             return 0;
-        if (x == y)
-            return dp[t][x][y] = 2;
-        if (x == 0)
-            return dp[t][x][y] = 1;
-        if (dp[t][x][y] != -1)
-            return dp[t][x][y];
+        if (m == c)
+            return dp[t][m][c] = 2;
+        if (m == 0)
+            return dp[t][m][c] = 1;
+        if (dp[t][m][c] != -1)
+            return dp[t][m][c];
 
 
-        int who = t % 2;
         bool flag;
-        if (who == 0)
-        { // Mouse goes next
-            flag = true; // All ways are 2
-            for (int i = 0; i < (int)graph[x].size(); i++)
+        if (t % 2 == 0)
+        {
+            // 轮到鼠走
+            flag = true;
+            for (int i = 0; i < (int)graph[m].size(); i++)
             {
-                int nxt = solve(graph, t + 1, graph[x][i], y, dp);
+                int nxt = solve(graph, t + 1, graph[m][i], c, dp);
                 if (nxt == 1)
-                    return dp[t][x][y] = 1;
+                    return dp[t][m][c] = 1;
                 else if (nxt != 2)
                     flag = false;
             }
             if (flag)
-                return dp[t][x][y] = 2;
+                return dp[t][m][c] = 2;
             else
-                return dp[t][x][y] = 0;
+                return dp[t][m][c] = 0;
         }
         else
-        { // Cat goes next
-            flag = true; // All ways are 1
-            for (int i = 0; i < (int)graph[y].size(); i++)
-                if (graph[y][i] != 0) {
-                    int nxt = solve(graph, t + 1, x, graph[y][i], dp);
+        {
+            // 轮到猫走
+            flag = true;
+            for (int i = 0; i < (int)graph[c].size(); i++)
+                if (graph[c][i] != 0) {
+                    int nxt = solve(graph, t + 1, m, graph[c][i], dp);
                     if (nxt == 2)
-                        return dp[t][x][y] = 2;
+                        return dp[t][m][c] = 2;
                     else if (nxt != 1)
                         flag = false;
                 }
             if (flag)
-                return dp[t][x][y] = 1;
+                return dp[t][m][c] = 1;
             else
-                return dp[t][x][y] = 0;
+                return dp[t][m][c] = 0;
         }
     }
 };
@@ -105,28 +106,28 @@ class Solution_2 {
 public:
     int catMouseGame(vector<vector<int> >& graph) {
         int N = graph.size();
-        int DRAW = 0, MOUSE = 1, CAT = 2;
+        const int DRAW = 0, MOUSE = 1, CAT = 2;
 
         vector<vector<vector<int> > > color(N, vector<vector<int> >(N, vector<int>(3)));
-        vector<vector<vector<int> > > degree(N, vector<vector<int> >(N, vector<int>(3)));
+        vector<vector<vector<int> > > draw_degree(N, vector<vector<int> >(N, vector<int>(3))); // 标记为 DRAW 的子节点个数
 
-        // degree[node] := the number of neutral children of this node
+        // draw_degree[node] := 节点的子节点个数
         for(int m = 0; m < N; ++m)
             for(int c = 0; c < N; ++c)
             {
-                degree[m][c][1] = graph[m].size(); // z = 1, 轮鼠动
-                degree[m][c][2] = graph[c].size(); // z = 2, 轮猫动
+                draw_degree[m][c][1] = graph[m].size(); // t = 0, 轮鼠动
+                draw_degree[m][c][2] = graph[c].size(); // t = 1, 轮猫动
                 for(int x: graph[c])
                 {
-                    if(x == 0)
+                    if(x == 0) // 猫无法移动到洞里
                     {
-                        degree[m][c][2]--;
+                        draw_degree[m][c][2]--;
                         break;
                     }
                 }
             }
 
-        // enqueued : all nodes that are colored
+        // 将初始时胜负已知的点染色，并进队
         queue<vector<int> > q;
         for(int i = 0; i < N; ++i)
             for(int t = 1; t <= 2; ++t)
@@ -139,7 +140,8 @@ public:
                     q.push(vector<int>({i, i, t, CAT}));
                 }
             }
-        // percolate 渗透
+
+        // BFS过程
         while(!q.empty())
         {
             vector<int> node = q.front();
@@ -152,14 +154,16 @@ public:
                 {
                     if(t2 == c)
                     {
-                        // if the parent can make a winning move (ie. mouse to MOUSE), do so
+                        // 父状态节点可以做必胜移动：
+                        // 出队状态颜色是猫胜且父节点轮猫走
+                        // 出队状态颜色是鼠胜且父节点轮鼠走
                         color[i2][j2][t2] = c;
                         q.push(vector<int>({i2, j2, t2, c}));
                     }
-                    else
+                    else // 当前轮到行动的角色与出队节点的颜色相反
                     {
-                        degree[i2][j2][t2]--;
-                        if(degree[i2][j2][t2] == 0)
+                        draw_degree[i2][j2][t2]--; // 该父节点又有了一个子节点(出队节点v)不标记为 DRAW
+                        if(draw_degree[i2][j2][t2] == 0)
                         {
                             color[i2][j2][t2] = 3 - t2;
                             q.push(vector<int>({i2, j2, t2, 3 - t2}));
@@ -172,17 +176,16 @@ public:
     }
 
 private:
-    // What nodes could play their turn to
-    // arrive at node (m, c, t) ?
+    // 哪些状态节点可以转移到 (m, n, t)
     vector<vector<int> > _parents(vector<vector<int> >& graph, int m, int c, int t)
     {
         vector<vector<int> > result;
-        if(t == 2)
+        if(t == 2) // 轮猫动, 上一轮轮猫动
         {
             for(int m2: graph[m])
                 result.push_back(vector<int>({m2, c, 3 - t}));
         }
-        else
+        else // 轮鼠动，上一轮轮猫动
         {
             for(int c2: graph[c])
                 if(c2 > 0)
