@@ -14,7 +14,7 @@ class Solution:
         mapping = {}
         for i, num in enumerate(nums):
             gap = target - num
-            if not mapping.get(gap) is None:
+            if gap in mapping:
                 return [i, mapping[gap]]
             mapping[num] = i
 

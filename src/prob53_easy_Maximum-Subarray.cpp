@@ -72,6 +72,7 @@ public:
         int n = nums.size();
         return _maxSubArray(nums, 0, n); // [0, n)
     }
+
 private:
     int _maxSubArray(const vector<int> &nums, int left, int right)
     {
