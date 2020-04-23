@@ -23,80 +23,43 @@
  */
 
 #include <string>
-#include <vector>
-#include <unordered_set>
+#include <stack>
 
 using namespace std;
 
 class Solution {
 public:
     string removeKdigits(string num, int k) {
+        if(num.empty()) return "0";
         int n = num.size();
-        if(n == k) return "0";
-
-        vector<vector<int> > digit_idxs(10, vector<int>());
-        for(int i = 0; i <= n - 1; ++i)
-            digit_idxs[num[i] - '0'].push_back(i);
-        unordered_set<int> delete_idxs;
-
-        int left = 0, right = n - 1, cur_min = 0;
-        removeKdigits(num, digit_idxs, left, right, k, delete_idxs, cur_min);
-
-        string result;
-        for(int i = 0; i < n; ++i)
+        if(k == n) return "0";
+        stack<char> st;
+        st.push(num[0]);
+        for(int i = 1; i < n; ++i)
         {
-            if(delete_idxs.find(i) != delete_idxs.end() || (result.empty() && num[i] == '0'))
-                continue;
-            result += num[i];
-        }
-        if(result.empty()) result = "0";
-        return result;
-    }
-
-private:
-    void _removeKdigits(const string& num, vector<vector<int> > digit_idxs, int left, int right, int k, unordered_set<int>& delete_idxs, int cur_min)
-    {
-        if(k == 0) return;
-        // right - left + 1 > k
-        if((int)digit_idxs[cur_min].size() >= k)
-        {
-            for(int idx = left; idx <= right; ++idx)
+            while(k > 0 && !st.empty() && st.top() > num[i])
             {
-                if(num[idx] - '0' > cur_min)
-                {
-                    delete_idxs.insert(idx);
-                    --k;
-                }
+                st.pop();
+                --k;
             }
+            st.push(num[i]);
         }
-        for(int digit = cur_min; digit <= 9; ++digit)
+        while(k > 0)
         {
-            if(digit_idxs[digit].empty()) continue;
-            digit_idxs.push_back()
-            for(int i = 1; i < (int)digit_idxs[digit].size(); ++i)
-            {
-                int r = digit_idxs[digit][i];
-                int l = digit_idxs[digit][i - 1];
-                if(1 > r - l - 1) continue;
-                if(r - l - 1 <= k)
-                {
-                    for(int j = l + 1; j <= r - 1; ++j)
-                    {
-                        //if(delete_idxs.find(j) == delete_idxs.end())
-                        if(delete_idxs.find(j) == delete_idxs.end() && num[j] > digit)
-                        {
-                            delete_idxs.insert(j);
-                            --k;
-                            if(k == 0) return;
-                        }
-                    }
-                }
-                else
-                {
-                    _removeKdigits(num, l + 1, r - 1, k, delete_idxs, digit);
-                    if(k == 0) return;
-                }
-            }
+            st.pop();
+            --k;
         }
+        int m = st.size();
+        string result(m, ' ');
+        for(int i = m - 1; i >= 0; --i)
+        {
+            result[i] = st.top();
+            st.pop();
+        }
+        int start = 0;
+        while(start < m && result[start] == '0')
+            ++start;
+        if(start == m) return "0";
+        return result.substr(start);
     }
 };
