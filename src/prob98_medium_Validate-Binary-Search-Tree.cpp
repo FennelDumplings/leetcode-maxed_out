@@ -20,26 +20,26 @@ public:
         if(!(root -> left) && !(root -> right))
             return true;
 
-        PBT result = _inOrder(root);
+        PBP result = _inOrder(root);
         return result.first;
 
     }
 
 private:
     using PII = pair<int, int>;
-    using PBT = pair<bool, PII>;
+    using PBP = pair<bool, PII>;
 
-    PBT _inOrder(TreeNode* root) {
+    PBP _inOrder(TreeNode* root) {
         // 调用方保证 root 不为空
         // 与前驱和后继对比
         // 若左子树为空，
-        PBT result;
+        PBP result;
         result.first = true;
         result.second = PII(root -> val, root -> val);
 
         if(root -> left)
         {
-            PBT result_left = _inOrder(root -> left);
+            PBP result_left = _inOrder(root -> left);
             if(result_left.first && root -> val > result_left.second.second)
             {
                 result.second.first = result_left.second.first;
@@ -53,7 +53,7 @@ private:
 
         if(root -> right)
         {
-            PBT result_right = _inOrder(root -> right);
+            PBP result_right = _inOrder(root -> right);
             if(result_right.first && root -> val < result_right.second.first)
             {
                 result.second.second = result_right.second.second;

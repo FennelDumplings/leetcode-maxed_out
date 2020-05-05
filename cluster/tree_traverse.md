@@ -1,5 +1,7 @@
 
-# 树遍历基本操作
+# 树遍历基本方式
+## 树遍历的背景介绍
+
 
 前序: 递归、迭代、Morris遍历  
 中序: 递归、迭代、Morris遍历  
@@ -8,6 +10,7 @@
 
 # 树遍历基本操作题目列表
 ## 二叉树
+### 什么是二叉树
 
 [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)  
 [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)  
@@ -15,6 +18,8 @@
 [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)  
 
 ## N 叉树(类似邻接表)
+### 什么是 N 叉树
+
 [589. N叉树的前序遍历](https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/)  
 [590. N叉树的后序遍历](https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/)  
 [429. N叉树的层序遍历](https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/)  
@@ -22,6 +27,8 @@
 # 树遍历应用题目列表
 ## 1. 前序遍历
 ### 序列化
+#### 什么是序列化
+
 重建树的方法：
 1. 前序 + 中序
 2. 中序 + 后序
@@ -58,9 +65,17 @@
 ### 类似树形DP的问题
 [979. 在二叉树中分配硬币](https://leetcode-cn.com/problems/distribute-coins-in-binary-tree/)  
 [968. 监控二叉树](https://leetcode-cn.com/problems/binary-tree-cameras/)  
+[508]
+[250]
 
 ## 4. 层序遍历
 [107. 二叉树的层次遍历 II](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)  
 [637. 二叉树的层平均值](https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/)  
 [103. 二叉树的锯齿形层次遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)  
 [993. 二叉树的堂兄弟节点](https://leetcode-cn.com/problems/cousins-in-binary-tree/)  
+
+## 5. 树的重建
+
+## 6. 垂序遍历
+[314]
+[987]
