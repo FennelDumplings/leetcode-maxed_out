@@ -26,35 +26,36 @@
  */
 
 #include <vector>
+#include <algorithm>
+#include <stack>
+#include <climits>
 
 using namespace std;
 
-class Solution {
+// 分析问题本质：寻找 132 模式
+class Solution_2 {
 public:
     bool verifyPreorder(vector<int>& preorder) {
-        if(preorder.empty()) return true;
-        int n = preorder.size();
-        if(n <= 2) return true;
-        // n = 3 时，[2, 3, 1] 是不满足的情况
-        int minx1 = preorder[0];
-        int i = 1;
-        while(i < n && preorder[i] < minx1)
-            ++i;
-        if(i == n) return true;
-        int minx2 = preorder[i];
-        // [minx1, +inf) 合法，minx1 < minx2
-        ++i;
-        while(i < n)
+        reverse(preorder.begin(), preorder.end());
+        return !find132pattern(preorder);
+    }
+
+private:
+    bool find132pattern(vector<int>& nums) {
+        int n = nums.size();
+        if(n < 3) return false;
+        stack<int> st;
+        int s3 = INT_MIN;
+        for(int i = n - 1; i >= 0; --i)
         {
-            if(preorder[i] < minx1)
-                return false;
-            if(preorder[i] > minx2)
+            if(nums[i] < s3) return true;
+            while(!st.empty() && st.top() < nums[i])
             {
-                minx1 = minx2;
-                minx2 = preorder[i];
+                s3 = max(s3, st.top());
+                st.pop();
             }
-            ++i;
+            st.push(nums[i]);
         }
-        return true;
+        return false;
     }
 };

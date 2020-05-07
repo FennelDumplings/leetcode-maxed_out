@@ -64,13 +64,14 @@ N 叉树是指每个节点最多可以有 N 个子节点的树形结构。实现
 
 #### 题目列表：
 [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)  
-[271. 字符串的编码与解码](https://leetcode-cn.com/problems/serialize-and-deserialize-bst/)  
+[449. 字符串的编码与解码](https://leetcode-cn.com/problems/serialize-and-deserialize-bst/)  
 [428. 序列化和反序列化 N 叉树](https://leetcode-cn.com/problems/serialize-and-deserialize-n-ary-tree/)  
 
 ### 其它
 #### 题目列表
 [255. 验证前序遍历序列二叉搜索树](https://leetcode-cn.com/problems/verify-preorder-sequence-in-binary-search-tree/)  
 [431. 将 N 叉树编码为二叉树](https://leetcode-cn.com/problems/encode-n-ary-tree-to-binary-tree/)  
+[513]
 
 ## 2. 中序遍历
 ### 二叉搜索树
@@ -81,11 +82,15 @@ N 叉树是指每个节点最多可以有 N 个子节点的树形结构。实现
 [272. 最接近的二叉搜索树值 II](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)  
 [530. 二叉搜索树的最小绝对差](https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/) / [783. 二叉搜索树节点最小距离](https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/)  
 [99. 恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)(follow up 是 morris 中序遍历)  
+[426. 将二叉搜索树转化为排序的双向链表]
+[530]
+[783. 二叉搜索树节点最小距离](https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/submissions/) (用引用维护 prev)
 
 ### 前驱后继(非递归中序遍历)
 [285. 二叉搜索树中的顺序后继](https://leetcode-cn.com/problems/inorder-successor-in-bst/)  
 [510. 二叉搜索树中的中序后继 II](https://leetcode-cn.com/problems/inorder-successor-in-bst-ii/)  
 [173. 二叉搜索树迭代器](https://leetcode-cn.com/problems/binary-search-tree-iterator/)  
+
 
 ## 3. 后序遍历
 ### 类似树形DP的问题
@@ -111,3 +116,7 @@ N 叉树是指每个节点最多可以有 N 个子节点的树形结构。实现
 ## 7. 树上 dfs
 [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)  
 [545. 二叉树的边界](https://leetcode-cn.com/problems/boundary-of-binary-tree/)  
+
+## 8. 树上 bfs 和 dfs 均可的题
+[513]
+[515]
