@@ -48,6 +48,7 @@
 
 #include <unordered_map>
 #include <climits>
+#include <vector>
 #include "include/Node.h"
 
 using namespace std;
