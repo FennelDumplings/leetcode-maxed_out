@@ -24,9 +24,9 @@
 
 using namespace std;
 
-class CustomStack {
+class CustomStack_2 {
 public:
-    CustomStack(int maxSize) {
+    CustomStack_2(int maxSize) {
         _vec = vector<int>(maxSize);
         _size = 0;
         _capacity = maxSize;
@@ -65,3 +65,43 @@ private:
  * int param_2 = obj->pop();
  * obj->increment(k,val);
  */
+
+
+class CustomStack {
+public:
+    CustomStack(int maxSize) {
+        _vec = vector<int>(maxSize);
+        _contribute = vector<int>(maxSize);
+        _size = 0;
+        _capacity = maxSize;
+    }
+
+    void push(int x) {
+        if(_size == _capacity) return;
+        _vec[_size] = x;
+        ++_size;
+    }
+
+    int pop() {
+        if(_size == 0) return -1;
+        --_size;
+        int res = _vec[_size] + _contribute[_size];
+        if(_size != 0)
+            _contribute[_size - 1] += _contribute[_size];
+        _contribute[_size] = 0;
+        return res;
+    }
+
+    void increment(int k, int val) {
+        int kk = min(k, _size);
+        // 0 ~ kk -1
+        if(kk > 0)
+            _contribute[kk - 1] += val;
+    }
+
+private:
+    vector<int> _vec;
+    vector<int> _contribute;
+    int _size;
+    int _capacity;
+};

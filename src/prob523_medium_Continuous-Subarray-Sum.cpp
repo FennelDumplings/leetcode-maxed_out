@@ -24,6 +24,8 @@
  */
 
 #include <vector>
+#include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
@@ -58,4 +60,54 @@ private:
         else if(k == 0) return false;
         return sum % k == 0;
     }
+};
+
+
+class Solution_2 {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        if(nums.empty()) return false;
+        int n = nums.size();
+        if(n == 1) return false;
+
+        unordered_map<Sum, int, MyHash, MyCmp> mapping;
+        mapping.insert({Sum(0, k), -1});
+
+        int sum = 0;
+        for(int i = 0; i < n; ++i)
+        {
+            sum += nums[i];
+            Sum cur(sum, k);
+            if(mapping.find(cur) == mapping.end())
+                mapping.insert({cur, i});
+            else if(i - mapping[cur] > 1)
+                return true;
+        }
+        return false;
+    }
+
+private:
+    struct Sum
+    {
+        int sum, k;
+        Sum(int sum, int k):sum(sum),k(k){}
+    };
+
+    struct MyHash
+    {
+        int operator()(const Sum& item) const
+        {
+            if(item.k == 0) return item.sum;
+            return item.sum % item.k;
+        }
+    };
+
+    struct MyCmp
+    {
+        bool operator()(const Sum& item1, const Sum& item2) const
+        {
+            if(item1.k == 0) return item1.sum == item2.sum;
+            return item1.sum % item1.k == item2.sum % item2.k;
+        }
+    };
 };

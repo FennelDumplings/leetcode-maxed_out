@@ -1,0 +1,6 @@
+[647. 回文子串](https://leetcode-cn.com/problems/palindromic-substrings/)  
+[516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence/)  
+[336. 回文对](https://leetcode-cn.com/problems/palindrome-pairs/)  
+[266. 回文排列](https://leetcode-cn.com/problems/palindrome-permutation/)  
+[214. 最短回文串](https://leetcode-cn.com/problems/shortest-palindrome/)  
+[5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)  
