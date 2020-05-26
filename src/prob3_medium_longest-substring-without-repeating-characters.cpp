@@ -42,7 +42,7 @@ public:
         int right = 0;
         char_of_current_substr.insert(pair<char, int>(s[left], left));
         // 滑动 right, 直至 right == s.size()
-        while(++right != s.size())
+        while(++right != (int)s.size())
         {
             // right + 1 后判断s[right]是否在 集合里
             auto iter = char_of_current_substr.find(s[right]);
