@@ -32,6 +32,9 @@
 [44. 通配符匹配](https://leetcode-cn.com/problems/wildcard-matching)
 [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching)
 
+- 双串
+[115. 不同的子序列](https://leetcode-cn.com/problems/distinct-subsequences/)  
+
 #### 2、区间 DP
 [516. 最长回文子序列 ](https://leetcode-cn.com/problems/longest-palindromic-subsequence)
 [730. 统计不同回文子字符串 ](https://leetcode-cn.com/problems/count-different-palindromic-subsequences)

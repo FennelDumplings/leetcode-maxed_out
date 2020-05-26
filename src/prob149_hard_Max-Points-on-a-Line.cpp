@@ -31,9 +31,13 @@
  */
 
 
+#include <climits>
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+#include <random>
+#include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -366,6 +370,109 @@ public:
             }
             result += duplicates;
             ans = max(ans, result);
+        }
+        return ans;
+    }
+};
+
+
+// RANSAC
+// 在 STL 容器中随机选择
+// 在 STL 容器中随机选择
+template<typename Iter, typename RandomGenerator>
+Iter select_randomly(Iter start, Iter end, RandomGenerator *g) {
+    std::uniform_int_distribution<> dis(0, std::distance(start, end) - 1);
+    std::advance(start, dis(*g));
+    return start;
+}
+
+template<typename Iter>
+Iter select_randomly(Iter start, Iter end) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    return select_randomly(start, end, &gen);
+}
+
+class Solution_2 {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        if(points.empty()) return 0;
+        int n = points.size();
+        if(n == 1 || n == 2) return n;
+        // 迭代最大次数，每次得到更好的估计会优化 iter_num 的数值
+        int iter_num = INT_MAX;
+        // 数据和模型之间可接受的差值
+        const long double eps = 1e-10;
+        // 最好模型的参数估计和内点数目
+        int best_a = 0;
+        int best_b = 0;
+        int ans = 0;
+        // 希望的得到正确模型的概率
+        const double P = 0.9999;
+        for(int i = 0; i < iter_num; ++i)
+        {
+            // 随机选两个点求解模型
+            auto it1 = select_randomly(points.begin(), points.end());
+            auto it2 = select_randomly(points.begin(), points.end());
+            while(it1 - points.begin() == it2 - points.begin())
+                it2 = select_randomly(points.begin(), points.end());
+            int x1 = (*it1)[0];
+            int y1 = (*it1)[1];
+            int x2 = (*it2)[0];
+            int y2 = (*it2)[1];
+
+            // y = ax + b 求解出a，b
+            long double a, b;
+            if(x2 == x1)
+            {
+                a = (long double)INT_MAX;
+                b = (long double)INT_MAX;
+            }
+            else if(y2 == y1)
+            {
+                a = 0.0;
+                b = y2;
+            }
+            else
+            {
+                a = (long double)(y2 - y1) / (x2 - x1);
+                b = y1 - a * x1;
+            }
+
+            // 算出内点数目
+            int total_inlier = 0;
+            for(int j = 0; j < n; ++j)
+            {
+                int x = points[j][0], y = points[j][1];
+                long double y_estimate = 0.0;
+                if(abs(a - (long double)INT_MAX) < eps)
+                {
+                    if(x == x1)
+                        ++total_inlier;
+                }
+                else if(abs(a - 0.0) < eps)
+                {
+                    if(y == y1)
+                        ++total_inlier;
+                }
+                else
+                {
+                    y_estimate = a * x + b;
+                    if(abs(y_estimate - y) < eps)
+                        ++total_inlier;
+                }
+            }
+
+            // 判断当前的模型是否比之前估算的模型好
+            if(total_inlier > ans)
+            {
+                best_a = a;
+                best_b = b;
+                ans = total_inlier;
+                iter_num = log(1 - P) / log(1 - pow((double)total_inlier / n, 2));
+            }
+
+            if(total_inlier >= n) break;
         }
         return ans;
     }

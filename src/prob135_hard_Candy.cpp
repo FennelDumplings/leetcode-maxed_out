@@ -24,33 +24,6 @@
 
 using namespace std;
 
-class Solution {
-public:
-    int candy(vector<int>& ratings) {
-        if(ratings.empty()) return 0;
-        int n = ratings.size();
-        if(n == 1) return 1;
-        vector<int> valley(n, 0);
-        if(ratings[0] <= ratings[1])
-            valley[0] = 1;
-        if(ratings[n - 2] >= ratings[n - 1])
-            valley[n - 1] = 1;
-        for(int i = 1; i < n - 1; ++i)
-        {
-            if(ratings[i - 1] >= ratings[i] && ratings[i] <= ratings[i + 1])
-                valley[i] = 1;
-        }
-        int result = 0;
-        for(int i = 0; i < n; ++i)
-        {
-            if(i == 0 || valley[i] == 1) continue;
-            valley[i] = valley[i - 1] + 1;
-        }
-        return result;
-    }
-};
-
-
 class Solution_2 {
 public:
     int candy(vector<int>& ratings) {
