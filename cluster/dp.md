@@ -11,9 +11,14 @@
 - 经典问题：
 [120. 三角形最小路径和](https://leetcode-cn.com/problems/triangle)
 [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray)
-[152. 乘积最大子数组](https://leetcode-cn.com/problems/maximum-product-subarray)
 [887. 鸡蛋掉落（DP+二分）](https://leetcode-cn.com/problems/super-egg-drop) 
 [354. 俄罗斯套娃信封问题](https://leetcode-cn.com/problems/russian-doll-envelopes)
+
+- 双串
+[115. 不同的子序列](https://leetcode-cn.com/problems/distinct-subsequences/)  
+
+- 单串
+[152. 乘积最大子数组](https://leetcode-cn.com/problems/maximum-product-subarray/) 单串双 dp 数组
 
 - 打家劫舍系列: (打家劫舍3 是树形DP)
 [198. 打家劫舍 ](https://leetcode-cn.com/problems/house-robber)
@@ -32,8 +37,6 @@
 [44. 通配符匹配](https://leetcode-cn.com/problems/wildcard-matching)
 [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching)
 
-- 双串
-[115. 不同的子序列](https://leetcode-cn.com/problems/distinct-subsequences/)  
 
 #### 2、区间 DP
 [516. 最长回文子序列 ](https://leetcode-cn.com/problems/longest-palindromic-subsequence)
