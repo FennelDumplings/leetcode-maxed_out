@@ -4,6 +4,7 @@
 #### 1、线性 DP
 - 最经典单串：
 [300. 最长上升子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+[673. 最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/)
 
 - 最经典双串：
 [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence)
@@ -63,6 +64,7 @@
 [464. 我能赢吗](https://leetcode-cn.com/problems/can-i-win)
 [526. 优美的排列 ](https://leetcode-cn.com/problems/beautiful-arrangement)
 [935. 骑士拨号器 ](https://leetcode-cn.com/problems/knight-dialer)
+[943. 最短超级串](https://leetcode-cn.com/problems/find-the-shortest-superstring/)  最短哈密顿路
 [1349. 参加考试的最大学生数](https://leetcode-cn.com/problems/maximum-students-taking-exam)
 
 #### 6、数位 DP
@@ -74,6 +76,7 @@
 计数型DP都可以以组合数学的方法写出组合数，然后dp求组合数
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths)
 [63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii)
+[980. 不同路径 III](https://leetcode-cn.com/problems/unique-paths-iii/)
 [96. 不同的二叉搜索树 (卡特兰数)](https://leetcode-cn.com/problems/unique-binary-search-trees)
 [1259. 不相交的握手 (卢卡斯定理求大组合数模质数)](https://leetcode-cn.com/problems/handshakes-that-dont-cross)
 

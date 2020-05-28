@@ -12,3 +12,7 @@
 [1248. 统计优美子数组](https://leetcode-cn.com/problems/count-number-of-nice-subarrays/)  
 
 [1442. 形成两个异或相等数组的三元组数目](https://leetcode-cn.com/problems/count-triplets-that-can-form-two-arrays-of-equal-xor/)  
+
+---
+
+[370. 区间加法](https://leetcode-cn.com/problems/insert-interval/) 差分
