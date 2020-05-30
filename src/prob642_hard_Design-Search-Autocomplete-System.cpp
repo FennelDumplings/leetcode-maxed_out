@@ -60,15 +60,19 @@
  * Please remember to RESET your class variables declared in class AutocompleteSystem, as static/class variables are persisted across multiple test cases. Please see here for more details.
  */
 
+#include <unordered_map>
+#include <map>
 #include <vector>
 #include <string>
 #include <queue>
 #include <stack>
+#include <algorithm>
 
 using namespace std;
 
 const int ALPHABET = 27;
 
+// 朴素的 Trie，每次查询都要遍历某个子树的所有节点再排序，效率并不高
 struct TrieNode
 {
     int cnt;
@@ -228,4 +232,80 @@ public:
 
 private:
     Trie *trie;
+};
+
+
+// 哈希表
+// 使用数组 arrarr 存储所有的句子和出现的次数，数组的每一项都是一个 HashMap，每个 HashMap 存储相同首字母的所有句子。
+// 例如 arr[0] 表示所有以 'a' 开头的所有句子的 HashMap。
+class AutocompleteSystem_2 {
+public:
+    AutocompleteSystem_2(vector<string>& sentences, vector<int>& times)
+    {
+        cur = "";
+        idx = 0;
+        res.clear();
+        cnt.clear();
+        for(int i = 0; i < (int)sentences.size(); i++)
+            cnt[sentences[i][0]][sentences[i]] = times[i];
+    }
+
+    vector<string> input(char c) {
+        if(c == '#')
+        {
+            //本此查询完毕，更新cnt，清空缓存量
+            cnt[cur[0]][cur]++;
+            cur = "";
+            idx = 0;
+            res.clear();
+            return res;
+        }
+        if(idx == 0)
+        {
+            //输入查询字符串的第一个字母
+            cur += c;
+            idx++;
+            //找到所有可能的补全结果
+            vector<pair<string, int>> temp;
+            for(auto it = cnt[c].begin(); it != cnt[c].end(); it++)
+                temp.push_back(*it);
+            sort(temp.begin(), temp.end(), cmp);//排序
+            for(auto it = temp.begin(); it != temp.end(); it++)
+                res.push_back(it->first);
+        }
+        else
+        {
+            auto it = res.begin();
+            while(it != res.end())
+            {
+                //去掉res中不可能是补全结果的单词
+                if((int)(*it).size() <= idx || (*it)[idx] != c)
+                    res.erase(it);
+                else
+                    it++;
+            }
+            cur += c;
+            idx++;
+        }
+        //返回res中的前三个
+        if(res.size() < 3)
+            return res;
+        else
+            return vector<string>(res.begin(), res.begin()+3);
+    }
+
+private:
+    int idx; // 当前输入查询字符在查询字符串的下标
+    vector<string> res; //目前所有可能的补全结果，按题目要求排序（热度递减、字典序递增）
+    unordered_map<char, map<string, int>> cnt; //以各个字母开头的所有字符串的历史查询次数
+    string cur; // 当前输入的查询字符串
+
+    static bool cmp(pair<string, int>& a, pair<string, int>& b)
+    {
+        //排序函数
+        if(a.second != b.second)
+            return a.second > b.second;
+        else
+            return a.first < b.first;
+    }
 };
