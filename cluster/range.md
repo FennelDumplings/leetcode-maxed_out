@@ -41,3 +41,5 @@
 [370. 区间加法](https://leetcode-cn.com/problems/insert-interval/)
 [986. 区间列表的交集](https://leetcode-cn.com/problems/count-of-range-sum/)
 [1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/)
+
+[1353. 最多可以参加的会议数目](https://leetcode-cn.com/problems/maximum-number-of-events-that-can-be-attended/)

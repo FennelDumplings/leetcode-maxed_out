@@ -60,20 +60,20 @@ public:
 
     /** Inserts a word into the trie. */
     void insert(string word) {
-        TrieNode *p = root;
+        TrieNode *iter = root;
         for(const char c: word)
         {
-            if(!(p -> children[_to_int(c)]))
-                (p -> children)[_to_int(c)] = new TrieNode();
-            p = (p -> children)[_to_int(c)];
+            if(!(iter -> children[_to_int(c)]))
+                (iter -> children)[_to_int(c)] = new TrieNode();
+            iter = (iter -> children)[_to_int(c)];
         }
-        p -> terminal = true;
+        iter -> terminal = true;
     }
 
     /** Returns if the word is in the trie. */
     bool search(string word) {
-        const TrieNode* p = find(word);
-        return p && p -> terminal;
+        const TrieNode* iter = find(word);
+        return iter && iter -> terminal;
     }
 
     /** Returns if there is any word in the trie that starts with the given prefix. */
@@ -91,13 +91,13 @@ private:
 
     const TrieNode* find(const string& prefix) const
     {
-        const TrieNode* p = root;
+        const TrieNode* iter = root;
         for(const char c: prefix)
         {
-            p = (p -> children)[_to_int(c)];
-            if(p == nullptr) break;
+            iter = (iter -> children)[_to_int(c)];
+            if(iter == nullptr) break;
         }
-        return p;
+        return iter;
     }
 };
 

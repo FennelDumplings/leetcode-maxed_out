@@ -1,6 +1,5 @@
 
 ## 数据流中的 topK
-[480. 滑动窗口中位数](https://leetcode-cn.com/problems/sliding-window-median/)  双堆  
 [703. 数据流中的第K大元素](https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/)  
 [295. 数据流的中位数](https://leetcode-cn.com/problems/find-median-from-data-stream/)  
 
@@ -13,9 +12,11 @@
 [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)  
 
 ## 双串 topK
-[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)  
+[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)  分治
 
 ---
+
+[480. 滑动窗口中位数](https://leetcode-cn.com/problems/sliding-window-median/)  双堆  
 
 [719. 找出第 k 小的距离对](https://leetcode-cn.com/problems/find-k-th-smallest-pair-distance/)
 [786. 第 K 个最小的素数分数](https://leetcode-cn.com/problems/k-th-smallest-prime-fraction/)

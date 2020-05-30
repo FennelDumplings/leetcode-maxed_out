@@ -1,16 +1,28 @@
-[131]
-[132]
-[139]
-[140]
+# 字符串分拆
+按照回文分拆  
+[131. 分割回文串](https://leetcode-cn.com/problems/palindrome-partitioning/)  
+[132. 分割回文串 II](https://leetcode-cn.com/problems/palindrome-partitioning-ii)  
+
+按照词典分拆  
+[139. 单词拆分](https://leetcode-cn.com/problems/word-break)  
+[140. 单词拆分 II](https://leetcode-cn.com/problems/word-break-ii)  
+
+---
+
+
+# 字符串分拆
+[282. 给表达式添加运算符](https://leetcode-cn.com/problems/expression-add-operators/)
+
+# 数组分拆
+[410. 分割数组的最大值](https://leetcode-cn.com/problems/split-array-largest-sum/) DP, 值域二分+贪心
+
 
 [93]
 [241]
-[282]
 [842]
 
 [面试题 02.04. 分割链表](https://leetcode-cn.com/problems/partition-list-lcci/)
 
----
 
 [763. 划分字母区间](https://leetcode-cn.com/problems/partition-labels/)
 
