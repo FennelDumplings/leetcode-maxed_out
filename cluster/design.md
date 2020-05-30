@@ -19,8 +19,9 @@
 [460. LFU缓存](https://leetcode-cn.com/problems/lfu-cache/) 
 [355. 设计推特](https://leetcode-cn.com/problems/design-twitter/) 哈希表
 [676. 实现一个魔法字典](https://leetcode-cn.com/problems/implement-magic-dictionary/) 字典树
-[642. 设计搜索自动补全系统](https://leetcode-cn.com/problems/design-search-autocomplete-system/) 字典树
+[642. 设计搜索自动补全系统](https://leetcode-cn.com/problems/design-search-autocomplete-system/) 字典树，哈希表
 [1268. 搜索推荐系统](https://leetcode-cn.com/problems/search-suggestions-system/solution/suo-tui-jian-xi-tong-by-leetcode-solution/) 字典树
+[745. 前缀和后缀搜索](https://leetcode-cn.com/problems/prefix-and-suffix-search/) 字典树
 
 ## 迭代器
 [900. RLE 迭代器](https://leetcode-cn.com/problems/rle-iterator/) 游程编码
