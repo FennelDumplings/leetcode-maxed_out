@@ -74,6 +74,7 @@ using namespace std;
  * My distance function does this searching algorithm. I keep the current to-be-searched cells in my now stack. When I move to a neighbor that's closer to the goal, I also put it in now. If it's not closer, then that's a detour step so I just remember it on my soon stack for the next round.
  */
 // 900ms
+// 英文版 700ms
 struct Point
 {
     int pos, val;
@@ -251,7 +252,7 @@ private:
 // ------------------------------------------------
 
 // 中文版 TLE
-// 英文版 1700ms 勉强过
+// 英文版 1712ms 勉强过
 struct Point
 {
     int x, y;
@@ -353,6 +354,7 @@ private:
 
 // 优化1：将 forest[i][j] 值加进 Point 字段，而不在 cmp 中持有 forest 矩阵
 // 1944ms
+// 英文版 1628 ms
 struct Point
 {
     int x, y, val;
@@ -445,6 +447,7 @@ private:
 
 // 优化2：将 Point 的 x, y 变成 pos (x * m + y)
 // 1760ms
+// 英文版 1392ms
 struct Point
 {
     int pos, val;
@@ -539,6 +542,7 @@ private:
 
 // 优化3：将 visited 的索引从 x, y 变成 pos (x * m + y)
 // 1396ms
+// 英文版 1132ms
 struct Point
 {
     int pos, val;
@@ -632,6 +636,7 @@ private:
 
 // 优化4：在 bfs 阶段用 Point.val 作为距离用，节点自带距离后省去 level_nodes
 // 1204ms
+// 英文版 1096ms
 struct Point
 {
     int pos, val;
@@ -716,6 +721,7 @@ private:
 
 // 优化5：将 forest 也变成 1 维
 // 1160ms
+// 英文版 960ms
 struct Point
 {
     int pos, val;
