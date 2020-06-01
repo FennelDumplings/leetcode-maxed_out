@@ -8,12 +8,13 @@
 [996. 正方形数组的数目](https://leetcode-cn.com/problems/number-of-squareful-arrays/)
 
 ## 组合
+[77. 组合](https://leetcode-cn.com/problems/combinations/)
 [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
 [40. 组合总和 II](https://leetcode-cn.com/problems/combination-sum-ii/)
 [216. 组合总和 III](https://leetcode-cn.com/problems/combination-sum-iii/submissions/)
 [377. 组合总和 Ⅳ](https://leetcode-cn.com/problems/combination-sum-iv/)
 
-[78. 子集](https://leetcode-cn.com/problems/subsets/)
+## 子集
+[78. 子集](https://leetcode-cn.com/problems/subsets/) 可状态压缩
 [90. 子集 II](https://leetcode-cn.com/problems/subsets-ii/)
 
-[77. 组合](https://leetcode-cn.com/problems/combinations/)

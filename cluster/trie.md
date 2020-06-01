@@ -10,10 +10,9 @@ Trie 主要用于匹配词典
 [676. 实现一个魔法字典](https://leetcode-cn.com/problems/implement-magic-dictionary/) Trie + DFS
 [421. 数组中两个数的最大异或值](https://leetcode-cn.com/problems/maximum-xor-of-two-numbers-in-an-array/) 字符只有10，01Trie + 位运算; 若动态区间查询，用可持久化字典树
 [642. 设计搜索自动补全系统](https://leetcode-cn.com/problems/design-search-autocomplete-system/) Trie 需要把所有子树都遍历完成才能得到所有满足特定前缀的句子，由于这一点，效率不如哈希表
+[745. 前缀和后缀搜索](https://leetcode-cn.com/problems/prefix-and-suffix-search/) 单 Trie 节点同时维护前缀后缀，哈希表维护子节点
+
 [1268. 搜索推荐系统](https://leetcode-cn.com/problems/search-suggestions-system/solution/suo-tui-jian-xi-tong-by-leetcode-solution/)
-[745. 前缀和后缀搜索](https://leetcode-cn.com/problems/prefix-and-suffix-search/) 字典树
-
-
 212
 1032
 440
