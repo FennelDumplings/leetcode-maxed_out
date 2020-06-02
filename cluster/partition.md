@@ -17,12 +17,12 @@
 [410. 分割数组的最大值](https://leetcode-cn.com/problems/split-array-largest-sum/) DP, 值域二分+贪心
 
 
-[93]
-[241]
-[842]
+[93. 复原IP地址](https://leetcode-cn.com/problems/restore-ip-addresses/) DFS
+[241. 为运算表达式设计优先级](https://leetcode-cn.com/problems/different-ways-to-add-parentheses/) 分治
+[842. 将数组拆分成斐波那契序列](https://leetcode-cn.com/problems/split-array-into-fibonacci-sequence/) 贪心
+
 
 [面试题 02.04. 分割链表](https://leetcode-cn.com/problems/partition-list-lcci/)
-
 
 [763. 划分字母区间](https://leetcode-cn.com/problems/partition-labels/)
 
@@ -33,7 +33,7 @@
 [1296. 划分数组为连续数字的集合](https://leetcode-cn.com/problems/divide-array-in-sets-of-k-consecutive-numbers/)
 
 [663. 均匀树划分](https://leetcode-cn.com/problems/equal-tree-partition/)
-[698. 划分为k个相等的子集](https://leetcode-cn.com/problems/divide-array-in-sets-of-k-consecutive-numbers/)
+[698. 划分为k个相等的子集](https://leetcode-cn.com/problems/divide-array-in-sets-of-k-consecutive-numbers/) DFS+记忆化
 [416. 分割等和子集](https://leetcode-cn.com/problems/partition-equal-subset-sum/) 背包
 
 [813. 最大平均值和的分组](https://leetcode-cn.com/problems/largest-sum-of-averages/)

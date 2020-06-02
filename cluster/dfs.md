@@ -21,6 +21,8 @@
 [464. 我能赢吗] 状态压缩+记忆化dfs
 
 ## 搜索顺序
+[473. 火柴拼正方形](https://leetcode-cn.com/problems/matchsticks-to-square/)  
+[698. 划分为k个相等的子集](https://leetcode-cn.com/problems/partition-to-k-equal-sum-subsets/) 可以对状态压缩后的整数做记忆化
 
 ## 记忆化
 

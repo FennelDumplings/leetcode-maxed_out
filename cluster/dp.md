@@ -1,7 +1,8 @@
 
 #### 1、线性 DP
 - 最经典单串：
-[300. 最长上升子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+[300. 最长上升子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)  
+[673. 最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/) LIS, len 和 cnt 各一个 dp
 
 - 最经典双串：
 [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence)
@@ -11,11 +12,13 @@
 [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray)  
 [152. 乘积最大子数组](https://leetcode-cn.com/problems/maximum-product-subarray)  
 [887. 鸡蛋掉落（DP+二分）](https://leetcode-cn.com/problems/super-egg-drop)   
-[354. 俄罗斯套娃信封问题](https://leetcode-cn.com/problems/russian-doll-envelopes)  
+[354. 俄罗斯套娃信封问题](https://leetcode-cn.com/problems/russian-doll-envelopes) LIS
 
-- 打家劫舍系列: (打家劫舍3 是树形DP)
+- 打家劫舍系列: 不相邻子序列的最大和问题 (打家劫舍3 是树形DP)
 [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber)
 [213. 打家劫舍 II](https://leetcode-cn.com/problems/house-robber-ii)
+[740. 删除与获得点数](https://leetcode-cn.com/problems/delete-and-earn/) 在 cnt 数组上的打家劫舍
+[1388. 3n 块披萨](https://leetcode-cn.com/problems/pizza-with-3n-slices/)
 
 - 股票系列:
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock)  
@@ -30,6 +33,13 @@
 [44. 通配符匹配](https://leetcode-cn.com/problems/wildcard-matching)  
 [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching)  
 
+[583. 两个字符串的删除操作](https://leetcode-cn.com/problems/delete-operation-for-two-strings/)
+[801. 使序列递增的最小交换次数](https://leetcode-cn.com/problems/minimum-swaps-to-make-sequences-increasing/)
+[97. 交错字符串](https://leetcode-cn.com/problems/interleaving-string/)
+[115. 不同的子序列](https://leetcode-cn.com/problems/distinct-subsequences/)
+[712. 两个字符串的最小ASCII删除和](https://leetcode-cn.com/problems/minimum-ascii-delete-sum-for-two-strings/) LCS，len 和 ascii 各一个 dp
+[727. 最小窗口子序列](https://leetcode-cn.com/problems/minimum-window-subsequence/)
+
 #### 2、区间 DP
 [516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence)  
 [730. 统计不同回文子字符串](https://leetcode-cn.com/problems/count-different-palindromic-subsequences)  
@@ -38,11 +48,26 @@
 [312. 戳气球](https://leetcode-cn.com/problems/burst-balloons)  
 
 #### 3、背包 DP
-[416. 分割等和子集 (01背包-要求恰好取到背包容量)](https://leetcode-cn.com/problems/partition-equal-subset-sum)  
+组合问题(求方案数)
+`dp[i] = dp[i] + dp[i - num]`
+[377. 组合总和 Ⅳ](https://leetcode-cn.com/problems/combination-sum-iv/) 顺序不同的序列被视作不同的组合
 [494. 目标和 (01背包-求方案数)](https://leetcode-cn.com/problems/target-sum)  
-[322. 零钱兑换 (完全背包)](https://leetcode-cn.com/problems/coin-change)  
 [518. 零钱兑换 II (完全背包-求方案数)](https://leetcode-cn.com/problems/coin-change-2)  
+恰好取到背包容量
+`dp[i] = dp[i] or dp[i - num]`
+[416. 分割等和子集 (01背包-要求恰好取到背包容量)](https://leetcode-cn.com/problems/partition-equal-subset-sum)  
+[139]
+最值问题
+`dp[i] = min/max(dp[i], dp[i - num] + 1)`
+[322. 零钱兑换 (完全背包)](https://leetcode-cn.com/problems/coin-change)  
 [474. 一和零 (二维费用背包)](https://leetcode-cn.com/problems/ones-and-zeroes)  
+
+步骤：
+1. 分析是否为背包问题。
+2. 是以上三种背包问题中的哪一种。
+3. 是0-1背包问题还是完全背包问题。也就是题目给的nums数组中的元素是否可以重复使用。
+4. 如果是组合问题，是否需要考虑元素之间的顺序。需要考虑顺序有顺序的解法，不需要考虑顺序又有对应的解法。
+
 
 #### 4、树形 DP
 [124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum)  
@@ -66,10 +91,17 @@
 
 #### 7、计数型 DP
 计数型DP都可以以组合数学的方法写出组合数，然后dp求组合数
+
+路径问题：
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths)  
 [63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii)  
-[96. 不同的二叉搜索树 (卡特兰数)](https://leetcode-cn.com/problems/unique-binary-search-trees)  
-[1259. 不相交的握手 (卢卡斯定理求大组合数模质数)](https://leetcode-cn.com/problems/handshakes-that-dont-cross)  
+
+卡特兰数：  
+- [96. 不同的二叉搜索树 (卡特兰数)](https://leetcode-cn.com/problems/unique-binary-search-trees) 
+- [1259. 不相交的握手 (卢卡斯定理求大组合数模质数)](https://leetcode-cn.com/problems/handshakes-that-dont-cross) 卢卡斯定理求大组合数
+
+铺砖问题：
+- [790. 多米诺和托米诺平铺](https://leetcode-cn.com/problems/domino-and-tromino-tiling/)  
 
 #### 8、递推型 DP
 所有线性递推关系都可以用矩阵快速幂做，可以O(logN)，最典型是斐波那契数列
@@ -140,3 +172,8 @@
 [913]
 [131]
 [410]
+- [818. 赛车](https://leetcode-cn.com/problems/race-car/)  
+
+---
+
+https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92.md#4-%E4%BF%A1%E4%BB%B6%E9%94%99%E6%8E%92
