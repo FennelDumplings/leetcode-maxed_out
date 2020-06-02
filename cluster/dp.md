@@ -113,6 +113,7 @@
 计数是组合数学的重要内容。不考虑用母函数等手段求解析解的化，计数问题一般有两种做法
 1. 找到组合数公式，然后用 DP 的方式求组合数  
 2. 找到递归关系，然后以 DP 的方式求这个递推关系，如果是线性递推关系，可以用矩阵快速幂加速
+
 以卡特兰数为例，
 1. 组合数公式: $C_{n} = \dbinom{2n}{n} - \dbinom{2n}{n - 1} = \frac{1}{n + 1}\dbinom{2n}{n} = \prod_{k=2}^{n}\frac{n + k}{k}$
 2. 递推式: $C_{n} = \sum_{i=0}^{N-1}C_{i}C_{n-i-1}$  
@@ -163,7 +164,7 @@
   
 #### 11、记忆化搜索  
 本质是 dfs + 记忆化，用在状态的转移方向不确定的情况  
-[329. 矩阵中的最长递增路径](https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix)    
+[329. 矩阵中的最长递增路径](https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix) 另：二维的剥洋葱DP，即先通过拓扑排序把顺序找到
 [576. 出界的路径数](https://leetcode-cn.com/problems/out-of-boundary-paths)    
   
   
