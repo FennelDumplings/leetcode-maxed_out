@@ -23,15 +23,15 @@
 - [712. 两个字符串的最小ASCII删除和](https://leetcode-cn.com/problems/minimum-ascii-delete-sum-for-two-strings/) LCS，len 和 ascii 各一个 dp    
 
 #### $1.2.2 字符串匹配系列  
-[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance)    
-[44. 通配符匹配](https://leetcode-cn.com/problems/wildcard-matching)    
-[10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching)    
+- [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance)    
+- [44. 通配符匹配](https://leetcode-cn.com/problems/wildcard-matching)    
+- [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching)    
   
 ### $1.3 单串 dp[i][k]，i 是位置，时间，高度等；k 是长度，个数，次数等，k 上可能有二分，贪心等  
 - [813. 最大平均值和的分组](https://leetcode-cn.com/problems/largest-sum-of-averages/) k 是个数
 - [887. 鸡蛋掉落](https://leetcode-cn.com/problems/super-egg-drop)  k 是次数，k 上有二分    
 
-#### $1.3.1 股票系列: dp[i][k][state] i 是时间，k 是次数
+#### $1.3.1 股票系列: dp[i][k][state] i 是时间，k 是次数，state 是状态机(在某一个位置或者时刻可以选择多种状态)
 - [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock)    
 - [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii)    
 - [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii)    
@@ -39,11 +39,16 @@
 - [309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown)    
 - [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee)    
   
-#### $1.4 矩阵 dp[i][j]  (i, j) 共同表示位置
-[120. 三角形最小路径和](https://leetcode-cn.com/problems/triangle)    
-[64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)  
-[174. 地下城游戏](https://leetcode-cn.com/problems/dungeon-game/)  
-[741. 摘樱桃](https://leetcode-cn.com/problems/cherry-pickup/)  
+### $1.4 矩阵 dp[i][j]  (i, j) 共同表示位置
+- [120. 三角形最小路径和](https://leetcode-cn.com/problems/triangle)    
+- [64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)  
+- [174. 地下城游戏](https://leetcode-cn.com/problems/dungeon-game/)  
+- [931. 下降路径最小和](https://leetcode-cn.com/problems/minimum-falling-path-sum/)
+#### 两个位置的情况 dp[位置1][位置2]
+原始方程是四维, dp[i1][j1][i2][j2], 如果有一个约束条件，可以 dp[i1][i2][k]
+- [741. 摘樱桃](https://leetcode-cn.com/problems/cherry-pickup/)  dp[i1][i2][k] k 为步数，另：流量为 2 的最大费用最大流，每个点拆成费用 i 和费用 0 的边
+- [1463. 摘樱桃 II](https://leetcode-cn.com/problems/cherry-pickup-ii/) dp[i1][i2][level] level 为层数
+
   
 ---
   
@@ -60,6 +65,7 @@
 [1039. 多边形三角剖分的最低得分](https://leetcode-cn.com/problems/minimum-score-triangulation-of-polygon)    
 [664. 奇怪的打印机](https://leetcode-cn.com/problems/strange-printer)    
 [312. 戳气球](https://leetcode-cn.com/problems/burst-balloons)    
+[1024. 视频拼接]
   
 #### 3、背包 DP  
 组合问题(求方案数)  
@@ -103,12 +109,17 @@
 [902. 最大为 N 的数字组合](https://leetcode-cn.com/problems/numbers-at-most-n-given-digit-set)    
 [1015. 可被 K 整除的最小整数](https://leetcode-cn.com/problems/smallest-integer-divisible-by-k)    
   
-#### 7、计数型 DP  
-计数型DP都可以以组合数学的方法写出组合数，然后dp求组合数  
+#### 7、计数问题  
+计数是组合数学的重要内容。不考虑用母函数等手段求解析解的化，计数问题一般有两种做法
+1. 找到组合数公式，然后用 DP 的方式求组合数  
+2. 找到递归关系，然后以 DP 的方式求这个递推关系，如果是线性递推关系，可以用矩阵快速幂加速
+以卡特兰数为例，
+1. 组合数公式: $C_{n} = \dbinom{2n}{n} - \dbinom{2n}{n - 1} = \frac{1}{n + 1}\dbinom{2n}{n} = \prod_{k=2}^{n}\frac{n + k}{k}$
+2. 递推式: $C_{n} = \sum_{i=0}^{N-1}C_{i}C_{n-i-1}$  
   
 路径问题(组合数学中的格路模型)：  
-[62. 不同路径](https://leetcode-cn.com/problems/unique-paths)    
-[63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii)    
+- [62. 不同路径](https://leetcode-cn.com/problems/unique-paths)    
+- [63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii)    
   
 卡特兰数：    
 - [96. 不同的二叉搜索树 (卡特兰数)](https://leetcode-cn.com/problems/unique-binary-search-trees)   
@@ -117,13 +128,15 @@
 铺砖问题：  
 - [790. 多米诺和托米诺平铺](https://leetcode-cn.com/problems/domino-and-tromino-tiling/)    
   
-#### 8、递推型 DP  
-所有线性递推关系都可以用矩阵快速幂做，可以O(logN)，最典型是斐波那契数列  
-[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs)    
-[509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number)    
-[935. 骑士拨号器](https://leetcode-cn.com/problems/knight-dialer)    
-[957. N 天后的牢房](https://leetcode-cn.com/problems/prison-cells-after-n-days)    
-[1137. 第 N 个泰波那契数](https://leetcode-cn.com/problems/n-th-tribonacci-number)    
+斐波那契：
+- [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs)    
+- [746. 使用最小花费爬楼梯](https://leetcode-cn.com/problems/min-cost-climbing-stairs/)
+- [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number)    
+- [1137. 第 N 个泰波那契数](https://leetcode-cn.com/problems/n-th-tribonacci-number)    
+
+隐晦的递推关系: 
+- [935. 骑士拨号器](https://leetcode-cn.com/problems/knight-dialer)    
+- [957. N 天后的牢房](https://leetcode-cn.com/problems/prison-cells-after-n-days)    
   
 #### 9、概率型 DP  
 求概率，求数学期望  
@@ -179,6 +192,7 @@
 #### 11、记忆化搜索  
 [139]  
 [140]  
+- [818. 赛车](https://leetcode-cn.com/problems/race-car/)    
 [894]  
 [1376]  
 [1387]  
@@ -186,7 +200,6 @@
 [913]  
 [131]  
 [410]  
-- [818. 赛车](https://leetcode-cn.com/problems/race-car/)    
   
 ---  
   
