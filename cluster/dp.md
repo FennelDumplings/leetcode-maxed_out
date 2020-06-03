@@ -44,6 +44,7 @@
 - [64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)  
 - [174. 地下城游戏](https://leetcode-cn.com/problems/dungeon-game/)  
 - [931. 下降路径最小和](https://leetcode-cn.com/problems/minimum-falling-path-sum/)
+- [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
 #### 两个位置的情况 dp[位置1][位置2]
 原始方程是四维, dp[i1][j1][i2][j2], 如果有一个约束条件，可以 dp[i1][i2][k]
 - [741. 摘樱桃](https://leetcode-cn.com/problems/cherry-pickup/)  dp[i1][i2][k] k 为步数，另：流量为 2 的最大费用最大流，每个点拆成费用 i 和费用 0 的边
