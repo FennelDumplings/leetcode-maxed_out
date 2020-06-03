@@ -27,9 +27,11 @@
 - [44. 通配符匹配](https://leetcode-cn.com/problems/wildcard-matching)    
 - [10. 正则表达式匹配](https://leetcode-cn.com/problems/regular-expression-matching)    
   
-### $1.3 单串 dp[i][k]，i 是位置，时间，高度等；k 是长度，个数，次数等，k 上可能有二分，贪心等  
+### $1.3 单串 dp[i][k]，i 是位置，时间，高度等；k 是长度，个数，次数，颜色等，k 上可能有二分，贪心等  
 - [813. 最大平均值和的分组](https://leetcode-cn.com/problems/largest-sum-of-averages/) k 是个数
 - [887. 鸡蛋掉落](https://leetcode-cn.com/problems/super-egg-drop)  k 是次数，k 上有二分    
+- [256. 粉刷房子](https://leetcode-cn.com/problems/paint-house/) k 是颜色
+- [265. 粉刷房子 II](https://leetcode-cn.com/problems/paint-house-ii/) k 是颜色
 
 #### $1.3.1 股票系列: dp[i][k][state] i 是时间，k 是次数，state 是状态机(在某一个位置或者时刻可以选择多种状态)
 - [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock)    
@@ -119,7 +121,7 @@
 1. 组合数公式: $C_{n} = \dbinom{2n}{n} - \dbinom{2n}{n - 1} = \frac{1}{n + 1}\dbinom{2n}{n} = \prod_{k=2}^{n}\frac{n + k}{k}$
 2. 递推式: $C_{n} = \sum_{i=0}^{N-1}C_{i}C_{n-i-1}$  
   
-路径问题(组合数学中的格路模型)：  
+路径问题(组合数学中的格路模型，每个格路模型都有一个等价的放球模型)：  
 - [62. 不同路径](https://leetcode-cn.com/problems/unique-paths)    
 - [63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii)    
   
@@ -139,11 +141,14 @@
 隐晦的递推关系: 
 - [935. 骑士拨号器](https://leetcode-cn.com/problems/knight-dialer)    
 - [957. N 天后的牢房](https://leetcode-cn.com/problems/prison-cells-after-n-days)    
+- [276. 栅栏涂色](https://leetcode-cn.com/problems/paint-fence/)  
   
 #### 9、概率型 DP  
 求概率，求数学期望  
 [808. 分汤](https://leetcode-cn.com/problems/soup-servings)    
 [837. 新21点](https://leetcode-cn.com/problems/new-21-game)    
+[688. “马”在棋盘上的概率](https://leetcode-cn.com/problems/knight-probability-in-chessboard/)
+[1467. 两个盒子中球的颜色数相同的概率](https://leetcode-cn.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/)
   
 #### 10、博弈型 DP  
 策梅洛定理，SG 定理，minimax  

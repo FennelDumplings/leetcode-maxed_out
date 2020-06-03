@@ -6,4 +6,5 @@
 [400. 第N个数字]
 
 [914. 卡牌分组](https://leetcode-cn.com/problems/x-of-a-kind-in-a-deck-of-cards/) 素数筛
+[204. 计数质数](https://leetcode-cn.com/problems/count-primes/) 素数筛
 [810. 黑板异或游戏]
