@@ -1,18 +1,25 @@
 ## 冗余链接
-684
-685
+[684. 冗余连接](https://leetcode-cn.com/problems/redundant-connection/)
+[685. 冗余连接 II](https://leetcode-cn.com/problems/redundant-connection-ii/)
 
-721
-734
-737
-839
-952
+[721. 账户合并](https://leetcode-cn.com/problems/accounts-merge/)
+[737. 句子相似性 II](https://leetcode-cn.com/problems/sentence-similarity-ii/)
+[839. 相似字符串组](https://leetcode-cn.com/problems/similar-string-groups/)
+[952. 按公因数计算最大组件大小](https://leetcode-cn.com/problems/largest-component-size-by-common-factor/)
+[128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
 959
-990
 
-## 矩阵上的并查集
+
+
+## 矩阵上的并查集(包括邻接矩阵)
 [778. 水位上升的泳池中游泳](https://leetcode-cn.com/problems/swim-in-rising-water/)
+[547. 朋友圈](https://leetcode-cn.com/problems/friend-circles/)  邻接矩阵
+[200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+[695. 岛屿的最大面积](https://leetcode-cn.com/problems/max-area-of-island/)
+[827. 最大人工岛](https://leetcode-cn.com/problems/making-a-large-island/)
 
 ## 带权并查集
 [1168. 水资源分配优化](https://leetcode-cn.com/problems/optimize-water-distribution-in-a-village/)
-399
+[399. 除法求值](https://leetcode-cn.com/problems/evaluate-division/)
+[952. 按公因数计算最大组件大小](https://leetcode-cn.com/problems/largest-component-size-by-common-factor/)  素数筛
+[990. 等式方程的可满足性](https://leetcode-cn.com/problems/satisfiability-of-equality-equations/)
