@@ -39,19 +39,11 @@
 
 using namespace std;
 
-using PII = pair<int, int>;
-
 struct Point
 {
     int id;
     int shortest_path; // 到 0 的最短距离
-    vector<PII> edges; // 连接 id 的边 <目标点，距离>
-    Point()
-    {
-        shortest_path = INT_MAX;
-        edges = vector<PII>();
-        id = -1;
-    }
+    Point(int id = -1, int shortest_path = 0):id(id),shortest_path(shortest_path){}
 };
 
 struct Cmp
@@ -65,41 +57,58 @@ struct Cmp
 class Solution {
 public:
     int reachableNodes(vector<vector<int>>& edges, int M, int N) {
-        vector<Point> g(N);
-        for(int i = 0; i < N; ++i)
-            g[i].id = i;
+        vector<vector<PII> > g(N);
         for(const vector<int>& ijk: edges)
         {
             int i = ijk[0], j = ijk[1], k = ijk[2];
-            g[i].edges.push_back(PII(j, k + 1));
-            g[j].edges.push_back(PII(i, k + 1));
+            g[i].push_back(PII(j, k + 1));
+            g[j].push_back(PII(i, k + 1));
         }
 
+        vector<int> d = dijkstra(g, 0);
+        for(int p: d)
+            cout << p << endl;
+
+        int result = 0;
+        for(int i: d)
+            if(i <= M)
+                ++result;
+        for(const vector<int>& edge: edges)
+        {
+            if(d[edge[0]] > M && d[edge[1]] > M)
+                continue;
+            else if(d[edge[0]] <= M && d[edge[1]] <= M)
+                result += min(edge[2], 2 * M - d[edge[0]] - d[edge[1]]);
+            else if(d[edge[0]] <= M)
+                result += min(edge[2], M - d[edge[0]]);
+            else
+                result += min(edge[2], M - d[edge[1]]);
+        }
+        return result;
+    }
+
+private:
+    using PII = pair<int, int>;
+    vector<int> dijkstra(const vector<vector<PII> >& g, int start)
+    {
+        int N = g.size();
         vector<bool> visited(N, false);
-        visited[0] = true;
-        g[0].shortest_path = 0;
+        vector<int> d(N, INT_MAX);
         priority_queue<Point, vector<Point>, Cmp> q;
-        q.push(g[0]);
-        int result = 1;
+        q.push(Point(start, 0));
         while(!q.empty())
         {
             Point cur = q.top();
             q.pop();
             if(visited[cur.id]) continue;
             visited[cur.id] = true;
-            for(PII edge: cur.edges)
+            d[cur.id] = cur.shortest_path;
+            for(PII edge: g[cur.id])
             {
-                int son = edge.first, len = edge.second;
-                if(cur.shortest_path + len <= M)
-                    result += len;
-                else
-                    result += M - cur.shortest_path;
-                g[son].shortest_path = cur.shortest_path + len;
-                if(g[son].shortest_path > M)
-                    continue;
-                q.push(g[son]);
+                int son_id = edge.first, len = edge.second;
+                q.push(Point(son_id, cur.shortest_path + len));
             }
         }
-        return result;
+        return d;
     }
 };

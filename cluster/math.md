@@ -10,3 +10,5 @@
 [810. 黑板异或游戏]
 
 [263. 丑数](https://leetcode-cn.com/problems/ugly-number/)  分解质因数
+
+[564. 寻找最近的回文数](https://leetcode-cn.com/problems/find-the-closest-palindrome/)

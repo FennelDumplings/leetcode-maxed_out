@@ -106,6 +106,9 @@
 [935. 骑士拨号器](https://leetcode-cn.com/problems/knight-dialer)    
 [1349. 参加考试的最大学生数](https://leetcode-cn.com/problems/maximum-students-taking-exam)    
 [1371. 每个元音包含偶数次的最长子字符串](https://leetcode-cn.com/problems/find-the-longest-substring-containing-vowels-in-even-counts/)    
+[847. 访问所有节点的最短路径](https://leetcode-cn.com/problems/shortest-path-visiting-all-nodes/) Floyd + 状态压缩DP 求最短哈密顿路
+[943. 最短超级串](https://leetcode-cn.com/problems/find-the-shortest-superstring/) 状态压缩DP + DP过程记录路径
+- [980. 不同路径 III](https://leetcode-cn.com/problems/unique-paths-iii/) 状态压缩DP+记忆化
   
 #### 6、数位 DP  
 [233. 数字 1 的个数](https://leetcode-cn.com/problems/number-of-digit-one)    
@@ -192,7 +195,6 @@
   
 #### 7、计数型 DP  
 计数型DP都可以以组合数学的方法写出组合数，然后dp求组合数  
-[980. 不同路径 III](https://leetcode-cn.com/problems/unique-paths-iii/)  
   
   
   
@@ -200,6 +202,7 @@
 [139]  
 [140]  
 - [818. 赛车](https://leetcode-cn.com/problems/race-car/)    
+- [980. 不同路径 III](https://leetcode-cn.com/problems/unique-paths-iii/) 状态压缩DP+记忆化
 [894]  
 [1376]  
 [1387]  

@@ -23,6 +23,7 @@
 [1268. 搜索推荐系统](https://leetcode-cn.com/problems/search-suggestions-system/solution/suo-tui-jian-xi-tong-by-leetcode-solution/) 字典树
 [745. 前缀和后缀搜索](https://leetcode-cn.com/problems/prefix-and-suffix-search/) 字典树
 [981. 基于时间的键值存储](https://leetcode-cn.com/problems/time-based-key-value-store/) 平衡树
+[635. 设计日志存储系统](https://leetcode-cn.com/problems/design-log-storage-system/)
 
 ## 迭代器
 [900. RLE 迭代器](https://leetcode-cn.com/problems/rle-iterator/) 游程编码

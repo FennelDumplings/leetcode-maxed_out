@@ -1,11 +1,17 @@
 
 ## 一些常见的办法
 #### 双端队列
+1368
 #### 优先级队列(dijkstra)
+778
 #### 多源BFS
+542, 1162
 #### 双向BFS
+126, 127, 752
 #### 状态压缩
+864
 #### 常数优化
+675
 #### Flood Fill
 #### Astar
 
@@ -17,8 +23,6 @@
 [127. 单词接龙](https://leetcode-cn.com/problems/word-ladder/) 不建图，双向BFS
 [752. 打开转盘锁](https://leetcode-cn.com/problems/open-the-lock/) 不建图，双向BFS(边稠密，收益极大)
 
-## 迷宫系列
-
 ## 矩阵系列(Flood Fill)
 [542. 01 矩阵](https://leetcode-cn.com/problems/01-matrix/) 多源 BFS
 [1162. 地图分析](https://leetcode-cn.com/problems/as-far-from-land-as-possible/) 多源 BFS
@@ -27,4 +31,7 @@
 [778. 水位上升的泳池中游泳](https://leetcode-cn.com/problems/swim-in-rising-water/) 优先级队列
 [864. 获取所有钥匙的最短路径](https://leetcode-cn.com/problems/shortest-path-to-get-all-keys/) 状态压缩
 [934. 最短的桥](https://leetcode-cn.com/problems/shortest-bridge/) DFS+BFS
+
+#### 迷宫系列
+
 

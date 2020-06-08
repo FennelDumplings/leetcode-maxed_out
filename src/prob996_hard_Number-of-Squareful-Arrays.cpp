@@ -50,6 +50,7 @@ public:
     }
 
 private:
+    // visited 有 dp 的意味
     void dfs(const vector<int>& A, int prev_idx, vector<bool>& visited, int& ans, int pos)
     {
         int n = visited.size();
