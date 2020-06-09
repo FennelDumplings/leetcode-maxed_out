@@ -69,6 +69,8 @@
 [664. 奇怪的打印机](https://leetcode-cn.com/problems/strange-printer)    
 [312. 戳气球](https://leetcode-cn.com/problems/burst-balloons)    
 [1024. 视频拼接]
+[549]
+[488]
   
 #### 3、背包 DP  
 组合问题(求方案数)  
@@ -210,6 +212,7 @@
 [913]  
 [131]  
 [410]  
+[688. “马”在棋盘上的概率](https://leetcode-cn.com/problems/knight-probability-in-chessboard/)
   
 ---  
   

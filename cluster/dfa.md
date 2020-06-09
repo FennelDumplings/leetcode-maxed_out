@@ -7,3 +7,5 @@ https://segmentfault.com/a/1190000021581680
 
 [393. UTF-8 编码验证](https://leetcode-cn.com/problems/utf-8-validation/)
 https://leetcode-cn.com/problems/utf-8-validation/solution/java-dfa-by-zdxiq125/
+
+[688. “马”在棋盘上的概率]
