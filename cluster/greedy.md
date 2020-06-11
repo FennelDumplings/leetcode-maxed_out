@@ -1,3 +1,4 @@
+[1167. 连接棒材的最低费用](https://leetcode-cn.com/problems/minimum-cost-to-connect-sticks/) 哈夫曼
 [1383]
 [1388] 类似网络流中的增广路做法
 

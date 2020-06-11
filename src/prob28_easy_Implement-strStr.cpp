@@ -207,32 +207,41 @@ class Solution_3 {
 public:
     // KMP 模板 可套用
     int strStr(string haystack, string needle) {
-        if(needle.size()==0) return 0;
-        vector<int> nxt(needle.size()+5);
+        if(needle.empty()) return 0;
+        int m = needle.size();
+        vector<int> nxt(m + 1);
         return kmp(haystack, needle, nxt);
     }
-    void getnext(string t, vector<int>& nxt) {
-        int n = t.size();
-        int i=0, k=-1;
-        nxt[0] = -1;
-        while(i<n) {
-            if(k==-1 || t[i]==t[k])
-                nxt[++i] = ++k;
-            else
-                k = nxt[k];
+
+    void getnext(const string p, vector<int>& nxt) {
+        int m = p.size();
+        for(int i = 1, j = 0; i < m; ++i)
+        {
+            while(j > 0 && p[i] != p[j])
+                j = nxt[j];
+            if(p[i] == p[j])
+                ++j;
+            nxt[i + 1] = j;
         }
     }
-    int kmp(string s, string t, vector<int>& nxt) {
-        int slen=s.size(), tlen=t.size();
-        int i=0, j=0;
-        getnext(t, nxt);
-        while(i<slen && j<tlen) {
-            if(j==-1 || s[i]==t[j])
-                i++, j++;
-            else
+
+    int match(const string& s, const string& p, const vector<int>& nxt)
+    {
+        int n = s.size(), m = p.size();
+        for(int i = 0, j = 0; i < n; ++i)
+        {
+            while(j > 0 && s[i] != p[j])
                 j = nxt[j];
+            if(s[i] == p[j])
+                ++j;
+            if(j == m)
+                return i - m + 1;
         }
-        if(j==tlen) return i-j;
         return -1;
+    }
+
+    int kmp(const string& s, const string& p, vector<int>& nxt) {
+        getnext(p, nxt);
+        return match(s, p, nxt);
     }
 };

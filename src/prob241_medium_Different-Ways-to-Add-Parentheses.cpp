@@ -34,83 +34,57 @@ using namespace std;
 class Solution {
 public:
     vector<int> diffWaysToCompute(string input) {
-        vector<int> nums;
-        vector<char> symbols;
-        vector<int> result;
+        vector<int> symbol_idxs;
         int n = input.size();
-        dfs(input, 0, nums, symbols, result, n);
-        return result;
+        for(int i = 0; i < n; ++i)
+        {
+            char ch = input[i];
+            if(ch == '+' || ch == '-' || ch == '*')
+                symbol_idxs.push_back(i);
+        }
+        return solve(input, 0, n - 1, symbol_idxs);
     }
 
 private:
-    void dfs(const string& input, int pos, vector<int>& nums, vector<char>& symbols, vector<int>& result, int n)
+    // 分治
+    vector<int> solve(const string& input, int left, int right, const vector<int>& symbol_idxs)
     {
-        if(pos == n)
+        // [left, right]
+        auto it_partition_left = lower_bound(symbol_idxs.begin(), symbol_idxs.end(), left);
+        if(it_partition_left == symbol_idxs.end() || right < *it_partition_left)
         {
-            int i = nums.size() - 1;
-            int j = symbols.size() - 1;
-            int tmp = nums[i];
-            --i;
-            while(j >= 0)
-            {
-                int x = nums[i];
-                --i;
-                if(symbols[j] == '*')
-                    tmp = tmp * x;
-                else if(symbols[j] == '+')
-                    tmp = tmp + x;
-                else
-                    tmp = x - tmp;
-                --j;
-            }
-            result.push_back(tmp);
-            return;
+            int num;
+            stringstream ss;
+            ss << input.substr(left, right - left + 1);
+            ss >> num;
+            return {num};
         }
 
-        if(input[pos] == '*')
+        vector<int> result_left, result_right;
+        vector<int> result;
+        auto it_partition_right = lower_bound(symbol_idxs.begin(), symbol_idxs.end(), right) - 1;
+        for(auto it = it_partition_left; it <= it_partition_right; ++it)
         {
-            symbols.push_back('*');
-            dfs(input, pos + 1, nums, symbols, result, n);
-            return;
+            int partition = *it;
+            result_left = solve(input, left, partition - 1, symbol_idxs);
+            result_right = solve(input, partition + 1, right, symbol_idxs);
+            for(int l: result_left)
+                for(int r: result_right)
+                {
+                    if(input[partition] == '+')
+                    {
+                        result.push_back(l + r);
+                    }
+                    else if(input[partition] == '-')
+                    {
+                        result.push_back(l - r);
+                    }
+                    else if(input[partition] == '*')
+                    {
+                        result.push_back(l * r);
+                    }
+                }
         }
-        if(input[pos] == '+')
-        {
-            symbols.push_back('+');
-            dfs(input, pos + 1, nums, symbols, result, n);
-            return;
-        }
-        if(input[pos] == '-')
-        {
-            symbols.push_back('-');
-            dfs(input, pos + 1, nums, symbols, result, n);
-            return;
-        }
-
-        int iter = pos;
-        while(iter < n &&  (input[iter] >= '0' && input[iter] <= '9'))
-            ++iter;
-        int cur;
-        stringstream ss;
-        ss << input.substr(pos, iter - pos);
-        ss >> cur;
-
-        nums.push_back(cur);
-        dfs(input, iter, nums, symbols, result, n);
-        nums.pop_back();
-
-        if(!symbols.empty())
-        {
-            int tmp = nums.back();
-            if(symbols.back() == '*')
-                tmp *= cur;
-            else if(symbols.back() == '-')
-                tmp -= cur;
-            else
-                tmp += cur;
-            nums[nums.size() - 1] = tmp;
-            symbols.pop_back();
-            dfs(input, iter, nums, symbols, result, n);
-        }
-
+        return result;
     }
 };

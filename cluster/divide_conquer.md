@@ -7,6 +7,8 @@
 2. 右子树最大子段和
 3. 左子树的最大后缀和 + 右子树的最大前缀和
 
+[241. 为运算表达式设计优先级](https://leetcode-cn.com/problems/different-ways-to-add-parentheses/)
+
 ## 基于快排的分治
 [4]
 

@@ -12,3 +12,5 @@
 [263. 丑数](https://leetcode-cn.com/problems/ugly-number/)  分解质因数
 
 [564. 寻找最近的回文数](https://leetcode-cn.com/problems/find-the-closest-palindrome/)
+[390. 消除游戏](https://leetcode-cn.com/problems/elimination-game/)
+[1250. 检查「好数组」](https://leetcode-cn.com/problems/check-if-it-is-a-good-array/) 裴蜀定理

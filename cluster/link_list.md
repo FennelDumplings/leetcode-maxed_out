@@ -10,6 +10,7 @@
 #### 抽象成链表找环问题
 [202. 快乐数](https://leetcode-cn.com/problems/happy-number/)
 [287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
+[481]
 
 ## 链表反转
 [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)

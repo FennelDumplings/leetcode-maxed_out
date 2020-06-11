@@ -1,7 +1,7 @@
 
 84
 42
-739
+[739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
 496
 901
 402

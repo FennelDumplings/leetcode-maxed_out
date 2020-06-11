@@ -1,7 +1,8 @@
 
-[1391. 检查网格中是否存在有效路径](https://leetcode-cn.com/problems/check-if-there-is-a-valid-path-in-a-grid/) 
-[247. 中心对称数 II](https://leetcode-cn.com/problems/strobogrammatic-numbr-ii/)
-[248. 中心对称数 III](https://leetcode-cn.com/problems/strobogrammatic-number-iii/)
+- [1391. 检查网格中是否存在有效路径](https://leetcode-cn.com/problems/check-if-there-is-a-valid-path-in-a-grid/) 
+- [247. 中心对称数 II](https://leetcode-cn.com/problems/strobogrammatic-numbr-ii/)
+- [248. 中心对称数 III](https://leetcode-cn.com/problems/strobogrammatic-number-iii/)
+- [301. 删除无效的括号](https://leetcode-cn.com/problems/remove-invalid-parentheses/)
 
 ## 经典问题
 #### 排列组合子集

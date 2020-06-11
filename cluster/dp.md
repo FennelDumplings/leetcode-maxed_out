@@ -154,6 +154,7 @@
 [837. 新21点](https://leetcode-cn.com/problems/new-21-game)    
 [688. “马”在棋盘上的概率](https://leetcode-cn.com/problems/knight-probability-in-chessboard/)
 [1467. 两个盒子中球的颜色数相同的概率](https://leetcode-cn.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/)
+[1227. 飞机座位分配概率]
   
 #### 10、博弈型 DP  
 策梅洛定理，SG 定理，minimax  

@@ -9,3 +9,6 @@
 ## 优化 dp
 [300. 最长上升子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)  
 [673. 最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/)  
+
+## 离散化
+[1331. 数组序号转换]()
