@@ -45,19 +45,27 @@ public:
         int n = inorder.size();
         for(int i = 0; i < n; ++i)
             mapping[inorder[i]] = i;
-        return build(preorder, 0, n - 1, mapping);
+        return build(preorder, 0, n - 1, 0, n - 1, mapping);
     }
 
 private:
-    TreeNode* build(const vector<int>& preorder, int left, int right, unordered_map<int, int>& mapping)
+    TreeNode* build(const vector<int>& preorder, int pre_left, int pre_right, int in_left, int in_right, unordered_map<int, int>& mapping)
     {
-        TreeNode *root = new TreeNode(preorder[left]);
-        if(left == right)
+        TreeNode *root = new TreeNode(preorder[pre_left]);
+        if(pre_left == pre_right)
             return root;
-        int idx = mapping[preorder[left]];
-        if(mapping[preorder[left + 1]] < idx)
-            root -> left = build(preorder, left + 1, idx, mapping);
-        root -> right = build(preorder, idx + 1, right, mapping);
+        // 有子树
+        int idx_root = mapping[preorder[pre_left]];
+        int len_left = idx_root - in_left;
+        int len_right =  in_right - idx_root;
+        if(len_left > 0)
+        {
+            root -> left = build(preorder, pre_left + 1, pre_left + len_left, in_left, idx_root - 1, mapping);
+        }
+        if(len_right > 0)
+        {
+            root -> right = build(preorder, pre_left + len_left + 1, pre_right, idx_root + 1, in_right, mapping);
+        }
         return root;
     }
 };

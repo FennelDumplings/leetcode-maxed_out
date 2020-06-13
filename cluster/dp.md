@@ -142,6 +142,7 @@
 - [746. 使用最小花费爬楼梯](https://leetcode-cn.com/problems/min-cost-climbing-stairs/)
 - [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number)    
 - [1137. 第 N 个泰波那契数](https://leetcode-cn.com/problems/n-th-tribonacci-number)    
+- [面试题10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
 隐晦的递推关系: 
 - [935. 骑士拨号器](https://leetcode-cn.com/problems/knight-dialer)    
