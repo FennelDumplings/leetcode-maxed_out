@@ -31,7 +31,7 @@ using namespace std;
 
 class Solution {
 public:
-    void getNext(const string& s, vector<int>& nxt) {
+    void get_mpnext(const string& s, vector<int>& nxt) {
         int n = s.size();
         for(int i = 1, j = 0; i < n; ++i)
         {
@@ -46,7 +46,7 @@ public:
     string longestPrefix(string s) {
         int n = s.size();
         vector<int> nxt(n + 1, 0);
-        getNext(s, nxt);
+        get_mpnext(s, nxt);
         int len = nxt.back();
         return s.substr(0, len);
     }

@@ -27,7 +27,7 @@ public:
         int m = s.size();
         string t = s + '#' + s;
         reverse(t.begin() + m + 1, t.end());
-        vector<int> nxt = next(t);
+        vector<int> nxt = get_mpnext(t);
         int n_add = s.size() - nxt.back();
         string result = s.substr(m - n_add);
         reverse(result.begin(), result.end());
@@ -36,7 +36,7 @@ public:
     }
 
 private:
-    vector<int> next(const string& p)
+    vector<int> get_mpnext(const string& p)
     {
         int m = p.size();
         vector<int> nxt(m + 1, 0);

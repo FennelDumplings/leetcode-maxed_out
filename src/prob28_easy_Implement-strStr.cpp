@@ -25,6 +25,7 @@
 #include <vector>
 #include <cmath>
 #include <climits>
+#include <unordered_map>
 
 using namespace std;
 
@@ -205,7 +206,7 @@ private:
 // 参考《算法4》
 class Solution_3 {
 public:
-    // KMP 模板 可套用
+    // MP 模板 可套用
     int strStr(string haystack, string needle) {
         if(needle.empty()) return 0;
         int m = needle.size();
@@ -245,3 +246,227 @@ public:
         return match(s, p, nxt);
     }
 };
+
+// MP 算法
+class Solution_4 {
+public:
+    int strStr(string haystack, string needle) {
+        if(needle.empty()) return 0;
+        vector<int> mpnext = get_mp_next(needle);
+        return mp_match(haystack, needle, mpnext);
+    }
+
+private:
+    int mp_match(const string& s, const string& p, const vector<int>& mpnext)
+    {
+        int n = s.size(), m = p.size();
+        for(int i = 0, j = 0; i < n; ++i)
+        {
+            while(j > -1 && s[i] != p[j])
+                j = mpnext[j];
+            ++j;
+            if(j == m)
+                return i - m + 1;
+        }
+        return -1;
+    }
+
+    vector<int> get_mp_next(const string& p)
+    {
+        int m = p.size();
+        vector<int> mpnext(m + 1, -1);
+        for(int i = 0, j = -1; i < m; ++i)
+        {
+            while(j > -1 && p[i] != p[j])
+                j = mpnext[j];
+            // j == -1 或 p[i] == p[j]
+            ++j;
+            mpnext[i + 1] = j;
+        }
+        return mpnext;
+    }
+};
+
+// KMP
+class Solution_5 {
+public:
+    int strStr(string haystack, string needle) {
+        if(needle.empty()) return 0;
+        vector<int> kmpnext = get_kmp_next(needle);
+        return kmp_match(haystack, needle, kmpnext);
+    }
+
+private:
+    int kmp_match(const string& s, const string& p, const vector<int>& kmpnext)
+    {
+        int n = s.size(), m = p.size();
+        for(int i = 0, j = 0; i < n; ++i)
+        {
+            while(j > -1 && s[i] != p[j])
+                j = kmpnext[j];
+            ++j;
+            if(j == m)
+                return i - m + 1;
+        }
+        return -1;
+    }
+
+    vector<int> get_kmp_next(const string& p)
+    {
+        int m = p.size();
+        vector<int> kmpnext(m + 1, -1);
+        for(int i = 0, j = -1; i < m; ++i)
+        {
+            while(j > -1 && p[i] != p[j])
+                j = kmpnext[j];
+            // j == -1 或 p[i] == p[j]
+            ++j;
+            if(p[i + 1] == p[j])
+                kmpnext[i + 1] = kmpnext[j];
+            else
+                kmpnext[i + 1] = j;
+        }
+        return kmpnext;
+    }
+};
+
+// BM
+class Solution_6 {
+public:
+    int strStr(string haystack, string needle) {
+        if(needle.empty()) return 0;
+        unordered_map<char, int> bmbc;
+        get_bmbc(haystack, needle, bmbc);
+        vector<int> bmgs = get_bmgs(needle);
+        return bm_match(haystack, needle, bmbc, bmgs);
+    }
+
+    int bm_match(const string& s, const string& p, unordered_map<char, int>& bmbc, const vector<int>& bmgs)
+    {
+        int n = s.size(), m = p.size();
+        int i = 0;
+        while (i <= n - m)
+        {
+            int j = m - 1;
+            while(j >= 0 && p[j] == s[i + j])
+                --j;
+            if(j < 0)
+            {
+                return i;
+                // i += bmgs[0]; // 找到完整匹配后仍继续往后找下一个完整匹配
+            }
+            else
+               i += max(bmgs[j], bmbc[s[i + j]] - m + 1 + j);
+        }
+        return -1;
+    }
+
+    void get_bmbc(const string& s, const string& p, unordered_map<char, int>& bmbc)
+    {
+        int m = p.size();
+        for(const char& ch: s)
+            if(bmbc.find(ch) == bmbc.end())
+                bmbc[ch] = m;
+        for(int j = 1; j < m; ++j)
+        {
+            if(bmbc[p[m - 1 - j]] != m)
+                continue;
+            bmbc[p[m - 1 - j]] = j;
+        }
+    }
+
+    vector<int> get_bmgs(const string& p)
+    {
+        // 若一个字符同时符合上述两种情况，那么我们选取最小的bmGs[j]。
+        // 比如当模式传中既有子串可以匹配上好后串，又有前缀可以匹配好后串的后串，
+        // 那么此时我们应该按照前者来移动模式串，也就是bmGs[j]较小的那种情况。
+        // 故而每次修改bmGs[j]都应该使其变小
+        // 因此代码中 1,2,3 的顺序是必要的
+        int m = p.size();
+        vector<int> bmgs(m, 0);
+        vector<int> suffix(m, 0);
+        get_suff(p, suffix); // suffix[j] := 以 j 为结尾的子串匹配好后缀的最长匹配长度
+        // 1. 没有好后缀 没有公共前缀
+        for(int j = 0; j < m; ++j)
+            bmgs[j] = m;
+        // 2. 没有好后缀 有公共前缀 调用 suffix 但是要右移一位 类似KMP里的next数组
+        int j = 0;
+        for(int i = m - 1; i >= 0; --i)
+            if(suffix[i] == i + 1)
+                for(; j < m - 1 - i; ++j)
+                    if(bmgs[j] == m) //保证每个位置不会重复修改
+                        bmgs[j] = m - 1 - i;
+        // 3. 有好后缀 有公共前缀
+        for(int i = 0; i < m - 1; ++i)
+            bmgs[m - 1 - suffix[i]] = m - 1 - i; //移动距离
+        return bmgs;
+    }
+
+    void get_suff(const string& p, vector<int>& suffix)
+    {
+        // 为了实现好后缀规则，需要定义一个数组suffix，其中suffix[j] = s 表示以 j 为右边界，
+        // 与模式串后缀匹配的最大长度，
+        // 即满足p[j-s..j] == P[m-1-s..m-1] 的最大长度 s。
+        int m = p.size();
+        suffix[m - 1] = m;
+        int k;
+        for(int j = m - 2; j >= 0; --j)
+        {
+            k = j;
+            // k = j - s;
+            while(k >= 0 && p[k] == p[m - 1 - j + k])
+                --k;
+            suffix[j] = j - k;
+        }
+    }
+};
+
+// Sunday
+class Solution_7 {
+public:
+    int strStr(string haystack, string needle) {
+        if(needle.empty()) return 0;
+        unordered_map<char, int> shift;
+        get_shift(haystack, needle, shift);
+        return sunday_match(haystack, needle, shift);
+    }
+
+    int sunday_match(const string& s, const string& p, unordered_map<char, int>& shift)
+    {
+        int n = s.size(), m = p.size();
+        int i = 0;
+        while (i <= n - m)
+        {
+            int j = m - 1;
+            while(j >= 0 && p[j] == s[i + j])
+                --j;
+            if(j < 0)
+                return i;
+            else
+            {
+                if(i + m >= n)
+                    return -1;
+                i += shift[s[i + m]];
+            }
+        }
+        return -1;
+    }
+
+    void get_shift(const string& s, const string& p, unordered_map<char, int>& shift)
+    {
+        int m = p.size();
+        for(const char& ch: s)
+            if(shift.find(ch) == shift.end())
+                shift[ch] = m + 1;
+        for(const char& ch: p)
+            if(shift.find(ch) == shift.end())
+                shift[ch] = m + 1;
+        for(int j = 0; j < m; ++j)
+        {
+            if(shift[p[m - 1 - j]] != m + 1)
+                continue;
+            shift[p[m - 1 - j]] = j + 1;
+        }
+    }
+};
+
