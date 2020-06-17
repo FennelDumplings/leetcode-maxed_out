@@ -26,6 +26,7 @@
 - [385. 迷你语法分析器](https://leetcode-cn.com/problems/mini-parser/)
 - [736. Lisp 语法解析](https://leetcode-cn.com/problems/parse-lisp-expression/)
 - [722. 删除注释](https://leetcode-cn.com/problems/remove-comments/)
+- [254. 因子的组合](https://leetcode-cn.com/problems/factor-combinations/)
 
 # 字符串解析
 - [394. 字符串解码](https://leetcode-cn.com/problems/number-of-atoms/)

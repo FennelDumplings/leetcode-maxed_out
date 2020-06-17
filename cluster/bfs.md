@@ -34,4 +34,7 @@
 
 #### 迷宫系列
 
+## 图
+[1311. 获取你好友已观看的视频](https://leetcode-cn.com/problems/get-watched-videos-by-your-friends/) 
+
 

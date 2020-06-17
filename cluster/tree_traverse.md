@@ -136,9 +136,12 @@ N 叉树是指每个节点最多可以有 N 个子节点的树形结构。实现
 [623]
 
 ## 9. 最近公共祖先
-[1257.最小公共区域] 
-[235]
-[236]
+[1257. 最小公共区域](https://leetcode-cn.com/problems/smallest-common-region/)
+[235. 二叉搜索树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)
+[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+[1123. 最深叶节点的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-deepest-leaves/)
+[面试题 04.08. 首个共同祖先](https://leetcode-cn.com/problems/first-common-ancestor-lcci/)
+[1483. 树节点的第 K 个祖先](https://leetcode-cn.com/problems/kth-ancestor-of-a-tree-node/) 倍增法求LCA, DFS序
 
 ## 10. 四叉树
 
@@ -155,4 +158,4 @@ N 叉树是指每个节点最多可以有 N 个子节点的树形结构。实现
 ## 13. 邻接表形式的树
 [1245]
 [834] 与子节点和父节点均有关系，后序接前序
-
+[1443. 收集树上所有苹果的最少时间](https://leetcode-cn.com/problems/minimum-time-to-collect-all-apples-in-a-tree/)

@@ -28,4 +28,6 @@
 [698. 划分为k个相等的子集](https://leetcode-cn.com/problems/partition-to-k-equal-sum-subsets/) 可以对状态压缩后的整数做记忆化
 
 ## 记忆化
+[面试题 16.11. 跳水板](https://leetcode-cn.com/problems/diving-board-lcci/)
+[面试题 17.13. 恢复空格](https://leetcode-cn.com/problems/re-space-lcci/)
 

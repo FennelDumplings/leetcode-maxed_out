@@ -34,25 +34,24 @@
 
 
 - 前缀异或
-[1442. 形成两个异或相等数组的三元组数目](https://leetcode-cn.com/problems/count-triplets-that-can-form-two-arrays-of-equal-xor/)  
-[1310. 子数组异或查询](https://leetcode-cn.com/problems/xor-queries-of-a-subarray/)
+[1310. 子数组异或查询](https://leetcode-cn.com/problems/xor-queries-of-a-subarray/)  
+[1442. 形成两个异或相等数组的三元组数目](https://leetcode-cn.com/problems/count-triplets-that-can-form-two-arrays-of-equal-xor/) 哈希表维护前缀异或结果，类似 560
 
 
 - 前缀和(积)与后缀和(积)均需要
-[724. 寻找数组的中心索引](https://leetcode-cn.com/problems/find-pivot-index/)  
 [238. 除自身以外数组的乘积](https://leetcode-cn.com/problems/product-of-array-except-self/)  
+[724. 寻找数组的中心索引](https://leetcode-cn.com/problems/find-pivot-index/)  
+[1477. 找两个和为目标值且不重叠的子数组](https://leetcode-cn.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum/) 前缀和后缀和分别推一次，推的时候保存信息(DP)，枚举分割点
 
 
 ## $4 前缀和维护 dp 数组
 [837. 新21点](https://leetcode-cn.com/problems/new-21-game/)  
+[1444. 切披萨的方案数](https://leetcode-cn.com/problems/number-of-ways-of-cutting-a-pizza/) 二维前缀和来判断有没有切下苹果
 
 ## $5 其它
 [1381. 设计一个支持增量操作的栈](https://leetcode-cn.com/problems/design-a-stack-with-increment-operation/)  
 
+## $6 差分
+[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/) 更好的做法是排序后贪心或者扫描线
+[370. 区间加法](https://leetcode-cn.com/problems/insert-interval/) 用差分维护区间加法模板  
 
-
----
-
-## 差分
-[370. 区间加法](https://leetcode-cn.com/problems/insert-interval/) 差分  
-[1180. 统计只含单一字母的子串](https://leetcode-cn.com/problems/count-substrings-with-only-one-distinct-letter/)  

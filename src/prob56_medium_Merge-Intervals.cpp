@@ -75,3 +75,49 @@ private:
         return interval1[0] < interval2[0];
     }
 };
+
+
+// 扫描线
+struct Event
+{
+    int idx;
+    int kind; // 0: 左端点，1: 右端点
+    Event(int idx, int kind):idx(idx),kind(kind){}
+};
+
+struct Cmp
+{
+    bool operator()(const Event& e1, const Event& e2) const
+    {
+        if(e1.idx == e2.idx)
+            return e1.kind < e2.kind;
+        return e1.idx < e2.idx;
+    }
+};
+
+class Solution_6 {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        vector<Event> events;
+        for(const vector<int>& interval: intervals)
+        {
+            events.push_back(Event(interval[0], 0));
+            events.push_back(Event(interval[1], 1));
+        }
+        sort(events.begin(), events.end(), Cmp());
+        vector<vector<int>> result;
+        int sum = 0;
+        for(const Event& e: events)
+        {
+            if(sum == 0)
+                result.push_back({e.idx, -1});
+            if(e.kind == 0)
+                ++sum;
+            else
+                --sum;
+            if(sum == 0)
+                result.back()[1] = e.idx;
+        }
+        return result;
+    }
+};

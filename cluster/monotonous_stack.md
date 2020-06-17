@@ -8,6 +8,7 @@
 581
 962
 1124
+[1475. 商品折扣后的最终价格](https://leetcode-cn.com/problems/final-prices-with-a-special-discount-in-a-shop/)
 
 ## 接雨水系列
 11

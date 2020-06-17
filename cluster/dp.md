@@ -32,6 +32,7 @@
 - [887. 鸡蛋掉落](https://leetcode-cn.com/problems/super-egg-drop)  k 是次数，k 上有二分    
 - [256. 粉刷房子](https://leetcode-cn.com/problems/paint-house/) k 是颜色
 - [265. 粉刷房子 II](https://leetcode-cn.com/problems/paint-house-ii/) k 是颜色
+- [1478. 安排邮筒](https://leetcode-cn.com/problems/allocate-mailboxes/) k 是个数, 前缀和维护状态转移时的查询
 
 #### $1.3.1 股票系列: dp[i][k][state] i 是时间，k 是次数，state 是状态机(在某一个位置或者时刻可以选择多种状态)
 - [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock)    
@@ -52,6 +53,9 @@
 - [741. 摘樱桃](https://leetcode-cn.com/problems/cherry-pickup/)  dp[i1][i2][k] k 为步数，另：流量为 2 的最大费用最大流，每个点拆成费用 i 和费用 0 的边
 - [1463. 摘樱桃 II](https://leetcode-cn.com/problems/cherry-pickup-ii/) dp[i1][i2][level] level 为层数
 
+### $1.5 矩阵 dp[i][j][k], (i, j) 为位置，k 为次数，长度等指标
+- [1444. 切披萨的方案数](https://leetcode-cn.com/problems/number-of-ways-of-cutting-a-pizza/) 需要二维前缀和判断两个状态之间能否转移
+
   
 ---
   
@@ -64,6 +68,7 @@
   
 #### 2、区间 DP  
 [516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence)    
+[1312. 让字符串成为回文串的最少插入次数](https://leetcode-cn.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/) 最长回文子序列
 [730. 统计不同回文子字符串](https://leetcode-cn.com/problems/count-different-palindromic-subsequences)    
 [1039. 多边形三角剖分的最低得分](https://leetcode-cn.com/problems/minimum-score-triangulation-of-polygon)    
 [664. 奇怪的打印机](https://leetcode-cn.com/problems/strange-printer)    
