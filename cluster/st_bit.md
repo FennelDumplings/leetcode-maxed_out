@@ -1,7 +1,14 @@
+## 分治参考
+
 ## 线段树和树状数组
 [307. 区域和检索 - 数组可修改](https://leetcode-cn.com/problems/range-sum-query-mutable/)
-[308] 单点修改，区间查询
 [1476. 子矩形查询](https://leetcode-cn.com/problems/subrectangle-queries/) 区间修改+单点查询
+
+#### 二维
+- [308. 二维区域和检索 - 可变](https://leetcode-cn.com/problems/range-sum-query-2d-mutable/) 单点修改，区间查询
+- [427. 建立四叉树](https://leetcode-cn.com/problems/construct-quad-tree/)
+- [558. 四叉树交集](https://leetcode-cn.com/problems/logical-or-of-two-binary-grids-represented-as-quad-trees/)
+- [1274. 矩形内船只的数目](https://leetcode-cn.com/problems/number-of-ships-in-a-rectangle/) 二分分治-类似 KD 树的搜索; 四分分治-四叉树搜索
 
 ## 权值线段树和权值树状数组
 [218]

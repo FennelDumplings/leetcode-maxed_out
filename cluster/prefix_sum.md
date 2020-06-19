@@ -31,6 +31,7 @@
 - 前缀积
 [152. 乘积最大子数组](https://leetcode-cn.com/problems/maximum-product-subarray/)  
 [713. 乘积小于K的子数组](https://leetcode-cn.com/problems/subarray-product-less-than-k/)  
+[1352. 最后 K 个数的乘积](https://leetcode-cn.com/problems/product-of-the-last-k-numbers/) log 的前缀和防溢出
 
 
 - 前缀异或

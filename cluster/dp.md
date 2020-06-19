@@ -37,6 +37,7 @@
 - [256. 粉刷房子](https://leetcode-cn.com/problems/paint-house/) k 是颜色
 - [265. 粉刷房子 II](https://leetcode-cn.com/problems/paint-house-ii/) k 是颜色
 - [1478. 安排邮筒](https://leetcode-cn.com/problems/allocate-mailboxes/) k 是个数, 前缀和维护状态转移时的查询
+- [1230. 抛掷硬币](https://leetcode-cn.com/problems/toss-strange-coins/) k 是个数
 
 #### $1.3.1 股票系列: dp[i][k][state] i 是时间，k 是次数，state 是状态机(在某一个位置或者时刻可以选择多种状态)
 - [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock)    
@@ -112,7 +113,12 @@
 [333. 最大 BST 子树](https://leetcode-cn.com/problems/largest-bst-subtree)    
 [337. 打家劫舍 III](https://leetcode-cn.com/problems/house-robber-iii)    
 [1372. 二叉树中的最长交错路径](https://leetcode-cn.com/problems/longest-zigzag-path-in-a-binary-tree/)    
-  
+- [1273. 删除树节点](https://leetcode-cn.com/problems/delete-tree-nodes/)  
+dp[i] := 节点 i 去掉和为 0 的子树后的子树节点数  
+sum[i] := 表示节点i的子树和  
+dp[i] = dp[i.left] + dp[i.right] + 1  
+sum[i] = sum[i.left] + sum[i.right] + val(i);  
+
 #### 5、状态压缩 DP  
 [464. 我能赢吗](https://leetcode-cn.com/problems/can-i-win)    
 [526. 优美的排列](https://leetcode-cn.com/problems/beautiful-arrangement)    
@@ -165,6 +171,7 @@
 [808. 分汤](https://leetcode-cn.com/problems/soup-servings)    
 [837. 新21点](https://leetcode-cn.com/problems/new-21-game)    
 [688. “马”在棋盘上的概率](https://leetcode-cn.com/problems/knight-probability-in-chessboard/)
+- [1230. 抛掷硬币](https://leetcode-cn.com/problems/toss-strange-coins/) k 是个数
 [1467. 两个盒子中球的颜色数相同的概率](https://leetcode-cn.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/)
 [1227. 飞机座位分配概率]
   

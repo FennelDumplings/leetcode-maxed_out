@@ -23,9 +23,22 @@
  * 0 <= arr[i] <= 10^5
  */
 
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
     int missingNumber(vector<int>& arr) {
-
+        int n = arr.size();
+        int d = (arr.back() - arr.front()) / n;
+        int iter = arr[0];
+        for(int i = 1; i < n - 1; ++i)
+        {
+            iter += d;
+            if(iter != arr[i])
+                return iter;
+        }
+        return iter + d;
     }
 };

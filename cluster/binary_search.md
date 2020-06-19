@@ -11,6 +11,7 @@
 [778. 水位上升的泳池中游泳](https://leetcode-cn.com/problems/swim-in-rising-water/) 二分 + DFS
 [410. 分割数组的最大值](https://leetcode-cn.com/problems/split-array-largest-sum/) 二分 + 贪心
 [875. 爱吃香蕉的珂珂](https://leetcode-cn.com/problems/koko-eating-bananas/) 
+[1231. 分享巧克力](https://leetcode-cn.com/problems/divide-chocolate/) 二分 + 贪心
 [1482. 制作 m 束花所需的最少天数](https://leetcode-cn.com/problems/minimum-number-of-days-to-make-m-bouquets/) 二分 + 贪心
 
 #### 求第 k 个问题

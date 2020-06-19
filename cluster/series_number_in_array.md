@@ -4,6 +4,8 @@
 #### 数字缺失
 [268. 缺失数字]
 [41. 缺失的第一个正数]
+[1228. 等差数列中缺失的数字](https://leetcode-cn.com/problems/missing-number-in-arithmetic-progression/)
+
 
 #### 数字出现一次
 [136. 只出现一次的数字]

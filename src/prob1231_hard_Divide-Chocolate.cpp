@@ -22,9 +22,52 @@
  * Explanation: You can divide the chocolate to [1,2,2], [1,2,2], [1,2,2]
  */
 
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
     int maximizeSweetness(vector<int>& sweetness, int K) {
+        int n = sweetness.size();
+        int minx = sweetness[0], sum = sweetness[0];
+        for(int i = 1; i < n; ++i)
+        {
+            sum += sweetness[i];
+            minx = min(minx, sweetness[i]);
+        }
+        int left = minx, right = sum;
+        while(left < right)
+        {
+            int mid = (left + right + 1) / 2;
+            int cnt = cut(sweetness, mid);
+            if(cnt >= K + 1)
+                left = mid;
+            else
+                right = mid - 1;
+        }
+        return left;
+    }
 
+private:
+    int cut(const vector<int>& sweetness, int x)
+    {
+        int n = sweetness.size();
+        int left = 0;
+        int cnt = 0;
+        while(left < n)
+        {
+            int right = left;
+            int sum = 0;
+            while(right < n && sum < x)
+            {
+                sum += sweetness[right];
+                ++right;
+            }
+            if(sum >= x)
+                ++cnt;
+            left = right;
+        }
+        return cnt;
     }
 };

@@ -15,26 +15,22 @@
 - [757.  设置交集大小至少为2](https://leetcode-cn.com/problems/set-intersection-size-at-least-two/) 平衡树上维护贪心
 - [616. 给字符串添加加粗标签](https://leetcode-cn.com/problems/add-bold-tag-in-string/),[758. 字符串中的加粗单词](https://leetcode-cn.com/problems/bold-words-in-string/)  枚举单词而非区间，找到所有满足条件区间(kmp求所有匹配位置)，然后区间合并
 - [763. 划分字母区间](https://leetcode-cn.com/problems/partition-labels/) 先生成区间，再区间合并
+- [1353. 最多可以参加的会议数目](https://leetcode-cn.com/problems/maximum-number-of-events-that-can-be-attended/) 在堆上维护贪心，枚举左端点范围，把对应的区间倒进堆里
 
 # 平衡树
 - [352. 将数据流变为多个不相交区间](https://leetcode-cn.com/problems/data-stream-as-disjoint-intervals/) 平衡树
 - [436. 寻找右区间](https://leetcode-cn.com/problems/find-right-interval/) 平衡树
 - [715. Range 模块](https://leetcode-cn.com/problems/range-module/) 平衡树
+- [1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/) 平衡树，顺序遍历树中的区间时，隐含了扫描线的思想
 
 # 扫描线
 - [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 - [218. 天际线问题](https://leetcode-cn.com/problems/the-skyline-problem/)
 - [391. 完美矩形](https://leetcode-cn.com/problems/perfect-rectangle/)
-- [759. 员工空闲时间](https://leetcode-cn.com/problems/employee-free-time/) 扫描线
+- [759. 员工空闲时间](https://leetcode-cn.com/problems/employee-free-time/) 
 - [850. 矩形面积 II](https://leetcode-cn.com/problems/rectangle-area-ii/)
-- [1094. 拼车](https://leetcode-cn.com/problems/car-pooling/) 扫描线
-- [1229. 安排会议日程](https://leetcode-cn.com/problems/meeting-scheduler/)
-- [1272. 删除区间](https://leetcode-cn.com/problems/remove-interval/)
+- [1094. 拼车](https://leetcode-cn.com/problems/car-pooling/) 
+- [1229. 安排会议日程](https://leetcode-cn.com/problems/meeting-scheduler/) 
+- [1272. 删除区间](https://leetcode-cn.com/problems/remove-interval/) 
 - [1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/)
 
----
-
-[1229. 安排会议日程](https://leetcode-cn.com/problems/meeting-scheduler/)
-[1272. 删除区间](https://leetcode-cn.com/problems/remove-interval/)
-[1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/)
-[1353. 最多可以参加的会议数目](https://leetcode-cn.com/problems/maximum-number-of-events-that-can-be-attended/)
