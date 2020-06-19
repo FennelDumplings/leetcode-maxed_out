@@ -60,6 +60,7 @@ N 叉树是指每个节点最多可以有 N 个子节点的树形结构。实现
 [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)  
 [449. 字符串的编码与解码](https://leetcode-cn.com/problems/serialize-and-deserialize-bst/)  
 [428. 序列化和反序列化 N 叉树](https://leetcode-cn.com/problems/serialize-and-deserialize-n-ary-tree/)  
+[1028. 从先序遍历还原二叉树](https://leetcode-cn.com/problems/recover-a-tree-from-preorder-traversal/) 迭代法
 [606]
 [536]
 [652]

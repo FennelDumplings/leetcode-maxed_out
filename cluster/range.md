@@ -5,7 +5,7 @@
 - [986. 区间列表的交集](https://leetcode-cn.com/problems/count-of-range-sum/)
 
 # 贪心
-- [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/) 贪心排序，扫描线
+- [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/) 区间合并组件，贪心排序，扫描线
 - [57. 插入区间](https://leetcode-cn.com/problems/insert-interval/) 贪心排序，区间合并
 - [252. 会议室](https://leetcode-cn.com/problems/meeting-rooms/) 贪心排序
 - [253. 会议室 II](https://leetcode-cn.com/problems/meeting-rooms-ii/) 贪心排序，扫描线
@@ -14,6 +14,7 @@
 - [495. 提莫攻击](https://leetcode-cn.com/problems/teemo-attacking/)
 - [757.  设置交集大小至少为2](https://leetcode-cn.com/problems/set-intersection-size-at-least-two/) 平衡树上维护贪心
 - [616. 给字符串添加加粗标签](https://leetcode-cn.com/problems/add-bold-tag-in-string/),[758. 字符串中的加粗单词](https://leetcode-cn.com/problems/bold-words-in-string/)  枚举单词而非区间，找到所有满足条件区间(kmp求所有匹配位置)，然后区间合并
+- [763. 划分字母区间](https://leetcode-cn.com/problems/partition-labels/) 先生成区间，再区间合并
 
 # 平衡树
 - [352. 将数据流变为多个不相交区间](https://leetcode-cn.com/problems/data-stream-as-disjoint-intervals/) 平衡树
@@ -24,20 +25,15 @@
 - [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 - [218. 天际线问题](https://leetcode-cn.com/problems/the-skyline-problem/)
 - [391. 完美矩形](https://leetcode-cn.com/problems/perfect-rectangle/)
+- [759. 员工空闲时间](https://leetcode-cn.com/problems/employee-free-time/) 扫描线
 - [850. 矩形面积 II](https://leetcode-cn.com/problems/rectangle-area-ii/)
+- [1094. 拼车](https://leetcode-cn.com/problems/car-pooling/) 扫描线
 - [1229. 安排会议日程](https://leetcode-cn.com/problems/meeting-scheduler/)
 - [1272. 删除区间](https://leetcode-cn.com/problems/remove-interval/)
 - [1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/)
 
 ---
 
-[759. 员工空闲时间]
-
-[763. 划分字母区间]
-
----
-
-[1094. 拼车]
 [1229. 安排会议日程](https://leetcode-cn.com/problems/meeting-scheduler/)
 [1272. 删除区间](https://leetcode-cn.com/problems/remove-interval/)
 [1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/)

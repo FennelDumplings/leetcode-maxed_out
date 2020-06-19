@@ -17,6 +17,10 @@
 - [740. 删除与获得点数](https://leetcode-cn.com/problems/delete-and-earn/) 在 cnt 数组上的打家劫舍    
 - [1388. 3n 块披萨](https://leetcode-cn.com/problems/pizza-with-3n-slices/) 抽象成环形数组上的打家劫舍    
 
+#### $1.1.4 变形,需要两个位置的情况: dp[i][j] 以 j, i 结尾
+[873. 最长的斐波那契子序列的长度](https://leetcode-cn.com/problems/length-of-longest-fibonacci-subsequence/) dp[i][j]:= 以 j, i 结尾，转移时在 [0..j] 中找满足条件的 k 这一步可以二分或哈希表
+[1027. 最长等差数列](https://leetcode-cn.com/problems/longest-arithmetic-sequence/) dp[i][j]:= 以 j, i 结尾，转移时在 [0..j] 中找满足条件的 k 这一步用哈希表，键为数组值，值为保存下标的平衡树
+
 ### $1.2 双串 dp[i][j], i 是第一串的时间，位置；j 是第二串的时间，位置
 #### $1.2.1 最经典双串 LCS 系列：  
 - [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence)    
@@ -48,7 +52,8 @@
 - [174. 地下城游戏](https://leetcode-cn.com/problems/dungeon-game/)  
 - [931. 下降路径最小和](https://leetcode-cn.com/problems/minimum-falling-path-sum/)
 - [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
-#### 两个位置的情况 dp[位置1][位置2]
+
+#### 变形:两个位置的情况 dp[位置1][位置2]
 原始方程是四维, dp[i1][j1][i2][j2], 如果有一个约束条件，可以 dp[i1][i2][k]
 - [741. 摘樱桃](https://leetcode-cn.com/problems/cherry-pickup/)  dp[i1][i2][k] k 为步数，另：流量为 2 的最大费用最大流，每个点拆成费用 i 和费用 0 的边
 - [1463. 摘樱桃 II](https://leetcode-cn.com/problems/cherry-pickup-ii/) dp[i1][i2][level] level 为层数
@@ -64,6 +69,7 @@
 [97. 交错字符串](https://leetcode-cn.com/problems/interleaving-string/)  
 [115. 不同的子序列](https://leetcode-cn.com/problems/distinct-subsequences/)  
 [727. 最小窗口子序列](https://leetcode-cn.com/problems/minimum-window-subsequence/)  
+
   
   
 #### 2、区间 DP  
@@ -210,7 +216,7 @@
 #### 11、记忆化搜索  
 [139]  
 [140]  
-- [818. 赛车](https://leetcode-cn.com/problems/race-car/)    
+- [818. 赛车](https://leetcode-cn.com/problems/race-car/) 单串 dp[i]
 - [980. 不同路径 III](https://leetcode-cn.com/problems/unique-paths-iii/) 状态压缩DP+记忆化
 [894]  
 [1376]  
