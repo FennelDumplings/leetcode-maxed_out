@@ -17,3 +17,7 @@
 [390. 消除游戏](https://leetcode-cn.com/problems/elimination-game/)
 [1250. 检查「好数组」](https://leetcode-cn.com/problems/check-if-it-is-a-good-array/) 裴蜀定理
 
+## 几何
+[223. 矩形面积](https://leetcode-cn.com/problems/rectangle-area/)
+[836. 矩形重叠]
+

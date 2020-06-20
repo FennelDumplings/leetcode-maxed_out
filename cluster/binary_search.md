@@ -7,6 +7,8 @@
 [74. 搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)
 [240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
 
+- [302. 包含全部黑色像素的最小矩形](https://leetcode-cn.com/problems/smallest-rectangle-enclosing-black-pixels/) 在投影上二分
+
 ## 值域二分
 [778. 水位上升的泳池中游泳](https://leetcode-cn.com/problems/swim-in-rising-water/) 二分 + DFS
 [410. 分割数组的最大值](https://leetcode-cn.com/problems/split-array-largest-sum/) 二分 + 贪心
