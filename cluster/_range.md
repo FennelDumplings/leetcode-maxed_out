@@ -25,7 +25,7 @@
 
 # 扫描线
 - [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
-- [218. 天际线问题](https://leetcode-cn.com/problems/the-skyline-problem/)
+- [218. 天际线问题](https://leetcode-cn.com/problems/the-skyline-problem/) 平衡树 multiset
 - [391. 完美矩形](https://leetcode-cn.com/problems/perfect-rectangle/)
 - [759. 员工空闲时间](https://leetcode-cn.com/problems/employee-free-time/) 
 - [850. 矩形面积 II](https://leetcode-cn.com/problems/rectangle-area-ii/)
@@ -34,6 +34,7 @@
 - [1272. 删除区间](https://leetcode-cn.com/problems/remove-interval/) 
 - [1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/)
 - [836. 矩形重叠](https://leetcode-cn.com/problems/rectangle-overlap/)
+- [632. 最小区间](https://leetcode-cn.com/problems/smallest-range-covering-elements-from-k-lists/) 在有序 Event 数组上双指针
 
 --- 
 
