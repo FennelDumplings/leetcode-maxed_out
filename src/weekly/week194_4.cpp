@@ -1,99 +1,64 @@
-// 20200614
-// 4. 树节点的第 K 个祖先
+// 20200621
+// 4. 找到最小生成树里的关键边和伪关键边
 
 /*
- * 给你一棵树，树上有 n 个节点，按从 0 到 n-1 编号。树以父节点数组的形式给出，在父节点数组中的元素 parent[i] 是节点 i 的父节点。树的根节点是编号为 0 的节点。
+ * 给你一个 n 个点的带权无向连通图，节点编号为 0 到 n-1 ，同时还有一个数组 edges ，其中 edges[i] = [fromi, toi, weighti] 表示在 fromi 和 toi 节点之间有一条带权无向边。最小生成树 (MST) 是给定图中边的一个子集，它连接了所有节点且没有环，而且这些边的权值和最小。
  *
- * 请你设计并实现 getKthAncestor(int node, int k) 函数，函数返回节点 node 的第 k 个祖先节点。如果不存在这样的祖先节点，返回 -1 。
+ * 请你找到给定图中最小生成树的所有关键边和伪关键边。如果最小生成树中删去某条边，会导致最小生成树的权值和增加，那么我们就说它是一条关键边。伪关键边则是可能会出现在某些最小生成树中但不会出现在所有最小生成树中的边。
  *
- * 树节点的第 k 个祖先节点是从该节点到根节点路径上的第 k 个节点。
+ * 请注意，你可以分别以任意顺序返回关键边的下标和伪关键边的下标。
  */
 
 #include <vector>
+#include <queue>
+#include <algorithm>
 
 using namespace std;
 
-
-// node.ancestors[k] = node.fa.ancestors[k-1]
-// node.ancestors[0] = node
-
-struct Node
-{
-    int id;
-    int fa;
-    int h; // 根节点 h = 1
-    vector<int> ancestors;
-    Node(int id, int fa, int h):id(id),fa(fa),h(h)
-    {
-        ancestors = vector<int>(h, -1); // k = 0 ~ h-1
-        ancestors[0] = id;
-    }
-    Node()
-    {
-        id = -1, fa = -1, h = -1;
-        ancestors = {};
-    }
-};
-
-class TreeAncestor {
+class Solution {
 public:
-    TreeAncestor(int n, vector<int>& parent) {
-        tree = vector<Node>(n);
-        for(int i = 0; i < n; ++i)
-        {
-            if(tree[i].id != -1)
-                continue;
-            build(tree, i, parent);
-        }
-    }
+    vector<vector<int>> findCriticalAndPseudoCriticalEdges(int n, vector<vector<int>>& edges) {
+        int min_cost = prim(n, edges);
+        cout << min_cost << endl;
+        return {};
 
-    int getKthAncestor(int node, int k) {
-        // 1 <= k <= n
-        Node &cur = tree[node];
-        if(k >= cur.h)
-            return -1;
-        return _process(cur, k);
     }
 
 private:
-    vector<Node> tree;
-
-    void build(vector<Node>& tree, int i, const vector<int>& parent)
-    {
-        if(i == -1)
-            return;
-
-        if(tree[i].id != -1)
-            return;
-
-        build(tree, parent[i], parent);
-
-        tree[i].id = i;
-        tree[i].fa = parent[i];
-        if(parent[i] == -1)
-            tree[i].h = 1;
-        else
-            tree[i].h = tree[tree[i].fa].h + 1;
-        // tree[i].ancestors = vector<int>(tree[i].h, -1);
-        // tree[i].ancestors[0] = tree[i].id;
-        // for(int k = 1; k < tree[i].h; ++k)
-        // {
-        //     tree[i].ancestors[k] = tree[tree[i].fa].ancestors[k - 1];
-        // }
-    }
-
-    int _process(Node& cur, int k)
-    {
-        // cur.ancestors[k];
-        if(cur.ancestors.empty())
+    int prim(int N, vector<vector<int>>& connections) {
+        vector<vector<vector<int> > > g(N);
+        for(const vector<int> &connection: connections)
         {
-            cur.ancestors = vector<int>(cur.h, -1);
-            cur.ancestors[0] = cur.id;
+            int x = connection[0], y = connection[1], w = connection[2];
+            g[x].push_back(vector<int>({w, y}));
+            g[y].push_back(vector<int>({w, x}));
         }
-        if(cur.ancestors[k] != -1)
-            return cur.ancestors[k];
-
-        cur.ancestors[k] = _process(tree[cur.fa], k - 1);
-        return cur.ancestors[k];
+        priority_queue<vector<int> > pq;
+        pq.push({0, 1});
+        vector<int> visited(N + 1, false);
+        visited[0] = true;
+        int cost = 0;
+        while(!pq.empty())
+        {
+            vector<int> cur = pq.top();
+            pq.pop();
+            if(visited[cur[1]])
+                continue;
+            visited[cur[1]] = true;
+            cost += -cur[0];
+            for(vector<int> son: g[cur[1]])
+            {
+                if(visited[son[1]])
+                    continue;
+                pq.push({-son[0], son[1]});
+            }
+        }
+        for(bool v: visited)
+            if(!v)
+                return -1;
+        return cost;
     }
+
 };
+
+

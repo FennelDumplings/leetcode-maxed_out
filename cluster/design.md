@@ -7,9 +7,12 @@
 [211. 添加与搜索单词 - 数据结构设计](https://leetcode-cn.com/problems/add-and-search-word-data-structure-design/solution/)
 ### 实现线段树
 [307]
+[308] 二维 BIT；四叉树；树套树
 ### 实现前缀和
 [303]
 [304]
+### 实现四叉树
+[427. 建立四叉树](https://leetcode-cn.com/problems/construct-quad-tree/)
 
 ---
 

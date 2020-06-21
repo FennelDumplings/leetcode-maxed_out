@@ -22,19 +22,16 @@
  */
 
 #include <vector>
+#include <set>
 
 using namespace std;
 
-struct Event
-{
-    int y;
-    bool left;
-    Event(int y, bool left):y(y),left(left){}
-};
-
+// 直接分类讨论
 class Solution {
 public:
     bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2) {
-
+        // x1, y1, x2, y2
+        return !((rec2[2] <= rec1[0]) || (rec1[2] <= rec2[0])
+            || (rec1[3] <= rec2[1]) || (rec2[3] <= rec1[1]));
     }
 };

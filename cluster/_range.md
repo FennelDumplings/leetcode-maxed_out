@@ -20,24 +20,25 @@
 # 平衡树
 - [352. 将数据流变为多个不相交区间](https://leetcode-cn.com/problems/data-stream-as-disjoint-intervals/) 平衡树
 - [436. 寻找右区间](https://leetcode-cn.com/problems/find-right-interval/) 平衡树
-- [715. Range 模块](https://leetcode-cn.com/problems/range-module/) 平衡树
+- [715. Range 模块](https://leetcode-cn.com/problems/range-module/) 平衡树，可以作为动态维护区间的组件
 - [1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/) 平衡树，顺序遍历树中的区间时，隐含了扫描线的思想
+- [729. 我的日程安排表 I](https://leetcode-cn.com/problems/my-calendar-i/)
+- [699. 掉落的方块](https://leetcode-cn.com/problems/falling-squares/) 主要参考 lc715 的删除，求 r 用 lower_bound 而不是 lc715 中的 upper_bound
 
 # 扫描线
 - [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
-- [218. 天际线问题](https://leetcode-cn.com/problems/the-skyline-problem/) 平衡树 multiset
-- [391. 完美矩形](https://leetcode-cn.com/problems/perfect-rectangle/)
+- [218. 天际线问题](https://leetcode-cn.com/problems/the-skyline-problem/) 平衡树 multiset 维护 Event
+- [391. 完美矩形](https://leetcode-cn.com/problems/perfect-rectangle/) Event 上保存区间，扫描线上的区间用平衡树维护区间的插入删除，保存合并后的区间(lc715)
+- [1094. 拼车](https://leetcode-cn.com/problems/car-pooling/) Event 上保存区间，扫描线上的区间用平衡树维护区间的插入删除，保存原始区间
+- [836. 矩形重叠](https://leetcode-cn.coMy Calendar om/problems/rectangle-overlap/) Event 上保存区间，线扫过时调用区间插入
+- [731. 我的日程安排表 II](https://leetcode-cn.com/problems/my-calendar-ii/)
 - [759. 员工空闲时间](https://leetcode-cn.com/problems/employee-free-time/) 
 - [850. 矩形面积 II](https://leetcode-cn.com/problems/rectangle-area-ii/)
-- [1094. 拼车](https://leetcode-cn.com/problems/car-pooling/) 
 - [1229. 安排会议日程](https://leetcode-cn.com/problems/meeting-scheduler/) 
 - [1272. 删除区间](https://leetcode-cn.com/problems/remove-interval/) 
 - [1288. 删除被覆盖区间](https://leetcode-cn.com/problems/remove-covered-intervals/)
-- [836. 矩形重叠](https://leetcode-cn.com/problems/rectangle-overlap/)
 - [632. 最小区间](https://leetcode-cn.com/problems/smallest-range-covering-elements-from-k-lists/) 在有序 Event 数组上双指针
+- [732. 我的日程安排表 III](https://leetcode-cn.com/problems/my-calendar-iii/) 扫描线+平衡树$O(N^{2})$；用线段树的话 $O(log(1e9)N)$
 
 --- 
 
-[729. 我的日程安排表 I](https://leetcode-cn.com/problems/my-calendar-i/)
-[731. 我的日程安排表 II](https://leetcode-cn.com/problems/my-calendar-ii/)
-[732. 我的日程安排表 III](https://leetcode-cn.com/problems/my-calendar-iii/)

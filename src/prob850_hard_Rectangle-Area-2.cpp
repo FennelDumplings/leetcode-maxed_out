@@ -33,9 +33,26 @@ using namespace std;
 
 struct Event
 {
-    int y;
+    int y_down;
+    int y_up;
     bool left;
-    Event(int y, bool left):y(y),left(left){}
+    Event(int y_down, int y_up, bool left):y_down(y_down),y_up(y_up),left(left){}
+};
+
+struct YRange
+{
+    int y_down, y_up;
+    YRange(int d, int u):y_down(d),y_up(u){}
+};
+
+struct YRange_BT_Cmp
+{
+    bool operator()(const YRange& yr1, const YRange& yr2) const
+    {
+        if(yr1.y_down == yr2.y_down)
+            return yr1.y_up < yr2.y_up;
+        return yr1.y_down < yr2.y_down;
+    }
 };
 
 class Solution {
@@ -45,12 +62,10 @@ public:
         map<int, vector<Event>> events;
         for(const vector<int>& r: rectangles)
         {
-            events[r[0]].push_back(Event(r[1], true)); // x1 -> y1
-            events[r[0]].push_back(Event(r[3], true)); // x1 -> y1
-            events[r[2]].push_back(Event(r[1], false)); // x2 -> y2;
-            events[r[2]].push_back(Event(r[3], false)); // x2 -> y2;
+            events[r[0]].push_back(Event(r[1], r[3], true)); // x1 -> y1
+            events[r[2]].push_back(Event(r[1], r[3], false)); // x2 -> y2;
         }
-        multiset<int> ys; // 当前有效的 y
+        multiset<YRange, YRange_BT_Cmp> y_ranges; // 不带合并的所有 y 区间
         // 枚事件发生时的 x;
         // 计算前一段 (x - prev_x) * (prev_h)
         // 若左，则将对应 y 插入 ys
@@ -59,25 +74,27 @@ public:
         auto x_iter = events.begin();
         int prev_x = x_iter -> first;
         for(const Event& e: events[prev_x])
-            ys.insert(e.y);
-        int prev_h = *(ys.rbegin()) - *(ys.begin());
+            y_ranges.insert(YRange(e.y_down, e.y_up));
+        int prev_h = get_h(y_ranges);
         ++x_iter;
         ll result = 0;
         while(x_iter != events.end())
         {
             int cur_x = x_iter -> first;
+            // cout << "x: " << cur_x  << " ; prev_x : " << prev_x << " ; prev_h : " << prev_h << endl;
             result += (ll)(cur_x - prev_x) * prev_h;
+            // cout << "y: " ;
             for(const Event& e: events[cur_x])
             {
+                // cout << e.y_down << " " << e.y_up << " , ";
+                YRange cur(e.y_down, e.y_up);
                 if(e.left)
-                    ys.insert(e.y);
+                    y_ranges.insert(cur);
                 else
-                    ys.erase(ys.find(e.y));
+                    y_ranges.erase(y_ranges.find(cur));
             }
-            if(ys.empty())
-                prev_h = 0;
-            else
-                prev_h = *(ys.rbegin()) - *(ys.begin());
+            // cout << "]" << endl;
+            prev_h = get_h(y_ranges);
             prev_x = cur_x;
             ++x_iter;
         }
@@ -87,4 +104,24 @@ public:
 private:
     const int MOD = 1e9 + 7;
     using ll = long long;
+
+    int get_h(const multiset<YRange, YRange_BT_Cmp>& y_ranges)
+    {
+        if(y_ranges.empty()) return 0;
+        // cout << "--------------------" << endl;
+        auto it = y_ranges.begin();
+        int result = it -> y_up - it -> y_down;
+        int left = it -> y_up;
+        ++it;
+        while(it != y_ranges.end())
+        {
+            if(left < it -> y_up)
+            {
+                result += it -> y_up - max(left, it -> y_down);
+                left = it -> y_up;
+            }
+            ++it;
+        }
+        return result;
+    }
 };
