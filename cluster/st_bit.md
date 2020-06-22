@@ -6,7 +6,7 @@
 
 ## 线段树和树状数组
 #### 一维
-- [307. 区域和检索 - 数组可修改](https://leetcode-cn.com/problems/range-sum-query-mutable/) 单点修改+区间查询
+- [307. 区域和检索 - 数组可修改](https://leetcode-cn.com/problems/range-sum-query-mutable/) 单点修改+区间查询；链式线段树；数组线段树；树状数组
 - [1476. 子矩形查询](https://leetcode-cn.com/problems/subrectangle-queries/) 区间修改+单点查询；保存操作，查询时再执行求结果
 - [715. Range 模块](https://leetcode-cn.com/problems/range-module/) 平衡树也可以
 - [699. 掉落的方块](https://leetcode-cn.com/problems/falling-squares/) 区间修改；平衡树区间管理 lc715

@@ -16,8 +16,8 @@
 
 
 #### HashMap 维护，键是前缀和(前缀状态)的值，值为出现次数
-[560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)  
-[1248. 统计优美子数组](https://leetcode-cn.com/problems/count-number-of-nice-subarrays/): 前缀状态为奇数的个数  
+- [560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)  
+- [1248. 统计优美子数组](https://leetcode-cn.com/problems/count-number-of-nice-subarrays/): 前缀状态为奇数的个数  
 
 
 #### HashMap 维护，键是前缀和模 K 的余数(可以理解为前缀状态，状态为前缀和模K)

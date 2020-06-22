@@ -470,3 +470,49 @@ public:
     }
 };
 
+// horspool
+class Solution_8 {
+public:
+    int strStr(string haystack, string needle) {
+        if(needle.empty()) return 0;
+        int m = needle.size();
+        vector<int> shift(26, m);
+        get_shift(needle, shift);
+        vector<int> matches = horspool_match(haystack, needle, shift);
+        if(matches.empty())
+            return -1;
+        return matches.front();
+    }
+
+private:
+    vector<int> horspool_match(const string& s, const string& p, const vector<int>& shift)
+    {
+        int m = p.size(), n = s.size();
+        int i = 0;
+        vector<int> result;
+        while(i <= n - m)
+        {
+            // s[i..i+m-1] 与 p[0..m-1]
+            bool match = false;
+            for(int j = m - 1; j >= 0; --j)
+            {
+                if(s[i + j] != p[j])
+                    break;
+                if(j == 0)
+                    match = true;
+            }
+            if(match)
+                result.push_back(i);
+            i += shift[s[i + m - 1] - 'a'];
+        }
+        return result;
+    }
+
+    void get_shift(const string& p, vector<int>& shift)
+    {
+        int m = p.size();
+        for(int i = 0; i < m - 1; ++i)
+            shift[p[i] - 'a'] = min(shift[p[i] - 'a'], m - i - 1);
+    }
+};
+

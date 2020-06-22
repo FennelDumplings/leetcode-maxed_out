@@ -1,18 +1,18 @@
 ## 基本数据结构
 ### 实现哈希表
-[705. 设计哈希集合](https://leetcode-cn.com/problems/design-hashset/)  
-[706. 设计哈希映射](https://leetcode-cn.com/problems/design-hashmap/)  
+- [705. 设计哈希集合](https://leetcode-cn.com/problems/design-hashset/)  
+- [706. 设计哈希映射](https://leetcode-cn.com/problems/design-hashmap/)  
 ### 实现字典树
-[208. 实现 Trie (前缀树)](https://leetcode-cn.com/problems/implement-trie-prefix-tree/)
-[211. 添加与搜索单词 - 数据结构设计](https://leetcode-cn.com/problems/add-and-search-word-data-structure-design/solution/)
+- [208. 实现 Trie (前缀树)](https://leetcode-cn.com/problems/implement-trie-prefix-tree/)
+- [211. 添加与搜索单词 - 数据结构设计](https://leetcode-cn.com/problems/add-and-search-word-data-structure-design/solution/)
 ### 实现线段树
-[307]
-[308] 二维 BIT；四叉树；树套树
+- [307. 区域和检索 - 数组可修改](https://leetcode-cn.com/problems/range-sum-query-mutable/) 链式线段树；数组线段树；树状数组
+- [308. 二维区域和检索 - 可变](https://leetcode-cn.com/problems/range-sum-query-2d-mutable/) 二维 BIT；四叉树；树套树
 ### 实现前缀和
-[303]
-[304]
+- [303. 区域和检索 - 数组不可变](https://leetcode-cn.com/problems/range-sum-query-immutable/)
+- [304. 二维区域和检索 - 矩阵不可变](https://leetcode-cn.com/problems/range-sum-query-2d-immutable/)
 ### 实现四叉树
-[427. 建立四叉树](https://leetcode-cn.com/problems/construct-quad-tree/)
+- [427. 建立四叉树](https://leetcode-cn.com/problems/construct-quad-tree/)
 
 ---
 
