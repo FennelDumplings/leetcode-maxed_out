@@ -12,6 +12,7 @@
  */
 
 #include <vector>
+#include <algorithm>
 #include <map>
 
 using namespace std;
@@ -107,5 +108,370 @@ public:
             result[i] = ranges.update(left, right, len);
         }
         return result;
+    }
+};
+
+// RMQ 数组写法
+class SeqSegmentTree
+{
+public:
+    SeqSegmentTree()
+    {
+        st_vec = vector<int>();
+        lazy = vector<int>();
+        n = -1;
+    }
+
+    void build(const vector<int>& nums)
+    {
+        if(nums.empty()) return;
+        n = nums.size();
+        st_vec.resize(n * 4);
+        lazy.resize(n * 4);
+        _build(1, 0, n - 1, nums);
+    }
+
+    void range_update(int i, int j, int v)
+    {
+        // [i, j] 范围内改为 v
+        _range_update(1, 0, n - 1, i, j, v);
+    }
+
+    int range_query(int i, int j)
+    {
+        return _range_query(1, 0, n - 1, i, j);
+    }
+
+private:
+    int _range_query(int node, int nodeLeft, int nodeRight, int start, int end)
+    {
+        if(nodeLeft == start && nodeRight == end)
+            return st_vec[node];
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        int left_son = node * 2;
+        int right_son = node * 2 + 1;
+        push_down(node);
+        if(end <= nodeMid)
+            return _range_query(left_son, nodeLeft, nodeMid, start, end);
+        else if(nodeMid < start)
+            return _range_query(right_son, nodeMid + 1, nodeRight, start, end);
+        else
+        {
+            return max(_range_query(left_son, nodeLeft, nodeMid, start, nodeMid),
+                    _range_query(right_son, nodeMid + 1, nodeRight, nodeMid + 1, end));
+        }
+    }
+
+    void _range_update(int node, int nodeLeft, int nodeRight, int start, int end, int v)
+    {
+        if(nodeLeft == start && nodeRight == end)
+        {
+            lazy[node] = v;
+            st_vec[node] = v;
+            return;
+        }
+        if(nodeLeft == nodeRight) return;
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        int left_son = node * 2;
+        int right_son = node * 2 + 1;
+        push_down(node);
+        if(end <= nodeMid)
+            _range_update(left_son, nodeLeft, nodeMid, start, end, v);
+        else if(nodeMid < start)
+            _range_update(right_son, nodeMid + 1, nodeRight, start, end, v);
+        else
+        {
+            _range_update(left_son, nodeLeft, nodeMid, start, nodeMid, v);
+            _range_update(right_son, nodeMid + 1, nodeRight, nodeMid + 1, end, v);
+        }
+        push_up(node);
+    }
+
+    // 懒标记下传
+    void push_down(int node)
+    {
+        if(lazy[node])
+        {
+            // 节点 node 有 lazy 标记
+            int left_son = node * 2;
+            int right_son = node * 2 + 1;
+            // 如果 lazy = v 的含义是区间内的值都加 v，则是如下写法
+            lazy[left_son] = lazy[node]; // 向左子节点传递
+            lazy[right_son] = lazy[node]; // 向右子节点传递
+            st_vec[left_son] = lazy[node];
+            st_vec[right_son] = lazy[node];
+            // 如果 lazy = v 的含义是区间内的值都改为 v，则将以上的 += 改为 =
+            lazy[node] = 0;
+        }
+    }
+
+    // 查询结果上传
+    void push_up(int node)
+    {
+        int left_son = node * 2;
+        int right_son = node * 2 + 1;
+        st_vec[node] = max(st_vec[left_son], st_vec[right_son]);
+    }
+
+    void _build(int node, int nodeLeft, int nodeRight, const vector<int>& nums)
+    {
+        if(nodeLeft == nodeRight)
+        {
+            st_vec[node] = nums[nodeLeft];
+            return;
+        }
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        int left_son = node * 2;
+        int right_son = node * 2 + 1;
+        _build(left_son, nodeLeft, nodeMid, nums);
+        _build(right_son, nodeMid + 1, nodeRight, nums);
+        st_vec[node] = max(st_vec[left_son], st_vec[right_son]);
+    }
+
+    vector<int> st_vec; // 节点值表示区间最大值
+    vector<int> lazy;
+    int n;
+};
+
+class Solution_2 {
+public:
+    vector<int> fallingSquares(vector<vector<int>>& positions) {
+        // 离散化
+        vector<int> x;
+        for(const vector<int>& pos: positions)
+        {
+            x.push_back(pos[0]);
+            x.push_back(pos[0] + pos[1] - 1);
+        }
+        sort(x.begin(), x.end());
+        x.erase(unique(x.begin(), x.end()), x.end());
+
+        int n = x.size();
+        SeqSegmentTree seqsttree;
+        vector<int> arr(n);
+        seqsttree.build(arr);
+        vector<int> result;
+        for(const vector<int>& pos: positions)
+        {
+            int start = _find(pos[0], x);
+            int end = _find(pos[0] + pos[1] - 1, x);
+            int v = pos[1];
+            int maxx = seqsttree.range_query(start, end);
+            seqsttree.range_update(start, end, maxx + v);
+            result.push_back(seqsttree.range_query(0, n - 1));
+        }
+        return result;
+    }
+
+private:
+    int _find(int v, const vector<int>& x)
+    {
+        return lower_bound(x.begin(), x.end(), v) - x.begin();
+    }
+};
+
+// RMQ 链式写法
+struct STNode
+{
+    int nodeLeft, nodeRight;
+    int maxx;
+    STNode *left, *right;
+    int lazy;
+    STNode(int l, int r, int x, STNode* left=nullptr, STNode* right=nullptr)
+        :nodeLeft(l),nodeRight(r),maxx(x),left(left),right(right),lazy(0){}
+    ~STNode()
+    {
+        if(left)
+        {
+            delete left;
+            left = nullptr;
+        }
+        if(right)
+        {
+            delete right;
+            right = nullptr;
+        }
+    }
+};
+
+class SegmentTree
+{
+public:
+    SegmentTree()
+    {
+        root = nullptr;
+    }
+
+    ~SegmentTree()
+    {
+        if(root)
+        {
+            delete root;
+            root = nullptr;
+        }
+    }
+
+    void range_update(int i, int j, int v)
+    {
+        // cout << "range_update(" << i << "," << j << "," << v << ")" << endl;
+        _range_update(root, i, j, v);
+    }
+
+    int range_query(int i, int j)
+    {
+        // cout << "range_query(" << i << "," << j << ")" << endl;
+        return _range_query(root, i, j);
+    }
+
+    void build(const vector<int>&arr)
+    {
+        if(arr.empty()) return;
+        int n = arr.size();
+        root = _build(0, n - 1, arr);
+    }
+
+    void traverse()
+    {
+        cout << "==================" << endl;
+        _traverse(root);
+        cout << "==================" << endl;
+    }
+
+private:
+    STNode *root;
+
+    void _traverse(STNode* node)
+    {
+        // cout << "Range: [";
+        // cout << node -> nodeLeft << " , " << node -> nodeRight << "]" << endl;
+        // cout << "Max: " << node -> maxx << endl;
+        if(node -> nodeLeft != node -> nodeRight)
+        {
+            _traverse(node -> left);
+            _traverse(node -> right);
+        }
+    }
+
+    // 懒标记下传
+    void push_down(STNode* node)
+    {
+        if(node -> lazy)
+        {
+            node -> left -> lazy = node -> lazy;
+            node -> right -> lazy = node -> lazy;
+            node -> left -> maxx = node -> lazy;
+            node -> right -> maxx = node -> lazy;
+            node -> lazy = 0;
+        }
+    }
+
+    // 查询结果上传
+    void push_up(STNode* node)
+    {
+        node -> maxx = max(node -> left -> maxx, node -> right -> maxx);
+    }
+
+    int _range_query(STNode* node, int start, int end)
+    {
+        int nodeLeft = node -> nodeLeft;
+        int nodeRight = node -> nodeRight;
+        if(nodeLeft == start && nodeRight == end)
+            return node -> maxx;
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        // 要根据子树结果计算当前节点结果时，懒标记下传
+        push_down(node);
+        if(end <= nodeMid)
+            return _range_query(node -> left, start, end);
+        else if(nodeMid < start)
+            return _range_query(node -> right, start, end);
+        else
+        {
+            return max(_range_query(node -> left, start, nodeMid),
+                    _range_query(node -> right, nodeMid + 1, end));
+        }
+    }
+
+    void _range_update(STNode* node, int start, int end, int v)
+    {
+        int nodeLeft = node -> nodeLeft;
+        int nodeRight = node -> nodeRight;
+        // cout << "_range_update(" << nodeLeft << "," << nodeRight << "," << v << "," << start << "," << end << ")" << endl;
+        if(nodeLeft == start && nodeRight == end)
+        {
+            node -> lazy = v;
+            node -> maxx = v;
+            return;
+        }
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        if(nodeLeft == nodeRight) return;
+        // cout << nodeLeft << " " << nodeRight << endl;
+        // 下传懒标记
+        push_down(node);
+        if(end <= nodeMid)
+        {
+            // cout << "end <= nodeMid" << endl;
+            _range_update(node -> left, start, end, v);
+        }
+        else if(nodeMid < start)
+        {
+            // cout << "nodeMid < start" << endl;
+            _range_update(node -> right, start, end, v);
+        }
+        else
+        {
+            // cout << "start < nodeMid < end " << endl;
+            _range_update(node -> left, start, nodeMid, v);
+            _range_update(node -> right, nodeMid + 1, end, v);
+        }
+        push_up(node);
+    }
+
+    STNode* _build(int nodeLeft, int nodeRight, const vector<int>& arr)
+    {
+        if(nodeLeft == nodeRight)
+            return new STNode(nodeLeft, nodeRight, arr[nodeLeft]);
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        STNode *left_son = _build(nodeLeft, nodeMid, arr);
+        STNode *right_son = _build(nodeMid + 1, nodeRight, arr);
+        int maxx = max(left_son -> maxx, right_son -> maxx);
+        return new STNode(nodeLeft, nodeRight, maxx, left_son, right_son);
+    }
+};
+
+class Solution {
+public:
+    vector<int> fallingSquares(vector<vector<int>>& positions) {
+        // 离散化
+        vector<int> x;
+        for(const vector<int>& pos: positions)
+        {
+            x.push_back(pos[0]);
+            x.push_back(pos[0] + pos[1] - 1);
+        }
+        sort(x.begin(), x.end());
+        x.erase(unique(x.begin(), x.end()), x.end());
+
+        int n = x.size();
+        SegmentTree sttree;
+        vector<int> arr(n);
+        sttree.build(arr);
+        vector<int> result;
+        // sttree.traverse();
+        for(const vector<int>& pos: positions)
+        {
+            int start = _find(pos[0], x);
+            int end = _find(pos[0] + pos[1] - 1, x);
+            int v = pos[1];
+            int maxx = sttree.range_query(start, end);
+            sttree.range_update(start, end, maxx + v);
+            result.push_back(sttree.range_query(0, n - 1));
+        }
+        return result;
+    }
+
+private:
+    int _find(int v, const vector<int>& x)
+    {
+        return lower_bound(x.begin(), x.end(), v) - x.begin();
     }
 };

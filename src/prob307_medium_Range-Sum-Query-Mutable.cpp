@@ -30,7 +30,8 @@
 
 using namespace std;
 
-// 线段树模板写法
+// 链式线段树模板写法
+
 struct STNode {
     int start;
     int end;
@@ -156,7 +157,7 @@ private:
 };
 
 
-// 树状数组实现, 36ms
+// 树状数组模板写法, 36ms
 class BIT {
 public:
     BIT():sums(1, 0){}
@@ -213,4 +214,115 @@ public:
 private:
     vector<int> vec;
     BIT bit;
+};
+
+
+// 数组线段树模板写法
+class SeqSegmentTree
+{
+public:
+    SeqSegmentTree()
+    {
+        st_vec = vector<int>();
+        n = -1;
+    }
+
+    void build(const vector<int>& arr)
+    {
+        n = arr.size();
+        int start = 0, end = n - 1;
+        if(start <= end)
+        {
+            st_vec.resize(n * 4);
+            _build(1, 0, n - 1, arr);
+        }
+    }
+
+    int range_query(int start, int end)
+    {
+        // 这里 [0, n - 1] 跟着参数走
+        // 链式写法中保存在节点
+        return _range_query(1, 0, n - 1, start, end);
+    }
+
+    void point_update(int idx, int val)
+    {
+        _point_update(1, 0, n - 1, idx, val);
+    }
+
+private:
+    vector<int> st_vec;
+    int n; // 保存根节点的范围 [0, n - 1]
+
+    void _point_update(int node, int nodeLeft, int nodeRight, int idx, int val)
+    {
+        // [nodeLeft, nodeRight] 与 idx 的关系
+        if(nodeLeft == nodeRight && nodeLeft == idx)
+        {
+            st_vec[node] = val;
+            return;
+        }
+
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        int left_son = node * 2, right_son = node * 2 + 1;
+        if(idx <= nodeMid)
+            _point_update(left_son, nodeLeft, nodeMid, idx, val);
+        else
+            _point_update(right_son, nodeMid + 1, nodeRight, idx, val);
+        st_vec[node] = st_vec[left_son] + st_vec[right_son];
+    }
+
+    void _build(int node, int nodeLeft, int nodeRight, const vector<int>& arr)
+    {
+        // node 表示 [nodeLeft, nodeRight]
+        if(nodeLeft == nodeRight)
+        {
+            st_vec[node] = arr[nodeLeft];
+            return;
+        }
+
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        int left_son = node * 2, right_son = node * 2 + 1;
+        _build(left_son, nodeLeft, nodeMid, arr);
+        _build(right_son, nodeMid + 1, nodeRight, arr);
+        st_vec[node] = st_vec[left_son] + st_vec[right_son];
+    }
+
+    int _range_query(int node, int nodeLeft, int nodeRight, int start, int end)
+    {
+        // [nodeLeft, nodeRight] 与 [start, end] 的关系
+        // 得出交集，返回和
+        if(nodeLeft == start && nodeRight == end)
+            return st_vec[node];
+
+        int nodeMid = (nodeLeft + nodeRight) / 2;
+        int left_son = node * 2, right_son = node * 2 + 1;
+
+        if(end <= nodeMid)
+            return _range_query(left_son, nodeLeft, nodeMid, start, end);
+        else if(start > nodeMid)
+            return _range_query(right_son, nodeMid + 1, nodeRight, start, end);
+        else // [nodeLeft, start, nodeMid, end, nodeRight]
+            return _range_query(left_son, nodeLeft, nodeMid, start, nodeMid)
+                + _range_query(right_son, nodeMid + 1, nodeRight, nodeMid + 1, end);
+    }
+};
+
+class NumArray {
+public:
+    NumArray(vector<int>& nums) {
+        seqsttree = SeqSegmentTree();
+        seqsttree.build(nums);
+    }
+
+    void update(int i, int val) {
+        seqsttree.point_update(i, val);
+    }
+
+    int sumRange(int i, int j) {
+        return seqsttree.range_query(i, j);
+    }
+
+private:
+    SeqSegmentTree seqsttree;
 };
