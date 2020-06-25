@@ -14,6 +14,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <cmath>
 
 using namespace std;
 
@@ -465,6 +466,149 @@ public:
             int maxx = sttree.range_query(start, end);
             sttree.range_update(start, end, maxx + v);
             result.push_back(sttree.range_query(0, n - 1));
+        }
+        return result;
+    }
+
+private:
+    int _find(int v, const vector<int>& x)
+    {
+        return lower_bound(x.begin(), x.end(), v) - x.begin();
+    }
+};
+
+// 分块 RMQ
+class Block
+{
+public:
+    Block(){}
+
+    void build(const vector<int>& arr)
+    {
+        nums = arr;
+        n = nums.size();
+        block_size = floor(sqrt(n)); // 8 -> 2, 9 -> 3, 10 -> 3, 11 -> 3, ..., 15 -> 3, 16 -> 4
+        bn = n / block_size + 1; // 最后一个桶的元素个数可能为 [0, block_size - 1]
+        lazy = vector<int>(bn, 0);
+        maxx = vector<int>(bn, 0);
+        has_lazy = vector<bool>(bn, false);
+        for(int i = 0; i < n; ++i)
+        {
+            int bucket_id = i / block_size;
+            maxx[bucket_id] = max(maxx[bucket_id], nums[i]);
+        }
+    }
+
+    void point_update(int idx, int x)
+    {
+        // 先将对应块的标记 `lazy[i]` 下传，再暴力更新被修改块的状态。时间复杂度 O(\sqrt(N))
+        int bucket_id = idx / block_size;
+        if(has_lazy[bucket_id])
+        {
+            for(int i = bucket_id * block_size; i < min((bucket_id + 1) * block_size, n); ++i)
+                nums[i] = lazy[bucket_id];
+            has_lazy[bucket_id] = false;
+        }
+        nums[idx] = x;
+        maxx[bucket_id] = max(maxx[bucket_id], x);
+    }
+
+    void range_update(int l, int r, int x)
+    {
+        int bucket_l = l / block_size, bucket_r = r / block_size;
+        // 左半桶
+        if(has_lazy[bucket_l])
+        {
+            for(int i = bucket_l * block_size; i < min((bucket_l + 1) * block_size, n); ++i)
+                nums[i] = lazy[bucket_l];
+            has_lazy[bucket_l] = false;
+        }
+        for(int i = l; i <= min((bucket_l + 1) * block_size - 1, r); ++i)
+            nums[i] = x;
+        maxx[bucket_l] = max(maxx[bucket_l], x);
+        // 右半桶
+        if(bucket_l != bucket_r)
+        {
+            if(has_lazy[bucket_r])
+            {
+                for(int i = bucket_r * block_size; i < min((bucket_r + 1) * block_size, n); ++i)
+                    nums[i] = lazy[bucket_r];
+                has_lazy[bucket_r] = false;
+            }
+            for(int i = bucket_r * block_size; i <= r; ++i)
+                nums[i] = x;
+            maxx[bucket_r] = max(maxx[bucket_r], x);
+        }
+        // 中间的桶
+        for(int bucket_id = bucket_l + 1; bucket_id < bucket_r; ++bucket_id)
+        {
+            lazy[bucket_id] = x;
+            has_lazy[bucket_id] = true;
+            maxx[bucket_id] = x;
+        }
+    }
+
+    int range_query(int l, int r)
+    {
+        // 对于中间跨过的整块，直接利用块保存的信息统计答案，两端剩余部分任然可以暴力扫描统计。
+        int bucket_l = l / block_size, bucket_r = r / block_size;
+        int result = nums[l];
+
+        // 左半桶
+        if(has_lazy[bucket_l])
+            result = maxx[bucket_l];
+        else
+            for(int i = l; i <= min((bucket_l + 1) * block_size - 1, r); ++i)
+                result = max(result, nums[i]);
+        // 右半桶
+        if(bucket_l != bucket_r)
+        {
+            if(has_lazy[bucket_r])
+                result = max(result, maxx[bucket_r]);
+            else
+                for(int i = bucket_r * block_size; i <= r; ++i)
+                    result = max(result, nums[i]);
+        }
+        // 中间的桶
+        for(int bucket_id = bucket_l + 1; bucket_id < bucket_r; ++bucket_id)
+            result = max(result, maxx[bucket_id]);
+        return result;
+    }
+
+    vector<int> nums;
+    vector<int> maxx;
+    vector<int> lazy;
+    vector<bool> has_lazy;
+    int block_size, bn, n;
+};
+
+class Solution {
+public:
+    vector<int> fallingSquares(vector<vector<int>>& positions) {
+        // 离散化
+        vector<int> x;
+        for(const vector<int>& pos: positions)
+        {
+            x.push_back(pos[0]);
+            x.push_back(pos[0] + pos[1] - 1);
+        }
+        sort(x.begin(), x.end());
+        x.erase(unique(x.begin(), x.end()), x.end());
+
+        int n = x.size();
+        Block block;
+        vector<int> arr(n);
+        block.build(arr);
+        vector<int> result;
+        // sttree.traverse();
+        for(const vector<int>& pos: positions)
+        {
+            int start = _find(pos[0], x);
+            int end = _find(pos[0] + pos[1] - 1, x);
+            int v = pos[1];
+            int maxx = block.range_query(start, end);
+            block.range_update(start, end, maxx + v);
+            result.push_back(block.range_query(0, n - 1));
         }
         return result;
     }
