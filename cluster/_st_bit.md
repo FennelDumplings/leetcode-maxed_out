@@ -22,7 +22,7 @@
 - [493. 翻转对](https://leetcode-cn.com/problems/reverse-pairs/) 权值 ST / 权值 BIT / CDQ 分治
 - [面试题51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/) 权值 ST / 权值 BIT / CDQ 分治
 - [327. 区间和的个数](https://leetcode-cn.com/problems/count-of-range-sum/) 权值 ST / 权值 BIT / CDQ 分治
-- [1157. 子数组中占绝大多数的元素](https://leetcode-cn.com/problems/online-majority-element-in-subarray/) 主席树，分块
+- [1157. 子数组中占绝大多数的元素](https://leetcode-cn.com/problems/online-majority-element-in-subarray/) 线段树 / 分块
 - [1395. 统计作战单位数](https://leetcode-cn.com/problems/count-number-of-teams/) 权值 BIT
 
 ## 线段树与扫描线
@@ -31,7 +31,7 @@
 - [850. 矩形面积 II](https://leetcode-cn.com/problems/rectangle-area-ii/)
 - [732. 我的日程安排表 III](https://leetcode-cn.com/problems/my-calendar-iii/) 扫描线+平衡树$O(N^{2})$；用离散化+线段树的话 $O(log(1e9)N)$
 
-## 线段树优化 dp 方程中的 $dp[i] = f(max_{j=0}^{i-1}(dp[j]))$
+## 线段树或树状数组优化 dp 方程中的 $dp[i] = f(max_{j=0}^{i-1}(dp[j]))$
 - [300. 最长上升子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)  
 - [673. 最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/)  
 

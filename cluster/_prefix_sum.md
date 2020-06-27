@@ -8,6 +8,8 @@
 - [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)  
 - [918. 环形子数组的最大和](https://leetcode-cn.com/problems/maximum-sum-circular-subarray/)  
 
+#### 单调栈维护
+- [1124. 表现良好的最长时间段](https://leetcode-cn.com/problems/longest-well-performing-interval/) 此前的前缀和(状态)中,小于当前前缀和的最早位置
 
 #### HashMap 维护，键是前缀和(状态)的值，值为第一次出现时的索引
 - [325. 和等于 k 的最长子数组长度](https://leetcode-cn.com/problems/maximum-size-subarray-sum-equals-k/)  

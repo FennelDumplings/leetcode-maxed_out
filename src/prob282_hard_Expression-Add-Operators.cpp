@@ -33,69 +33,80 @@ class Solution {
 public:
     vector<string> addOperators(string num, int target) {
         if(num.empty()) return vector<string>();
-        int n = num.size();
         vector<string> result;
         string item;
-        vector<vector<ll> > dp(n, vector<ll>(n, -1)); // dp[i][j] := num[i..j] 代表的数字
-        dfs(num, 0, target, item, result, dp, 1, false);
+        item += num[0];
+        int new_num = num[0] - '0';
+        bool zero = num[0] == '0';
+        dfs(num, 0, target, item, result, 0, new_num, 0, 1, 0, zero);
         return result;
     }
 
 private:
     using ll = long long;
 
-    void dfs(const string& num, int left, int target, string& item, vector<string>& result, vector<vector<ll> >& dp, ll prev, bool mul)
+    void dfs(const string& num, int pos, int target, string& item, vector<string>& result,
+            ll num1, ll num2, ll num3, int op1, int op2, bool zero)
     {
+        // num[pos] 已经加入 item
+        // op1 = 1: 加法
+        // op1 = 2: 减法
+        // op2 = 1: 乘A, num3 为活动数字
+        // op2 = 0: 无乘法, nums2 为活动数字
         int n = num.size();
-        if(left == n) return;
-
-        if(dp[left][n - 1] == -1)
+        if(pos == n - 1)
         {
-            ll tmp;
-            stringstream ss;
-            ss << num.substr(left);
-            ss >> tmp;
-            dp[left][n - 1] = tmp;
-        }
-        if((!mul && dp[left][n - 1] == target) || (mul && dp[left][n - 1] * prev == target))
-        {
-            int pos = item.size();
-            item += to_string(dp[left][n - 1]);
-            result.push_back(item);
-            item.erase(pos);
+            if(op2)
+                num2 *= num3;
+            if(op1 == 1)
+                num1 += num2;
+            else
+                num1 -= num2;
+            if(num1 == target)
+                result.push_back(item);
             return;
         }
 
-        for(int i = left; i < n; ++i)
+        // num[pos] 与 num[pos+1] 之间可能是 空格, +, - , *
+        ++pos;
+        int new_num = num[pos] - '0';
+        bool new_zero = new_num == 0;
+        // 1. 空格
+        if(!zero) // 活动数字不为 0 , 才可以根空格
         {
-            string cur = num.substr(left, i - left + 1);
-            if(dp[left][i] == -1)
-            {
-                ll tmp;
-                stringstream ss;
-                ss << cur;
-                ss >> tmp;
-                dp[left][i] = tmp;
-            }
-            int pos = item.size();
-            item += cur;
-            if(mul)
-                prev *= dp[left][i];
+            item += num[pos];
+            if(op2)
+                dfs(num, pos, target, item, result, num1, num2, num3 * 10 + new_num, op1, op2, zero);
             else
-                prev = dp[left][i];
-            // +
-            item += '+';
-            dfs(num, i + 1, target - prev, item, result, dp, prev, false);
+                dfs(num, pos, target, item, result, num1, num2 * 10 + new_num, num3, op1, op2, zero);
             item.pop_back();
-            // -
-            item += '-';
-            dfs(num, i + 1, prev - target, item, result, dp, prev, false);
-            item.pop_back();
-            // *
-            item += '*';
-            dfs(num, i + 1, target, item, result, dp, prev, true);
-            item.pop_back();
-            item.erase(pos);
         }
+        // *, +, 或 -
+        // 无论是*,+,-,栈里有乘号都必须先处理
+        if(op2)
+            num2 *= num3;
+        // 2. *
+        item += '*';
+        item += num[pos];
+        dfs(num, pos, target, item, result, num1, num2, new_num, op1, 1, new_zero);
+        item.pop_back();
+        item.pop_back();
+        // 无论是+,-,栈里的+/-都必须先处理
+        if(op1 == 1)
+            num1 += num2;
+        else if(op1 == 2)
+            num1 -= num2;
+        // 3. +
+        item += '+';
+        item += num[pos];
+        dfs(num, pos, target, item, result, num1, new_num, 0, 1, 0, new_zero);
+        item.pop_back();
+        item.pop_back();
+        // 4. -
+        item += '-';
+        item += num[pos];
+        dfs(num, pos, target, item, result, num1, new_num, 0, 2, 0, new_zero);
+        item.pop_back();
+        item.pop_back();
     }
 };
