@@ -131,8 +131,10 @@ sum[i] = sum[i.left] + sum[i.right] + val(i);
   
 #### 6、数位 DP  
 [233. 数字 1 的个数](https://leetcode-cn.com/problems/number-of-digit-one)    
+[248. 中心对称数 III](https://leetcode-cn.com/problems/strobogrammatic-number-iii/)  
 [902. 最大为 N 的数字组合](https://leetcode-cn.com/problems/numbers-at-most-n-given-digit-set)    
 [1015. 可被 K 整除的最小整数](https://leetcode-cn.com/problems/smallest-integer-divisible-by-k)    
+[1088. 易混淆数 II](https://leetcode-cn.com/problems/confusing-number-ii/)
   
 #### 7、计数问题  
 计数是组合数学的重要内容。不考虑用母函数等手段求解析解的化，计数问题一般有两种做法

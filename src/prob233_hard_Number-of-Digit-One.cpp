@@ -61,3 +61,35 @@ private:
         return result;
     }
 };
+
+// 数位 DP 模板
+class Solution_2 {
+public:
+    int countDigitOne(int n) {
+        if (n <= 0) return 0;
+        vector<int> digits;
+        while(n)
+        {
+            digits.push_back(n % 10);
+            n /= 10;
+        }
+        int m = digits.size();
+        vector<vector<vector<int>>> dp(m, vector<vector<int>>(m, vector<int>(2, -1)));
+        return getdp(m - 1, 1, 0, digits, dp);
+    }
+
+private:
+    int getdp(int pos, int lim, int cnt, const vector<int>& digits, vector<vector<vector<int>>>& dp)
+    {
+        if(pos == -1) return cnt;
+        int &ans = dp[pos][cnt][lim];
+        if(ans != -1) return ans;
+        ans = 0;
+        int up = lim ? digits[pos] : 9;
+        for(int i = 0; i <= up; ++i)
+        {
+            ans += getdp(pos - 1, lim && (i == up), cnt + (i == 1), digits, dp);
+        }
+        return ans;
+    }
+};

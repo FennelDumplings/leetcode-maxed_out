@@ -33,6 +33,7 @@
 #include <vector>
 #include <string>
 #include <unordered_set>
+#include <set>
 #include <algorithm>
 #include <cmath>
 
@@ -87,3 +88,95 @@ private:
         return result;
     }
 };
+
+
+// 数位 DP 模板写法
+
+class Solution_2
+{
+public:
+    int atMostNGivenDigitSet(vector<string>& D, int N)
+    {
+        set<int> num_set;
+        for(const string &s: D)
+            num_set.insert(s[0] - '0');
+
+        vector<int> digits;
+        while(N)
+        {
+            digits.push_back(N % 10);
+            N /= 10;
+        }
+
+        vector<vector<int>> dp(digits.size(), vector<int>(2, -1));
+        int n = digits.size();
+        int ans = getdp(n - 1, 1, digits, num_set, dp);
+        for(int i = 1; i < n; ++i)
+            ans += getdp(i - 1, 0, digits, num_set, dp);
+        return ans;
+    }
+
+private:
+    int getdp(int pos, int lim, const vector<int>& digits, const set<int>& num_set, vector<vector<int>>& dp)
+    {
+        if(pos == -1) return 1;
+        if(dp[pos][lim] != -1)
+            return dp[pos][lim];
+        dp[pos][lim] = 0;
+        int up = lim ? digits[pos] : 9; // 当前要枚举到的上界
+        for(int i: num_set) // 枚举当前位所有可能数字
+        {
+            if(i > up)
+                break;
+            dp[pos][lim] += getdp(pos - 1, lim && i == up, digits, num_set, dp); // 本位被限制且选顶到上界的数字,下一位才被限制
+        }
+        return dp[pos][lim];
+    }
+};
+
+
+// 带前导 0 的数位 dp
+class Solution_3
+{
+public:
+    int atMostNGivenDigitSet(vector<string>& D, int N)
+    {
+        set<int> num_set;
+        for(const string &s: D)
+            num_set.insert(s[0] - '0');
+
+        vector<int> digits;
+        while(N)
+        {
+            digits.push_back(N % 10);
+            N /= 10;
+        }
+
+        vector<int> dp(digits.size(), -1);
+        int n = digits.size();
+        int ans = getdp(n - 1, 1, 1, digits, num_set, dp);
+        return ans;
+    }
+
+private:
+    int getdp(int pos, int lim, int zero, const vector<int>& digits, const set<int>& num_set, vector<int>& dp)
+    {
+        if(pos == -1) return !zero; // 如果是一直前导零直到 -1
+        if(dp[pos] != -1 && !zero && !lim)
+            return dp[pos];
+        int ans = 0;
+        int up = lim ? digits[pos] : 9; // 当前要枚举到的上界
+        if(zero)
+            ans += getdp(pos -1, 0, 1, digits, num_set, dp);
+        for(int i: num_set) // 枚举当前位所有可能数字
+        {
+            if(i > up)
+                break;
+            ans += getdp(pos - 1, lim && i == up, 0, digits, num_set, dp); // 本位被限制且选顶到上界的数字,下一位才被限制
+        }
+        if(!lim && !zero)
+            dp[pos] = ans;
+        return ans;
+    }
+};
+
