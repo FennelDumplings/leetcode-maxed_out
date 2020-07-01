@@ -3,6 +3,7 @@
 - [247. 中心对称数 II](https://leetcode-cn.com/problems/strobogrammatic-numbr-ii/)
 - [248. 中心对称数 III](https://leetcode-cn.com/problems/strobogrammatic-number-iii/)
 - [301. 删除无效的括号](https://leetcode-cn.com/problems/remove-invalid-parentheses/)
+- [291. 单词规律 II](https://leetcode-cn.com/problems/word-pattern-ii/)
 
 ## 经典问题
 #### 排列组合子集

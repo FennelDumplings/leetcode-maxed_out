@@ -26,6 +26,11 @@
 - [523. 连续的子数组和](https://leetcode-cn.com/problems/continuous-subarray-sum/)  值为第一次出现时的索引
 - [974. 和可被 K 整除的子数组](https://leetcode-cn.com/problems/subarray-sums-divisible-by-k/)  值为出现次
 
+#### 二维前缀和
+- [1074. 元素和为目标值的子矩阵数量](https://leetcode-cn.com/problems/number-of-submatrices-that-sum-to-target/)
+- [面试题 17.24. 最大子矩阵](https://leetcode-cn.com/problems/max-submatrix-lcci/) 思路类似一维的最大子数组和
+- [363. 矩形区域不超过 K 的最大数值和](https://leetcode-cn.com/problems/max-sum-of-rectangle-no-larger-than-k/) 在上一题基础上加了一个 K
+
 
 ## $3 运算推广
 #### 前缀积

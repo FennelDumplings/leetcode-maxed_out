@@ -33,4 +33,4 @@
 [900. RLE 迭代器](https://leetcode-cn.com/problems/rle-iterator/) 游程编码
 [281. 锯齿迭代器](https://leetcode-cn.com/problems/zigzag-iterator/) 迭代器
 [173. 二叉搜索树迭代器](https://leetcode-cn.com/problems/binary-search-tree-iterator/)
-[284. 顶端迭代器](https://leetcode-cn.com/problems/peeking-iterator/)
+[284. 顶端迭代器](https://leetcode-cn.com/problems/peeking-iterator/) 利用父类的拷贝构造函数

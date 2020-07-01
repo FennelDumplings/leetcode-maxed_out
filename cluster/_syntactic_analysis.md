@@ -1,6 +1,7 @@
-代码框架: 先进行词法分析，然后进行语法分析，然后进行递归下降算法。  
+代码框架: 先进行词法分析，然后进行语法分析，然后进行**递归下降**算法。  
 词法分析每次只需要改变正则表达式部分即可，语法分析代码只需要实现语法对应的函数.  
-相关理论知识参考编译原理中的语法分析部分  
+
+递归下降分析法的原理是利用函数之间的递归调用模拟语法树自上而下的构造过程，相关理论知识参考编译原理中的语法分析部分  
 
 # 括号解析
 - [1087. 字母切换](https://leetcode-cn.com/problems/brace-expansion/)
@@ -30,6 +31,7 @@
 
 # 字符串解析
 - [394. 字符串解码](https://leetcode-cn.com/problems/number-of-atoms/)
+- [271. 字符串的编码与解码](https://leetcode-cn.com/problems/encode-and-decode-strings/)
 - [471. 编码最短长度的字符串](https://leetcode-cn.com/problems/encode-string-with-shortest-length/)
 
 # 嵌套列表解析

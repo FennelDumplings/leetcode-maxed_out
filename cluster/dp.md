@@ -10,6 +10,8 @@
 - [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray)      
 - [152. 乘积最大子数组](https://leetcode-cn.com/problems/maximum-product-subarray)      
 - [918. 环形子数组的最大和](https://leetcode-cn.com/problems/maximum-sum-circular-subarray/) 环形数组的处理
+- [面试题 17.24. 最大子矩阵](https://leetcode-cn.com/problems/max-submatrix-lcci/) 思路类似一维的最大子数组和
+- [363. 矩形区域不超过 K 的最大数值和](https://leetcode-cn.com/problems/max-sum-of-rectangle-no-larger-than-k/) 在上一题基础上加了一个 K
   
 #### $1.1.3 打家劫舍系列: 不相邻子序列的最大和问题 (打家劫舍3 是树形DP)  
 - [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber)    
@@ -21,10 +23,19 @@
 [873. 最长的斐波那契子序列的长度](https://leetcode-cn.com/problems/length-of-longest-fibonacci-subsequence/) dp[i][j]:= 以 j, i 结尾，转移时在 [0..j] 中找满足条件的 k 这一步可以二分或哈希表
 [1027. 最长等差数列](https://leetcode-cn.com/problems/longest-arithmetic-sequence/) dp[i][j]:= 以 j, i 结尾，转移时在 [0..j] 中找满足条件的 k 这一步用哈希表，键为数组值，值为保存下标的平衡树
 
+#### $1.1.5 与其它算法配合
+- [1055. 形成字符串的最短路径](https://leetcode-cn.com/problems/shortest-way-to-form-string/) DP + 二分，贪心
+- [368. 最大整除子集](https://leetcode-cn.com/problems/largest-divisible-subset/) 先对数组排序
+
+#### $1.1.6 
+- [413. 等差数列划分](https://leetcode-cn.com/problems/arithmetic-slices/)
+
 ### $1.2 双串 dp[i][j], i 是第一串的时间，位置；j 是第二串的时间，位置
 #### $1.2.1 最经典双串 LCS 系列：  
 - [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence)    
 - [712. 两个字符串的最小ASCII删除和](https://leetcode-cn.com/problems/minimum-ascii-delete-sum-for-two-strings/) LCS，len 和 ascii 各一个 dp    
+- [718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/submissions/) 最长公共子串，注意与最长公共子序列的区别
+
 
 #### $1.2.2 字符串匹配系列  
 - [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance)    
@@ -36,8 +47,11 @@
 - [887. 鸡蛋掉落](https://leetcode-cn.com/problems/super-egg-drop)  k 是次数，k 上有二分    
 - [256. 粉刷房子](https://leetcode-cn.com/problems/paint-house/) k 是颜色
 - [265. 粉刷房子 II](https://leetcode-cn.com/problems/paint-house-ii/) k 是颜色
+- [975. 奇偶跳](https://leetcode-cn.com/problems/odd-even-jump/) k 表示当前的奇偶状态
+- [403. 青蛙过河](https://leetcode-cn.com/problems/frog-jump/) k 表示上一步的跳的步数
 - [1478. 安排邮筒](https://leetcode-cn.com/problems/allocate-mailboxes/) k 是个数, 前缀和维护状态转移时的查询
 - [1230. 抛掷硬币](https://leetcode-cn.com/problems/toss-strange-coins/) k 是个数
+- [410. 分割数组的最大值](https://leetcode-cn.com/problems/split-array-largest-sum/) k 是份数
 
 #### $1.3.1 股票系列: dp[i][k][state] i 是时间，k 是次数，state 是状态机(在某一个位置或者时刻可以选择多种状态)
 - [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock)    
@@ -53,6 +67,7 @@
 - [174. 地下城游戏](https://leetcode-cn.com/problems/dungeon-game/)  
 - [931. 下降路径最小和](https://leetcode-cn.com/problems/minimum-falling-path-sum/)
 - [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
+- [1074. 元素和为目标值的子矩阵数量](https://leetcode-cn.com/problems/number-of-submatrices-that-sum-to-target/)
 
 #### 变形:两个位置的情况 dp[位置1][位置2]
 原始方程是四维, dp[i1][j1][i2][j2], 如果有一个约束条件，可以 dp[i1][i2][k]
@@ -60,6 +75,8 @@
 - [1463. 摘樱桃 II](https://leetcode-cn.com/problems/cherry-pickup-ii/) dp[i1][i2][level] level 为层数
 
 ### $1.5 矩阵 dp[i][j][k], (i, j) 为位置，k 为次数，长度等指标
+- [363. 矩形区域不超过 K 的最大数值和](https://leetcode-cn.com/problems/max-sum-of-rectangle-no-larger-than-k/) k 为宽度
+- [面试题 17.24. 最大子矩阵](https://leetcode-cn.com/problems/max-submatrix-lcci/) 思路类似一维的最大子数组和
 - [1444. 切披萨的方案数](https://leetcode-cn.com/problems/number-of-ways-of-cutting-a-pizza/) 需要二维前缀和判断两个状态之间能否转移
 
   
@@ -74,6 +91,7 @@
   
   
 #### 2、区间 DP  
+- [x] [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 [516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence)    
 [1312. 让字符串成为回文串的最少插入次数](https://leetcode-cn.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/) 最长回文子序列
 [730. 统计不同回文子字符串](https://leetcode-cn.com/problems/count-different-palindromic-subsequences)    
@@ -129,12 +147,19 @@ sum[i] = sum[i.left] + sum[i.right] + val(i);
 [943. 最短超级串](https://leetcode-cn.com/problems/find-the-shortest-superstring/) 状态压缩DP + DP过程记录路径
 - [980. 不同路径 III](https://leetcode-cn.com/problems/unique-paths-iii/) 状态压缩DP+记忆化
   
+
 #### 6、数位 DP  
-[233. 数字 1 的个数](https://leetcode-cn.com/problems/number-of-digit-one)    
-[248. 中心对称数 III](https://leetcode-cn.com/problems/strobogrammatic-number-iii/)  
-[902. 最大为 N 的数字组合](https://leetcode-cn.com/problems/numbers-at-most-n-given-digit-set)    
-[1015. 可被 K 整除的最小整数](https://leetcode-cn.com/problems/smallest-integer-divisible-by-k)    
-[1088. 易混淆数 II](https://leetcode-cn.com/problems/confusing-number-ii/)
+#### 满足某些条件的数字个数
+- [902. 最大为 N 的数字组合](https://leetcode-cn.com/problems/numbers-at-most-n-given-digit-set/)
+- [248. 中心对称数 III](https://leetcode-cn.com/problems/strobogrammatic-number-iii/)
+- [357. 计算各个位数不同的数字个数](https://leetcode-cn.com/problems/count-numbers-with-unique-digits/)
+- [1088. 易混淆数 II](https://leetcode-cn.com/problems/confusing-number-ii/)
+- [1012. 至少有 1 位重复的数字](https://leetcode-cn.com/problems/numbers-with-repeated-digits/)
+- [ ] [1397. 找到所有好字符串](https://leetcode-cn.com/problems/find-all-good-strings/) 根据字符串的字典序，本题具有**给定下界 l 和上界 r，求 [l, r] 之间满足某一要求的元素个数**的形式。
+
+#### 求总的贡献
+- [233. 数字 1 的个数](https://leetcode-cn.com/problems/number-of-digit-one/)
+- [1067. 范围内的数字计数](https://leetcode-cn.com/problems/digit-count-in-range/)
   
 #### 7、计数问题  
 计数是组合数学的重要内容。不考虑用母函数等手段求解析解的化，计数问题一般有两种做法
@@ -165,7 +190,8 @@ sum[i] = sum[i.left] + sum[i.right] + val(i);
 
 隐晦的递推关系: 
 - [935. 骑士拨号器](https://leetcode-cn.com/problems/knight-dialer)    
-- [957. N 天后的牢房](https://leetcode-cn.com/problems/prison-cells-after-n-days)    
+- [418. 屏幕可显示句子的数量](https://leetcode-cn.com/problems/sentence-screen-fitting/)  可以通过模拟找循环节
+- [957. N 天后的牢房](https://leetcode-cn.com/problems/prison-cells-after-n-days) 可以通过模拟找循环节
 - [276. 栅栏涂色](https://leetcode-cn.com/problems/paint-fence/)  
   
 #### 9、概率型 DP  
@@ -179,6 +205,8 @@ sum[i] = sum[i.left] + sum[i.right] + val(i);
   
 #### 10、博弈型 DP  
 策梅洛定理，SG 定理，minimax  
+
+[464. 我能赢吗](https://leetcode-cn.com/problems/can-i-win)    
   
 - 翻转游戏  
 [293. 翻转游戏](https://leetcode-cn.com/problems/flip-game)    
@@ -236,6 +264,3 @@ sum[i] = sum[i.left] + sum[i.right] + val(i);
 [410]  
 [688. “马”在棋盘上的概率](https://leetcode-cn.com/problems/knight-probability-in-chessboard/)
   
----  
-  
-https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92.md#4-%E4%BF%A1%E4%BB%B6%E9%94%99%E6%8E%92  

@@ -9,3 +9,7 @@ https://segmentfault.com/a/1190000021581680
 https://leetcode-cn.com/problems/utf-8-validation/solution/java-dfa-by-zdxiq125/
 
 [688. “马”在棋盘上的概率]
+
+
+- [418. 屏幕可显示句子的数量](https://leetcode-cn.com/problems/sentence-screen-fitting/)
+- [957. N 天后的牢房](https://leetcode-cn.com/problems/prison-cells-after-n-days)    

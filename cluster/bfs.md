@@ -32,7 +32,7 @@
 [778. 水位上升的泳池中游泳](https://leetcode-cn.com/problems/swim-in-rising-water/) 优先级队列
 [864. 获取所有钥匙的最短路径](https://leetcode-cn.com/problems/shortest-path-to-get-all-keys/) 状态压缩
 [934. 最短的桥](https://leetcode-cn.com/problems/shortest-bridge/) DFS+BFS
-[286. 墙与门](https://leetcode-cn.com/problems/walls-and-gates/)
+[286. 墙与门](https://leetcode-cn.com/problems/walls-and-gates/) 多源 BFS
 [994. 腐烂的橘子](https://leetcode-cn.com/problems/rotting-oranges/)
 [317. 离建筑物最近的距离](https://leetcode-cn.com/problems/shortest-distance-from-all-buildings/)
 [面试题 08.10. 颜色填充](https://leetcode-cn.com/problems/color-fill-lcci/)

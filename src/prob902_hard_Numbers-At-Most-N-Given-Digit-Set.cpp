@@ -180,3 +180,47 @@ private:
     }
 };
 
+
+// 重写数位 DP
+class Solution_4
+{
+public:
+    int atMostNGivenDigitSet(vector<string>& D, int N)
+    {
+        set<int> num_set;
+        for(const string &s: D)
+            num_set.insert(s[0] - '0');
+        // [1, N]
+        vector<int> digits;
+        while(N)
+        {
+            digits.push_back(N % 10);
+            N /= 10;
+        }
+        int m = digits.size();
+        vector<int> dp(m, -1);
+        int ans = getdp(m - 1, 1, 1, digits, dp, num_set);
+        return ans;
+    }
+
+private:
+    int getdp(int pos, int lim, int zero, const vector<int>& digits, vector<int>& dp, const set<int>& num_set)
+    {
+        if(pos == -1) return !zero;
+        if(!lim && !zero && dp[pos] != -1)
+            return dp[pos];
+        int ans = 0;
+        if(zero)
+            ans += getdp(pos - 1, 0, 1, digits, dp, num_set);
+        int up = lim ? digits[pos] : 9;
+        for(int i: num_set)
+        {
+            if(i > up)
+                break;
+            if(zero && i == 0) continue;
+            ans += getdp(pos - 1, lim && i == up, 0, digits, dp, num_set);
+        }
+        if(!zero && !lim) dp[pos] = ans;
+        return ans;
+    }
+};
