@@ -4,7 +4,6 @@
 - [248. 中心对称数 III](https://leetcode-cn.com/problems/strobogrammatic-number-iii/)
 - [301. 删除无效的括号](https://leetcode-cn.com/problems/remove-invalid-parentheses/)
 - [291. 单词规律 II](https://leetcode-cn.com/problems/word-pattern-ii/)
-[488] 大量剪枝
 
 ## 经典问题
 #### 排列组合子集
@@ -29,6 +28,10 @@
 ## 搜索顺序
 [473. 火柴拼正方形](https://leetcode-cn.com/problems/matchsticks-to-square/)  
 [698. 划分为k个相等的子集](https://leetcode-cn.com/problems/partition-to-k-equal-sum-subsets/) 可以对状态压缩后的整数做记忆化
+
+## 剪枝
+[488] 大量剪枝
+[956. 最高的广告牌](https://leetcode-cn.com/problems/tallest-billboard/) 剪枝，搜索顺序
 
 ## 记忆化
 [面试题 16.11. 跳水板](https://leetcode-cn.com/problems/diving-board-lcci/)
