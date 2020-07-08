@@ -250,6 +250,7 @@
 - [276. 栅栏涂色](https://leetcode-cn.com/problems/paint-fence/)  
 - [1155. 掷骰子的N种方法](https://leetcode-cn.com/problems/number-of-dice-rolls-with-target-sum/)
 - [552. 学生出勤记录 II](https://leetcode-cn.com/problems/student-attendance-record-ii/)
+- [940. 不同的子序列 II](https://leetcode-cn.com/problems/distinct-subsequences-ii/) 找规律
   
 #### 9、概率型 DP  
 求概率，求数学期望  
@@ -296,6 +297,7 @@
 - [688. “马”在棋盘上的概率](https://leetcode-cn.com/problems/knight-probability-in-chessboard/) k 表示剩余次数
 - [514. 自由之路](https://leetcode-cn.com/problems/freedom-trail/) 双串 dp[i][j]
 - [546. 移除盒子](https://leetcode-cn.com/problems/remove-boxes/) 戳气球升级版，[i][j] 基础上加了一维 k 状态，k 是 j 右侧与 j 相同的元素个数, 记忆化
+- [964. 表示数字的最少运算符](https://leetcode-cn.com/problems/least-operators-to-express-number/)
 
 #### 12、DAG
 - [568. 最大休假天数](https://leetcode-cn.com/problems/maximum-vacation-days/) HMM 前向传播
@@ -307,9 +309,6 @@
 
 ---
 
-[920. 播放列表的数量](https://leetcode-cn.com/problems/number-of-music-playlists/)
-[940. 不同的子序列 II](https://leetcode-cn.com/problems/distinct-subsequences-ii/)
-[964. 表示数字的最少运算符](https://leetcode-cn.com/problems/least-operators-to-express-number/)
 [1058. 最小化舍入误差以满足目标](https://leetcode-cn.com/problems/minimize-rounding-error-to-meet-target/)
 [1066. 校园自行车分配 II](https://leetcode-cn.com/problems/campus-bikes-ii/)
 [1074. 元素和为目标值的子矩阵数量](https://leetcode-cn.com/problems/number-of-submatrices-that-sum-to-target/) 思路类似求和为K的子数组的数量
