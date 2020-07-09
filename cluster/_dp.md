@@ -5,7 +5,8 @@
 #### $1.1.1 最经典单串 LIS 系列：  
 - [300. 最长上升子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)      
 - [673. 最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/) LIS, len 和 cnt 各一个 dp    
-- [354. 俄罗斯套娃信封问题](https://leetcode-cn.com/problems/russian-doll-envelopes) LIS    
+- [354. 俄罗斯套娃信封问题](https://leetcode-cn.com/problems/russian-doll-envelopes) 通过合适的排序转换为 LIS    
+- [面试题 17.08. 马戏团人塔](https://leetcode-cn.com/problems/circus-tower-lcci/) 与俄罗斯套娃信封一样
 - [960. 删列造序 III](https://leetcode-cn.com/problems/delete-columns-to-make-sorted-iii/) 自定义 LIS 中的小于
 - [1048. 最长字符串链](https://leetcode-cn.com/problems/longest-string-chain/) 自定义 LIS 中的小于
 - [646. 最长数对链](https://leetcode-cn.com/problems/maximum-length-of-pair-chain/) LIS 的对象是区间
@@ -211,6 +212,7 @@
 - [1012. 至少有 1 位重复的数字](https://leetcode-cn.com/problems/numbers-with-repeated-digits/)
 - [600. 不含连续1的非负整数](https://leetcode-cn.com/problems/non-negative-integers-without-consecutive-ones/)
 - [ ] [1397. 找到所有好字符串](https://leetcode-cn.com/problems/find-all-good-strings/) 根据字符串的字典序，本题具有**给定下界 l 和上界 r，求 [l, r] 之间满足某一要求的元素个数**的形式。
+- [面试题 17.06. 2出现的次数](https://leetcode-cn.com/problems/number-of-2s-in-range-lcci/)
 
 #### 求总的贡献
 - [233. 数字 1 的个数](https://leetcode-cn.com/problems/number-of-digit-one/)
@@ -298,6 +300,7 @@
 - [514. 自由之路](https://leetcode-cn.com/problems/freedom-trail/) 双串 dp[i][j]
 - [546. 移除盒子](https://leetcode-cn.com/problems/remove-boxes/) 戳气球升级版，[i][j] 基础上加了一维 k 状态，k 是 j 右侧与 j 相同的元素个数, 记忆化
 - [964. 表示数字的最少运算符](https://leetcode-cn.com/problems/least-operators-to-express-number/)
+- [面试题 17.13. 恢复空格](https://leetcode-cn.com/problems/re-space-lcci/)
 
 #### 12、DAG
 - [568. 最大休假天数](https://leetcode-cn.com/problems/maximum-vacation-days/) HMM 前向传播

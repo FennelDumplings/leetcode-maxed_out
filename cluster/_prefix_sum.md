@@ -14,6 +14,7 @@
 #### HashMap 维护，键是前缀和(状态)的值，值为第一次出现时的索引
 - [325. 和等于 k 的最长子数组长度](https://leetcode-cn.com/problems/maximum-size-subarray-sum-equals-k/)  
 - [525. 连续数组](https://leetcode-cn.com/problems/contiguous-array/)  
+- [面试题 17.05.  字母与数字](https://leetcode-cn.com/problems/find-longest-subarray-lcci/)
 - [1371. 每个元音包含偶数次的最长子字符串](https://leetcode-cn.com/problems/find-the-longest-substring-containing-vowels-in-even-counts/): 前缀状态为 a,e,i,o,u 的个数的奇偶  
 
 
