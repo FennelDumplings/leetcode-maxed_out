@@ -84,10 +84,10 @@ N 叉树是指每个节点最多可以有 N 个子节点的树形结构。实现
 [501. 二叉搜索树中的众数](https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/)  
 [230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)  
 [272. 最接近的二叉搜索树值 II](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)  
-[530. 二叉搜索树的最小绝对差](https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/) / [783. 二叉搜索树节点最小距离](https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/)  
+[530. 二叉搜索树的最小绝对差](https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/)
 [99. 恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)(follow up 是 morris 中序遍历)  
-[426. 将二叉搜索树转化为排序的双向链表]
-[530]
+[426. 将二叉搜索树转化为排序的双向链表](https://leetcode-cn.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/)
+[530. 二叉搜索树的最小绝对差](https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/)
 [783. 二叉搜索树节点最小距离](https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/submissions/) (用引用维护 prev)
 
 ### 前驱后继(非递归中序遍历)

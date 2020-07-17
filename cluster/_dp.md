@@ -24,6 +24,7 @@
 - [213. 打家劫舍 II](https://leetcode-cn.com/problems/house-robber-ii) 环形数组的处理
 - [740. 删除与获得点数](https://leetcode-cn.com/problems/delete-and-earn/) 在 cnt 数组上的打家劫舍    
 - [1388. 3n 块披萨](https://leetcode-cn.com/problems/pizza-with-3n-slices/) 抽象成环形数组上的打家劫舍    
+- [面试题 17.16. 按摩师](https://leetcode-cn.com/problems/the-masseuse-lcci/)
 
 #### $1.1.4 变形,需要两个位置的情况: dp[i][j] 以 j, i 结尾
 - [873. 最长的斐波那契子序列的长度](https://leetcode-cn.com/problems/length-of-longest-fibonacci-subsequence/) dp[i][j]:= 以 j, i 结尾，转移时在 [0..j] 中找满足条件的 k 这一步可以二分或哈希表
@@ -122,7 +123,8 @@
 - [651. 4键键盘](https://leetcode-cn.com/problems/4-keys-keyboard/) 需要二维状态 dp[i][k], k 是紧跟着的粘贴次数，有数学法
 - [264. 丑数 II](https://leetcode-cn.com/problems/ugly-number-ii/) 
 - **[279. 完全平方数](https://leetcode-cn.com/problems/perfect-squares/)** 有数学法
-- [343. 整数拆分](https://leetcode-cn.com/problems/integer-break/)
+- [343. 整数拆分](https://leetcode-cn.com/problems/integer-break/) 有数学法
+- [剑指 Offer 14- I. 剪绳子](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/) 与 343 相同
 - [1335. 工作计划的最低难度](https://leetcode-cn.com/problems/minimum-difficulty-of-a-job-schedule/)
 - [920. 播放列表的数量](https://leetcode-cn.com/problems/number-of-music-playlists/) 有数学法
 - [629. K个逆序对数组](https://leetcode-cn.com/problems/k-inverse-pairs-array/)
@@ -217,6 +219,7 @@
 #### 求总的贡献
 - [233. 数字 1 的个数](https://leetcode-cn.com/problems/number-of-digit-one/)
 - [1067. 范围内的数字计数](https://leetcode-cn.com/problems/digit-count-in-range/)
+- [面试题 17.06. 2出现的次数](https://leetcode-cn.com/problems/number-of-2s-in-range-lcci/)
   
 #### 7、计数问题  
 计数是组合数学的重要内容。不考虑用母函数等手段求解析解的化，计数问题一般有两种做法

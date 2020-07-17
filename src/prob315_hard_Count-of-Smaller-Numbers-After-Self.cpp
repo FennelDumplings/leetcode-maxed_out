@@ -203,3 +203,347 @@ private:
             indexes[i] = tmp[k];
     }
 };
+
+// 平衡树
+// 利用二叉搜索树的特性：左边节点的值小于等于当前节点值，右边节点的值大于等于当前节点值。
+// 那么实现算法首先要构建一颗二叉搜索树：
+// 1. 定义树的节点结构 TreeNode
+// 2. 实现树的节点插入方法 insertNode
+// 其中， insertNode 方法需要实现几个功能：
+// 1. 构建二叉树
+// 2. 维护每个节点中其左子树节点数量值 count：如果新加入的节点需要加入当前节点的左子树，则当前节点的 count += 1
+// 3. 计算出新加入节点 nums[i] 的 "右侧小于当前元素的个数"，即题目所求值 res[i]
+
+// 0. BST
+struct BSTNode
+{
+    int data;
+    BSTNode *left;
+    BSTNode *right;
+    int size;
+    BSTNode():left(nullptr),right(nullptr){}
+    BSTNode(const int& x, BSTNode* p=nullptr, BSTNode* q=nullptr, int s=1):data(x),left(p),right(q),size(s){}
+    ~BSTNode()
+    {
+        if(left)
+        {
+            delete left;
+            left = nullptr;
+        }
+        if(right)
+        {
+            delete right;
+            right = nullptr;
+        }
+    }
+};
+
+class BinarySearchTree
+{
+public:
+    BinarySearchTree():root(nullptr){}
+    ~BinarySearchTree()
+    {
+        if(root)
+        {
+            delete root;
+            root = nullptr;
+        }
+    }
+
+    bool find(const int& x) const
+    {
+        return find(x, root);
+    }
+
+    void insert(const int& x)
+    {
+        insert(x, root);
+    }
+
+    void remove(const int& x)
+    {
+        remove(x, root);
+    }
+
+    int lessthan(const int& x) const
+    {
+        return lessthan(x, root);
+    }
+
+private:
+    BSTNode *root;
+
+    int lessthan(const int& x, BSTNode* t) const;
+    void insert(const int& x, BSTNode*& t);
+    void remove(const int& x, BSTNode*& t);
+    BSTNode* find(const int& x, BSTNode* t) const;
+};
+
+int BinarySearchTree::lessthan(const int& x, BSTNode* t) const
+{
+    if(t -> data >= x)
+    {
+        if(!t -> left)
+            return 0;
+        return lessthan(x, t -> left);
+    }
+    // t -> data < x
+    int ans = 1;
+    if(t -> left)
+        ans += t -> left -> size;
+    if(t -> right)
+        ans += lessthan(x, t -> right);
+    return ans;
+}
+
+BSTNode* BinarySearchTree::find(const int& x, BSTNode* t) const
+{
+    if(t == nullptr) return nullptr;
+    else if(t -> data > x) return find(x, t -> left);
+    else if(t -> data < x) return find(x, t -> right);
+    else return t;
+}
+
+void BinarySearchTree::insert(const int& x, BSTNode*& t)
+{
+    if(t == nullptr)
+    {
+        t = new BSTNode(x, nullptr, nullptr, 1);
+        return;
+    }
+    ++(t -> size);
+    if(t -> data > x)
+        insert(x, t -> left);
+    else
+        insert(x, t -> right);
+}
+
+void BinarySearchTree::remove(const int& x, BSTNode*& t)
+{
+    if(t == nullptr) return;
+    --(t -> size);
+    if(x < t -> data)
+        remove(x, t -> left);
+    if(x > t -> data)
+        remove(x, t -> right);
+    if(x == t -> data)
+    {
+        // 找到被删节点 t
+        if(t -> left != nullptr && t -> right != nullptr)
+        {
+            // t 有两个子节点
+            BSTNode *successor = t -> right;
+            while(successor -> left != nullptr)
+                successor = successor -> left;
+            t -> data = successor -> data;
+            remove(t -> data, t -> right);
+        }
+        else
+        {
+            // t 只有 1 个子节点，或没有子节点
+            BSTNode *oldNode = t;
+            t = (t -> left != nullptr) ? t -> left : t -> right;
+            delete oldNode;
+        }
+    }
+}
+
+class Solution_4 {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        if(nums.empty()) return {};
+        int n = nums.size();
+        vector<int> result(n);
+        BinarySearchTree bst;
+        result[n - 1] = 0;
+        bst.insert(nums[n - 1]);
+        for(int i = n - 2; i >= 0; --i)
+        {
+            result[i] = bst.lessthan(nums[i]);
+            bst.insert(nums[i]);
+        }
+        return result;
+    }
+};
+
+
+
+// 1. SBT
+struct SBTNode
+{
+    int data;
+    SBTNode *left;
+    SBTNode *right;
+    int size;
+    SBTNode():left(nullptr),right(nullptr){}
+    SBTNode(const int& x, SBTNode* p=nullptr, SBTNode* q=nullptr, int s=1):data(x),left(p),right(q),size(s){}
+    ~SBTNode()
+    {
+        if(left)
+        {
+            delete left;
+            left = nullptr;
+        }
+        if(right)
+        {
+            delete right;
+            right = nullptr;
+        }
+    }
+};
+
+class SizeBalancedTree
+{
+public:
+    SizeBalancedTree():root(nullptr){}
+    ~SizeBalancedTree()
+    {
+        if(root)
+        {
+            delete root;
+            root = nullptr;
+        }
+    }
+
+    void insert(const int& x)
+    {
+        insert(x, root);
+    }
+
+    int lessthan(const int& x) const
+    {
+        return lessthan(x, root);
+    }
+
+private:
+    SBTNode *root;
+
+    int lessthan(const int& x, SBTNode* t) const;
+    void insert(const int& x, SBTNode*& t);
+    void maintain(SBTNode*& t, bool flag);
+
+    void left_rotate(SBTNode*& t)
+    {
+        // 调用方保证 t -> right 存在
+        SBTNode *tmp = t -> right;
+        t -> right = tmp -> left;
+        tmp -> left = t;
+        tmp -> size = t -> size;
+        t -> size = 1;
+        if(t -> right)
+            t -> size += t -> right -> size;
+        if(t -> left)
+            t -> size += t -> left -> size;
+        t = tmp;
+    }
+
+    void right_rotate(SBTNode*& t)
+    {
+        // 调用方保证 t -> left 存在
+        SBTNode *tmp = t -> left;
+        t -> left = tmp -> right;
+        tmp -> right = t;
+        tmp -> size = t -> size;
+        t -> size = 1;
+        if(t -> right)
+            t -> size += t -> right -> size;
+        if(t -> left)
+            t -> size += t -> left -> size;
+        t = tmp;
+    }
+};
+
+void SizeBalancedTree::maintain(SBTNode*& t, bool flag)
+{
+    if(!flag)
+    {
+        if((t -> left && t -> left -> left) && (!t -> right || t -> left -> left -> size > t -> right -> size))
+        {
+            right_rotate(t);
+        }
+        else
+        {
+            if((t -> left && t -> left -> right) && (!t -> right || t -> left -> right -> size > t -> right -> size))
+            {
+                left_rotate(t -> left);
+                right_rotate(t);
+            }
+            else
+                return;
+        }
+    }
+    else
+    {
+        if((t -> right && t -> right -> right) && (!t -> left || t -> right -> right -> size > t -> left -> size))
+        {
+            left_rotate(t);
+        }
+        else
+        {
+            if((t -> right && t -> right -> left) && (!t -> left || t -> right -> left -> size > t -> left -> size))
+            {
+                right_rotate(t -> right);
+                left_rotate(t);
+            }
+            else
+                return;
+        }
+    }
+    maintain(t -> left, false);
+    maintain(t -> right, true);
+    maintain(t, false);
+    maintain(t, true);
+}
+
+int SizeBalancedTree::lessthan(const int& x, SBTNode* t) const
+{
+    if(t -> data >= x)
+    {
+        if(!t -> left)
+            return 0;
+        return lessthan(x, t -> left);
+    }
+    // t -> data < x
+    int ans = 1;
+    if(t -> left)
+        ans += t -> left -> size;
+    if(t -> right)
+        ans += lessthan(x, t -> right);
+    return ans;
+}
+
+void SizeBalancedTree::insert(const int& x, SBTNode*& t)
+{
+    if(t == nullptr)
+    {
+        t = new SBTNode(x, nullptr, nullptr, 1);
+        return;
+    }
+    ++(t -> size);
+    if(t -> data > x)
+        insert(x, t -> left);
+    else
+        insert(x, t -> right);
+    // maintain(t);
+    maintain(t, x >= t -> data);
+}
+
+
+class Solution_5 {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        if(nums.empty()) return {};
+        int n = nums.size();
+        vector<int> result(n);
+        SizeBalancedTree sbt;
+        result[n - 1] = 0;
+        sbt.insert(nums[n - 1]);
+        for(int i = n - 2; i >= 0; --i)
+        {
+            result[i] = sbt.lessthan(nums[i]);
+            sbt.insert(nums[i]);
+        }
+        return result;
+    }
+};

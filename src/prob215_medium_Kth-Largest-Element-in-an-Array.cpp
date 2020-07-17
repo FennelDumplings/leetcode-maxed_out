@@ -365,3 +365,45 @@ public:
         return partitiontree.query(0, n - 1, n + 1 - k);
     }
 };
+
+// 二分
+class Solution_5 {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int n = nums.size();
+        return topk(nums, n + 1 - k);
+    }
+
+private:
+    int topk(const vector<int>& nums, int k)
+    {
+        // 从小到大排第 k
+        int n = nums.size();
+        int maxx = nums[0], minx = nums[0];
+        for(int i = 1; i < n; ++i)
+        {
+            maxx = max(maxx, nums[i]);
+            minx = min(minx, nums[i]);
+        }
+        int left = minx, right = maxx;
+        while(left < right)
+        {
+            int mid = (left + right + 1) / 2;
+            int x = check(nums, mid);
+            if(x >= k)
+                right = mid - 1;
+            else
+                left = mid;
+        }
+        return left;
+    }
+
+    int check(const vector<int>& nums, int mid)
+    {
+        int ans = 0;
+        for(int i: nums)
+            if(i < mid)
+                ++ans;
+        return ans;
+    }
+};
