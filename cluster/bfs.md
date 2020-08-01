@@ -2,6 +2,7 @@
 ## 一些常见的办法
 #### 双端队列
 1368
+1263
 #### 优先级队列(dijkstra)
 778
 #### 多源BFS
@@ -36,6 +37,7 @@
 [994. 腐烂的橘子](https://leetcode-cn.com/problems/rotting-oranges/)
 [317. 离建筑物最近的距离](https://leetcode-cn.com/problems/shortest-distance-from-all-buildings/)
 [面试题 08.10. 颜色填充](https://leetcode-cn.com/problems/color-fill-lcci/)
+[1263. 推箱子](https://leetcode-cn.com/problems/minimum-moves-to-move-a-box-to-their-target-location/) 状态比较复杂，取决于两个点
 
 #### 迷宫系列
 

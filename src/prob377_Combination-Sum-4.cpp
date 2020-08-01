@@ -133,3 +133,25 @@ private:
             dfs(nums, target - num, result);
     }
 };
+
+// DP
+class Solution {
+public:
+    int combinationSum4(vector<int>& nums, int target) {
+        const int MOD = INT_MAX;
+        using ll = long long;
+        int n = target;
+        if(n == 0) return 1;
+        vector<ll> dp(n + 1, 0);
+        dp[0] = 1;
+        const vector<int> &v = nums;
+        int m = v.size();
+        for(int j = 1; j <= n; ++j)
+        {
+            for(int i = 0; i < m; ++i)
+                if(j - v[i] >= 0)
+                    dp[j] = (dp[j] + dp[j - v[i]]) % MOD;
+        }
+        return dp[n];
+    }
+};

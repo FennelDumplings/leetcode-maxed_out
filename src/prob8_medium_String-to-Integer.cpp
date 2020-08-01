@@ -117,3 +117,61 @@ private:
             return false;
     }
 };
+
+#include <vector>
+
+class Solution_2 {
+public:
+    int myAtoi(string str) {
+        if(str.empty()) return 0;
+        int n = str.size();
+        int state = 0;
+        vector<bool> finals({0, 0, 1});
+        vector<vector<int>> transfer({
+                {0,  1,  2, -1},
+                {-1, -1, 2, -1},
+                {-1, -1, 2, -1},
+                });
+
+        int sign = 1;
+        long long ans = 0;
+        for(int i = 0; i < n; ++i)
+        {
+            state = transfer[state][_make(str[i])];
+            if(state < 0)
+                return sign * ans;
+            if(state == 1 && str[i] == '-')
+                sign = -1;
+            if(state == 2)
+            {
+                ans *= 10;
+                ans += str[i] - '0';
+            }
+            if(ans * sign <= INT_MIN)
+                return INT_MIN;
+            if(ans * sign >= INT_MAX)
+                return INT_MAX;
+        }
+        return sign * ans;
+    }
+
+private:
+    int _make(const char& c)
+    {
+        switch(c)
+        {
+            case ' ': return 0;
+            case '+': return 1;
+            case '-': return 1;
+            default: return _number(c);
+        }
+    }
+
+    int _number(const char& ch)
+    {
+        if(ch >= '0' && ch <= '9')
+            return 2;
+        else
+            return 3;
+    }
+};

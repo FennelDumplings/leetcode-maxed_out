@@ -2,6 +2,7 @@
 ## 字符串上的模拟
 #### 转换
 [273. 整数转换英文表示](https://leetcode-cn.com/problems/integer-to-english-words/)
+[38. 外观数列](https://leetcode-cn.com/problems/count-and-say/)
 
 ## 矩阵上的模拟
 

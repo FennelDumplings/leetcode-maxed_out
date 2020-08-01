@@ -85,3 +85,14 @@ private:
             return 5;
     }
 };
+
+#include <regex>
+
+class Solution_2 {
+public:
+    bool isNumber(string s) {
+        regex reg("^\\s*[+-]?(\\.\\d+|\\d+\\.?\\d*)([eE][+-]?\\d+)?\\s*$");
+        bool flag = regex_match(s, reg);
+        return flag;
+    }
+};

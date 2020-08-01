@@ -547,3 +547,44 @@ public:
         return result;
     }
 };
+
+// vector
+// 292ms
+#include <deque>
+class Solution_6 {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        if(nums.empty()) return {};
+        int n = nums.size();
+        vector<int> result(n);
+        result[n - 1] = 0;
+        vector<int> vec({nums[n - 1]});
+        for(int i = n - 2; i >= 0; --i)
+        {
+            auto it = lower_bound(vec.begin(), vec.end(), nums[i]);
+            result[i] = it - vec.begin();
+            vec.insert(it, nums[i]);
+        }
+        return result;
+    }
+};
+
+// deque
+// 252ms
+class Solution_7 {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        if(nums.empty()) return {};
+        int n = nums.size();
+        vector<int> result(n);
+        result[n - 1] = 0;
+        deque<int> deq({nums[n - 1]});
+        for(int i = n - 2; i >= 0; --i)
+        {
+            auto it = lower_bound(deq.begin(), deq.end(), nums[i]);
+            result[i] = it - deq.begin();
+            deq.insert(it, nums[i]);
+        }
+        return result;
+    }
+};

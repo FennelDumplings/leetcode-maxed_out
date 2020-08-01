@@ -250,3 +250,4 @@ private:
     int capacity;
     vector<stack<int>*> vec;
 };
+

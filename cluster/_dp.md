@@ -7,6 +7,7 @@
 - [673. 最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/) LIS, len 和 cnt 各一个 dp    
 - [354. 俄罗斯套娃信封问题](https://leetcode-cn.com/problems/russian-doll-envelopes) 通过合适的排序转换为 LIS    
 - [面试题 17.08. 马戏团人塔](https://leetcode-cn.com/problems/circus-tower-lcci/) 与俄罗斯套娃信封一样
+- [面试题 08.13. 堆箱子](https://leetcode-cn.com/problems/pile-box-lcci/) 三维俄罗斯套娃信封
 - [960. 删列造序 III](https://leetcode-cn.com/problems/delete-columns-to-make-sorted-iii/) 自定义 LIS 中的小于
 - [1048. 最长字符串链](https://leetcode-cn.com/problems/longest-string-chain/) 自定义 LIS 中的小于
 - [646. 最长数对链](https://leetcode-cn.com/problems/maximum-length-of-pair-chain/) LIS 的对象是区间
@@ -102,6 +103,8 @@
 - [931. 下降路径最小和](https://leetcode-cn.com/problems/minimum-falling-path-sum/)
 - [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
 - [1289. 下降路径最小和  II](https://leetcode-cn.com/problems/minimum-falling-path-sum-ii/)
+- [剑指 Offer 47. 礼物的最大价值](https://leetcode-cn.com/problems/li-wu-de-zui-da-jie-zhi-lcof/)
+- [面试题 08.02. 迷路的机器人](https://leetcode-cn.com/problems/robot-in-a-grid-lcci/)
 
 
 #### 变形:两个位置的情况 dp[位置1][位置2]
@@ -145,6 +148,8 @@
 - [664. 奇怪的打印机](https://leetcode-cn.com/problems/strange-printer)    
 - [1312. 让字符串成为回文串的最少插入次数](https://leetcode-cn.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/) 最长回文子序列
 - [471. 编码最短长度的字符串](https://leetcode-cn.com/problems/encode-string-with-shortest-length/)
+- [241. 为运算表达式设计优先级](https://leetcode-cn.com/problems/different-ways-to-add-parentheses/)
+- [面试题 08.14. 布尔运算](https://leetcode-cn.com/problems/boolean-evaluation-lcci/)
   
 #### 3、背包 DP  
 组合问题(求方案数)  
@@ -153,6 +158,7 @@
 - [494. 目标和 (01背包-求方案数)](https://leetcode-cn.com/problems/target-sum)    
 - [518. 零钱兑换 II (完全背包-求方案数)](https://leetcode-cn.com/problems/coin-change-2)    
 - [879. 盈利计划(01背包-求方案数)](https://leetcode-cn.com/problems/profitable-schemes/) 总价值有要求：有下限
+- [面试题 08.11. 硬币](https://leetcode-cn.com/problems/coin-lcci/)
 
 恰好取到背包容量  
 `dp[i] = dp[i] or dp[i - num]`  
@@ -215,6 +221,7 @@
 - [600. 不含连续1的非负整数](https://leetcode-cn.com/problems/non-negative-integers-without-consecutive-ones/)
 - [ ] [1397. 找到所有好字符串](https://leetcode-cn.com/problems/find-all-good-strings/) 根据字符串的字典序，本题具有**给定下界 l 和上界 r，求 [l, r] 之间满足某一要求的元素个数**的形式。
 - [面试题 17.06. 2出现的次数](https://leetcode-cn.com/problems/number-of-2s-in-range-lcci/)
+- [剑指 Offer 43. 1～n整数中1出现的次数](https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/)
 
 #### 求总的贡献
 - [233. 数字 1 的个数](https://leetcode-cn.com/problems/number-of-digit-one/)
@@ -247,6 +254,7 @@
 - [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number)    
 - [1137. 第 N 个泰波那契数](https://leetcode-cn.com/problems/n-th-tribonacci-number)    
 - [面试题10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+- [面试题 08.01. 三步问题](https://leetcode-cn.com/problems/three-steps-problem-lcci/)
 
 隐晦的递推关系: 
 - [935. 骑士拨号器](https://leetcode-cn.com/problems/knight-dialer)    
@@ -263,6 +271,7 @@
 - [837. 新21点](https://leetcode-cn.com/problems/new-21-game)    
 - [1230. 抛掷硬币](https://leetcode-cn.com/problems/toss-strange-coins/) k 是个数
 - [688. “马”在棋盘上的概率](https://leetcode-cn.com/problems/knight-probability-in-chessboard/) 用全概率公式进行状态转移
+- [剑指 Offer 60. n个骰子的点数](https://leetcode-cn.com/problems/nge-tou-zi-de-dian-shu-lcof/)
   
 #### 10、博弈型 DP  
 策梅洛定理，SG 定理，minimax  
