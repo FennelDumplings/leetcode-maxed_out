@@ -1,6 +1,7 @@
 - [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
 - [84. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
 - [496. 下一个更大元素 I](https://leetcode-cn.com/problems/next-greater-element-i/)
+- [503. 下一个更大元素 II](https://leetcode-cn.com/problems/next-greater-element-ii/)
 - [739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
 - [901. 股票价格跨度](https://leetcode-cn.com/problems/online-stock-span/)
 - [907. 子数组的最小值之和](https://leetcode-cn.com/problems/sum-of-subarray-minimums/)
@@ -10,6 +11,8 @@
 以下两题为同一个思路: 第一题为基础,第二题以第一题为组件
 - [456. 132模式](https://leetcode-cn.com/problems/132-pattern/)
 - [255. 验证前序遍历序列二叉搜索树](https://leetcode-cn.com/problems/verify-preorder-sequence-in-binary-search-tree/) 验证前序遍历序列不含231模式
+- [剑指 Offer 31. 栈的压入、弹出序列](https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/) 验证弹出序列不含 312 模式
+- [剑指 Offer 33. 二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/) 验证后续遍历序列不含 312 模式
 
 以下两题为同一个思路: 第一题为基础,第二题以第一题为组件
 - [962. 最大宽度坡](https://leetcode-cn.com/problems/maximum-width-ramp/)  

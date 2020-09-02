@@ -68,3 +68,8 @@
 ## $7 其它
 - [1381. 设计一个支持增量操作的栈](https://leetcode-cn.com/problems/design-a-stack-with-increment-operation/)  
 
+---
+
+[面试题 17.23. 最大黑方阵](https://leetcode-cn.com/problems/max-black-square-lcci/)
+[1031. 两个非重叠子数组的最大和](https://leetcode-cn.com/problems/maximum-sum-of-two-non-overlapping-subarrays/) 前后缀均需要
+[1567. 乘积为正数的最长子数组长度](https://leetcode-cn.com/problems/maximum-length-of-subarray-with-positive-product/)

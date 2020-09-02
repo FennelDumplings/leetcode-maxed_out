@@ -23,12 +23,10 @@ using namespace std;
 
 class LRUCache {
 public:
-    LRUCache() {
-        count = 0;
-    }
+    LRUCache() {}
 
     int size() {
-        return count;
+        return linkedlist.size();
     }
 
     int get(char key) {
@@ -45,7 +43,6 @@ public:
             remove(key);
         linkedlist.push_front(key);
         mapping.insert(pair<char, pair<int, list<char>::iterator>>(key, pair<int, list<char>::iterator>(index, linkedlist.begin())));
-        ++count;
     }
 
     void remove(char key) {
@@ -55,7 +52,6 @@ public:
             auto iter = (it -> second).second;
             linkedlist.erase(iter);
             mapping.erase(it);
-            --count;
         }
     }
 
@@ -65,12 +61,10 @@ public:
         int index = mapping[key].first;
         mapping.erase(mapping.find(key));
         linkedlist.pop_back();
-        --count;
         return index;
     }
 
 private:
-    int count;
     unordered_map<char, pair<int, list<char>::iterator>> mapping;
     list<char> linkedlist;
 };

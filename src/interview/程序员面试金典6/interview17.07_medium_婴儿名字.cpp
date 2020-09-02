@@ -17,15 +17,19 @@ public:
     UnionFindSet(const unordered_map<string, int>& mapping)
     {
         int n = mapping.size();
+        _rank = vector<int>(n, 1);
+        _w = vector<int>(n, -1);
+        for(int i = 0; i < n; ++i)
+            _w[i] = i;
         _father = vector<int>(n, -1);
-        _name = vector<string>(n, "");
         for(int i = 0; i < n; ++i)
             _father[i] = i;
+        _mapping = vector<string>(n, "");
         for(const auto &item: mapping)
         {
             const string &name = item.first;
             int id = item.second;
-            _name[id] = name;
+            _mapping[id] = name;
         }
     }
 
@@ -40,21 +44,31 @@ public:
         int y = _find(b);
         if(x == y)
             return ;
-        if(_name[x] < _name[y])
-            _father[y] = x;
-        else
+        if(_rank[x] < _rank[y])
             _father[x] = y;
+        else
+        {
+            _father[y] = x;
+            if(_rank[x] == _rank[y])
+                ++_rank[x];
+        }
+        if(_mapping[_w[x]] < _mapping[_w[y]])
+            _w[y] = x;
+        else
+            _w[x] = y;
     }
 
     string query(int id)
     {
         int root = _find(id);
-        return _name[root];
+        return _mapping[_w[root]];
     }
 
 private:
-    vector<string> _name;
+    vector<string> _mapping; // mapping[i] := 第 i 人的名字
     vector<int> _father;
+    vector<int> _rank;
+    vector<int> _w; // _w[root] := root 所属集合用的名字的 idx
 
     int _find(int x)
     {

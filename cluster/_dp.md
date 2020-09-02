@@ -83,6 +83,7 @@
 - [983. 最低票价](https://leetcode-cn.com/problems/minimum-cost-for-tickets/) k 是种类
 - [487. 最大连续1的个数 II](https://leetcode-cn.com/problems/max-consecutive-ones-ii/) k 为是否使用操作
 - [956. 最高的广告牌](https://leetcode-cn.com/problems/tallest-billboard/) k 是高度差
+- [1335. 工作计划的最低难度](https://leetcode-cn.com/problems/minimum-difficulty-of-a-job-schedule/) k 是天数
 
 #### $1.3.1 股票系列: dp[i][k][state] i 是时间，k 是次数，state 是状态机(在某一个位置或者时刻可以选择多种状态)
 - [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock)    
@@ -110,7 +111,7 @@
 #### 变形:两个位置的情况 dp[位置1][位置2]
 原始方程是四维, dp[i1][j1][i2][j2], 如果有一个约束条件，可以 dp[i1][i2][k]
 - [741. 摘樱桃](https://leetcode-cn.com/problems/cherry-pickup/)  dp[i1][i2][k] k 为步数，另：流量为 2 的最大费用最大流，每个点拆成费用 i 和费用 0 的边
-- [ ] [1463. 摘樱桃 II](https://leetcode-cn.com/problems/cherry-pickup-ii/) dp[i1][i2][level] level 为层数
+- [1463. 摘樱桃 II](https://leetcode-cn.com/problems/cherry-pickup-ii/) dp[i1][i2][level] level 为层数
 
 ### $1.6 矩阵 dp[i][j][k], (i, j) 为位置，k 为次数，长度等指标
 - [85. 最大矩形](https://leetcode-cn.com/problems/maximal-rectangle/) k 是
@@ -125,10 +126,10 @@
 - [650. 只有两个键的键盘](https://leetcode-cn.com/problems/2-keys-keyboard/) 有数学法
 - [651. 4键键盘](https://leetcode-cn.com/problems/4-keys-keyboard/) 需要二维状态 dp[i][k], k 是紧跟着的粘贴次数，有数学法
 - [264. 丑数 II](https://leetcode-cn.com/problems/ugly-number-ii/) 
+- [313. 超级丑数](https://leetcode-cn.com/problems/super-ugly-number/)
 - **[279. 完全平方数](https://leetcode-cn.com/problems/perfect-squares/)** 有数学法
 - [343. 整数拆分](https://leetcode-cn.com/problems/integer-break/) 有数学法
 - [剑指 Offer 14- I. 剪绳子](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/) 与 343 相同
-- [1335. 工作计划的最低难度](https://leetcode-cn.com/problems/minimum-difficulty-of-a-job-schedule/)
 - [920. 播放列表的数量](https://leetcode-cn.com/problems/number-of-music-playlists/) 有数学法
 - [629. K个逆序对数组](https://leetcode-cn.com/problems/k-inverse-pairs-array/)
 
@@ -150,6 +151,7 @@
 - [471. 编码最短长度的字符串](https://leetcode-cn.com/problems/encode-string-with-shortest-length/)
 - [241. 为运算表达式设计优先级](https://leetcode-cn.com/problems/different-ways-to-add-parentheses/)
 - [面试题 08.14. 布尔运算](https://leetcode-cn.com/problems/boolean-evaluation-lcci/)
+- [1547. 切棍子的最小成本](https://leetcode-cn.com/problems/minimum-cost-to-cut-a-stick/) 区间 DP
   
 #### 3、背包 DP  
 组合问题(求方案数)  
@@ -184,7 +186,7 @@
   
 #### 4、树形 DP  
 - [124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum)    
-- [1245. 树的直径 (邻接表上的树形DP)](https://leetcode-cn.com/problems/tree-diameter)    
+- [1245. 树的直径](https://leetcode-cn.com/problems/tree-diameter)    
 - [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree)    
 - [333. 最大 BST 子树](https://leetcode-cn.com/problems/largest-bst-subtree)    
 - [337. 打家劫舍 III](https://leetcode-cn.com/problems/house-robber-iii)    
@@ -242,11 +244,18 @@
 - [63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii)    
   
 卡特兰数：    
-- [96. 不同的二叉搜索树 (卡特兰数)](https://leetcode-cn.com/problems/unique-binary-search-trees)   
-- [1259. 不相交的握手 (卢卡斯定理求大组合数模质数)](https://leetcode-cn.com/problems/handshakes-that-dont-cross) 卢卡斯定理求大组合数  
+- [96. 不同的二叉搜索树](https://leetcode-cn.com/problems/unique-binary-search-trees)   
+- [1259. 不相交的握手](https://leetcode-cn.com/problems/handshakes-that-dont-cross) 卢卡斯定理求大组合数  
   
 铺砖问题：  
 - [790. 多米诺和托米诺平铺](https://leetcode-cn.com/problems/domino-and-tromino-tiling/)    
+
+涂色问题：
+- [1411. 给 N x 3 网格图涂色的方案数](https://leetcode-cn.com/problems/number-of-ways-to-paint-n-x-3-grid/) 计数问题
+- [276. 栅栏涂色](https://leetcode-cn.com/problems/paint-fence/)  
+
+错排问题：
+- [634. 寻找数组的错位排列](https://leetcode-cn.com/problems/find-the-derangement-of-an-array/) 
   
 斐波那契：
 - [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs)    
@@ -260,7 +269,6 @@
 - [935. 骑士拨号器](https://leetcode-cn.com/problems/knight-dialer)    
 - [418. 屏幕可显示句子的数量](https://leetcode-cn.com/problems/sentence-screen-fitting/)  可以通过模拟找循环节
 - [957. N 天后的牢房](https://leetcode-cn.com/problems/prison-cells-after-n-days) 可以通过模拟找循环节
-- [276. 栅栏涂色](https://leetcode-cn.com/problems/paint-fence/)  
 - [1155. 掷骰子的N种方法](https://leetcode-cn.com/problems/number-of-dice-rolls-with-target-sum/)
 - [552. 学生出勤记录 II](https://leetcode-cn.com/problems/student-attendance-record-ii/)
 - [940. 不同的子序列 II](https://leetcode-cn.com/problems/distinct-subsequences-ii/) 找规律
@@ -324,6 +332,8 @@
 
 ---
 
+prob1 ~ prob1473
+
 [1058. 最小化舍入误差以满足目标](https://leetcode-cn.com/problems/minimize-rounding-error-to-meet-target/)
 [1066. 校园自行车分配 II](https://leetcode-cn.com/problems/campus-bikes-ii/)
 [1074. 元素和为目标值的子矩阵数量](https://leetcode-cn.com/problems/number-of-submatrices-that-sum-to-target/) 思路类似求和为K的子数组的数量
@@ -357,7 +367,6 @@
 [1402. 做菜顺序](https://leetcode-cn.com/problems/reducing-dishes/)
 [1405. 最长快乐字符串](https://leetcode-cn.com/problems/longest-happy-string/)
 [1406. 石子游戏 III](https://leetcode-cn.com/problems/stone-game-iii/)
-[1411. 给 N x 3 网格图涂色的方案数](https://leetcode-cn.com/problems/number-of-ways-to-paint-n-x-3-grid/)
 [1416. 恢复数组](https://leetcode-cn.com/problems/restore-the-array/)
 [1420. 生成数组](https://leetcode-cn.com/problems/build-array-where-you-can-find-the-maximum-exactly-k-comparisons/)
 [1423. 可获得的最大点数](https://leetcode-cn.com/problems/maximum-points-you-can-obtain-from-cards/)
@@ -367,4 +376,11 @@
 [1458. 两个子序列的最大点积](https://leetcode-cn.com/problems/max-dot-product-of-two-subsequences/)
 [1467. 两个盒子中球的颜色数相同的概率](https://leetcode-cn.com/problems/probability-of-a-two-boxes-having-the-same-number-of-distinct-balls/)
 
-prob1 ~ prob1473
+---
+
+prob1474 ~
+
+[1546. 和为目标值的最大数目不重叠非空子数组数目](https://leetcode-cn.com/problems/maximum-number-of-non-overlapping-subarrays-with-sum-equals-target/) 单串 dp[i]
+[1434. 每个人戴不同帽子的方案数](https://leetcode-cn.com/problems/number-of-ways-to-wear-different-hats-to-each-other/) 状态压缩01背包
+[LCP 07. 传递信息](https://leetcode-cn.com/problems/chuan-di-xin-xi/) DAG, 
+

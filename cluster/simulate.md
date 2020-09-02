@@ -5,6 +5,7 @@
 [38. 外观数列](https://leetcode-cn.com/problems/count-and-say/)
 
 ## 矩阵上的模拟
+[723. 粉碎糖果](https://leetcode-cn.com/problems/candy-crush/)
 
 #### 螺旋矩阵
 [54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
@@ -17,3 +18,7 @@
 [657. 机器人能否返回原点](https://leetcode-cn.com/problems/robot-return-to-origin/)
 [1041. 困于环中的机器人](https://leetcode-cn.com/problems/robot-bounded-in-circle/)
 [489. 扫地机器人](https://leetcode-cn.com/problems/robot-room-cleaner/)
+
+## 链表模拟
+[1388]
+[60]

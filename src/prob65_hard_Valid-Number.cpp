@@ -35,7 +35,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_2 {
 public:
     bool isNumber(string s) {
         if(s.empty()) return false;
@@ -88,11 +88,177 @@ private:
 
 #include <regex>
 
-class Solution_2 {
+class Solution_1 {
 public:
     bool isNumber(string s) {
         regex reg("^\\s*[+-]?(\\.\\d+|\\d+\\.?\\d*)([eE][+-]?\\d+)?\\s*$");
         bool flag = regex_match(s, reg);
         return flag;
+    }
+};
+
+// ---------------------------
+class Validator
+{
+public:
+    virtual ~Validator(){}
+    virtual bool validate(const string&) const =0;
+};
+
+class FalseValidator:public Validator
+{
+public:
+    bool validate(const string& s) const
+    {
+        return false;
+    }
+};
+
+class EmptyValidator:public Validator
+{
+public:
+    EmptyValidator(Validator* p=nullptr):nxt(p){}
+    bool validate(const string& s) const
+    {
+        if(s.empty())
+            return false;
+        int n = s.size();
+        int i = 0;
+        while(i < n)
+        {
+            if(s[i] != ' ')
+                return nxt -> validate(s);
+            ++i;
+        }
+        return false;
+    }
+
+private:
+    Validator *nxt;
+};
+
+class IntegerValidator:public Validator
+{
+public:
+    IntegerValidator(Validator* p=nullptr):nxt(p){}
+    bool validate(const string& s) const
+    {
+        int i = s.find_first_not_of(' ');
+        if(s[i] == '+' || s[i] == '-') ++i;
+        int d = 0;
+        while(i < (int)s.length() && isdigit(s[i]))
+        {
+            ++d;
+            ++i;
+        }
+        while(i < (int)s.length() && s[i]==' ')
+            ++i;
+        if(i == (int)s.length() && d > 0)
+            return true;
+        else
+            return nxt -> validate(s);
+    }
+
+private:
+    Validator *nxt;
+};
+
+class FloatValidator:public Validator
+{
+public:
+    FloatValidator(Validator* p=nullptr):nxt(p){}
+    bool validate(const string& s) const
+    {
+        if(s.empty()) return nxt -> validate(s);
+        int i = s.find_first_not_of(' ');
+        if(s[i] == '+' || s[i] == '-') ++i;
+        int d1 = 0, point = 0, d2 = 0;
+        while(i < (int)s.length() && isdigit(s[i]))
+        {
+            ++d1;
+            ++i;
+        }
+        while(i < (int)s.length() && s[i] == '.')
+        {
+            ++point;
+            ++i;
+        }
+        if(point !=0 && point != 1) return false;
+        while(i < (int)s.length() && isdigit(s[i]))
+        {
+            ++d2;
+            ++i;
+        }
+        while(i < (int)s.length() && s[i] == ' ')
+        {
+            ++point;
+            ++i;
+        }
+        if(i == (int)s.length() && ((point && (d1 || d2)) || d1))
+            return true;
+        else
+            return nxt -> validate(s);
+    }
+
+private:
+    Validator *nxt;
+};
+
+class ScienceValidator:public Validator
+{
+public:
+    ScienceValidator(Validator* p=nullptr):nxt(p){}
+    bool validate(const string& s) const
+    {
+        int i = s.find_first_of('e');
+        FalseValidator false_validator;
+        FloatValidator before(&false_validator);
+        IntegerValidator after(&false_validator);
+        string before_e = s.substr(0, i);
+        string after_e = s.substr(i + 1, s.size() - i - 1);
+        if(before_e.size() - 1 == before_e.find_last_of(' '))
+            return false;
+        if(after_e.find_first_of(' ') == 0)
+            return false;
+        if(before_e.empty() || after_e.empty())
+            return false;
+        if(before.validate(before_e) && after.validate(after_e))
+            return true;
+        else
+            return nxt -> validate(s);
+    }
+
+private:
+    Validator *nxt;
+};
+
+class NumberValidator
+{
+private:
+    FalseValidator false_validator;
+    IntegerValidator integer_validator;
+    EmptyValidator empty_validator;
+    FloatValidator float_validator;
+    ScienceValidator science_validator;
+public:
+    NumberValidator()
+    {
+        false_validator = FalseValidator();
+        empty_validator = EmptyValidator(&integer_validator);
+        integer_validator = IntegerValidator(&float_validator);
+        float_validator = FloatValidator(&science_validator);
+        science_validator = ScienceValidator(&false_validator);
+    }
+    bool operator()(const string& s) const
+    {
+        return empty_validator.validate(s);
+    }
+};
+
+class Solution {
+public:
+    bool isNumber(string &s) {
+        NumberValidator validator;
+        return validator(s);
     }
 };

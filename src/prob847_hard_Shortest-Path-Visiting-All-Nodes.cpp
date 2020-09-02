@@ -33,7 +33,6 @@ class Solution {
 public:
     int shortestPathLength(vector<vector<int>>& graph) {
         int N = graph.size();
-        // vector<vector<int> > adj(N, vector<int>(N, INT_MAX / 2));
         vector<vector<int> > d(N, vector<int>(N, INT_MAX / 2));
         for(int i = 0; i < N; ++i)
             for(int j: graph[i])

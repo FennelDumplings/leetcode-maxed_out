@@ -57,3 +57,58 @@ private:
         return result;
     }
 };
+
+#include <cmath>
+#include <unordered_map>
+
+class Solution_2 {
+public:
+    int sumFourDivisors(vector<int>& nums) {
+        const int C = 1e5;
+        const int C3 = pow(C, (double)1/3);
+        vector<int> p1 = get_primes(C);
+        int m = p1.size();
+        unordered_map<int, int> mapping;
+        for(int p: p1)
+            if(p <= C3)
+                mapping[p * p * p] = 1 + p + p * p + p * p * p;
+        for(int i = 1; i < m; ++i)
+            for(int j = 0; j < i; ++j)
+            {
+                if(p1[i] <= C / p1[j] + 1)
+                    mapping[p1[i] * p1[j]] = 1 + p1[i] + p1[j] + p1[i] * p1[j];
+                else
+                    break;
+            }
+        int ans = 0;
+        for(int i: nums)
+            if(mapping.count(i) > 0)
+                ans += mapping[i];
+        return ans;
+    }
+
+private:
+    vector<int> get_primes(int n) {
+        if(n < 2) return {};
+        vector<bool> vec(n, true);
+        vec[0] = false;
+        vec[1] = false;
+        for(int i = 2; i * i < n; ++i)
+        {
+            if(vec[i])
+            {
+                for(int j = i * i; j < n; j += i)
+                    vec[j] = false;
+            }
+        }
+        vector<int> result;
+        for(int i = 0; i < n; ++ i)
+        {
+            bool flag = vec[i];
+            if(flag)
+                result.push_back(i);
+        }
+        return result;
+    }
+};
+

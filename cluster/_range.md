@@ -44,3 +44,4 @@
 
 
 [1024. 视频拼接](https://leetcode-cn.com/problems/video-stitching/)
+[1326. 灌溉花园的最少水龙头数目](https://leetcode-cn.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/) 贪心

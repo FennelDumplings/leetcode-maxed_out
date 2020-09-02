@@ -28,6 +28,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
@@ -149,5 +150,26 @@ public:
         int n = nums.size();
         k %= n;
         std::rotate(nums.begin(), nums.end() - k, nums.end());
+    }
+};
+
+
+class Solution_4 {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int len = nums.size();
+        for (int i = 0; i < gcd<int>(k, len); ++i)
+        {
+            int idx = (k + i) % len;
+            int num = nums[i];
+            while (idx != i)
+            {
+                int item = nums[idx];
+                nums[idx] = num;
+                idx = (idx + k) % len;
+                num = item;
+            }
+            nums[i] = num;
+        }
     }
 };

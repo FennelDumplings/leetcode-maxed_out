@@ -68,7 +68,6 @@ public:
             dp[i][1][0] = max(dp[i - 1][1][0], dp[i - 1][0][0] - prices[i]);
         }
         return dp[n - 1][0][1];
-        }
     }
 };
 

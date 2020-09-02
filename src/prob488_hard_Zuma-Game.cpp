@@ -170,7 +170,7 @@ public:
         vector<int> hand_cnts(128);
         for(const char& ch: hand)
             ++hand_cnts[ch];
-        dfs(board, hand_cnts, ans, 0);;
+        dfs(board, hand_cnts, ans, 0);
         if(ans == INT_MAX) return -1;
         return ans;
     }

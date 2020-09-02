@@ -1,4 +1,4 @@
-// prob271: Largest Component Size by Common Factor
+// prob952: Largest Component Size by Common Factor
 
 /*
  * Given a non-empty array of unique positive integers A, consider the following graph:

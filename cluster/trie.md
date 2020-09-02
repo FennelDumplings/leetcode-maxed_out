@@ -14,7 +14,7 @@ Trie 主要用于匹配词典
 
 [1268. 搜索推荐系统](https://leetcode-cn.com/problems/search-suggestions-system/solution/suo-tui-jian-xi-tong-by-leetcode-solution/)
 212
-1032
 440
 386
 524
+[1032. 字符流](https://leetcode-cn.com/problems/stream-of-characters/)

@@ -29,3 +29,4 @@
 
 ## 组合数学
 [920. 播放列表的数量](https://leetcode-cn.com/problems/number-of-music-playlists/)
+[634. 寻找数组的错位排列](https://leetcode-cn.com/problems/find-the-derangement-of-an-array/)

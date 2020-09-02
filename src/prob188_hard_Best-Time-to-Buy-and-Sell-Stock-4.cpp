@@ -28,7 +28,7 @@
 using namespace std;
 
 // 套用 porb121,123 可过的三维 dp，但这题 kk 可能很大，实测 MLE
-class Solution {
+class Solution_2 {
 public:
     int maxProfit(int kk, vector<int>& prices) {
         if(kk == 0) return 0;
@@ -57,6 +57,76 @@ public:
         for(int k = 1; k <= K; ++k)
             result = max(result, dp[n - 1][0][k]);
         return result;
+    }
+
+private:
+    int maxProfit_2(vector<int>& prices) {
+        int n = prices.size();
+        if(n <= 1) return 0;
+        int result = 0;
+        int i = 0;
+        while(i < n - 1)
+        {
+            int j = i + 1;
+            while(j < n && prices[j - 1] <= prices[j])
+                ++j;
+            result += prices[j - 1] - prices[i];
+            i = j;
+        }
+        return result;
+    }
+};
+
+// DFA
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        if(k == 0) return 0;
+        int n = prices.size();
+        if(n <= 1) return 0;
+        int m = min(k * 2, n);
+        vector<vector<int>> dp(m + 1, vector<int>(n, 0));
+        for(int i = 0; i <= m; ++i)
+            if(i % 2 == 1)
+                dp[i][0] = -prices[0];
+        for(int j = 1; j < n; ++j)
+        {
+            for(int i = 1; i <= m; ++i)
+            {
+                if(i % 2 == 0)
+                    dp[i][j] = max(dp[i][j - 1], dp[i - 1][j - 1] + prices[j]);
+                else
+                    dp[i][j] = max(dp[i][j - 1], dp[i - 1][j - 1] - prices[j]);
+            }
+        }
+        return dp[(m/2)*2][n - 1];
+    }
+};
+
+
+class Solution_3 {
+public:
+    int maxProfit(int kk, vector<int>& prices) {
+        if(kk == 0) return 0;
+        using ll = long long;
+        int n = prices.size();
+        if(n <= 1) return 0;
+        if(kk >= n / 2) return maxProfit_2(prices);
+        int K = kk;
+        vector<vector<int> > dp(K, vector<int>(2, 0));
+        for(int i = 0; i < K; ++i)
+            dp[i][0] = INT_MIN;
+        for(int i = 1; i < n; ++i)
+        {
+            dp[0][0] = max(dp[0][0], -prices[i]);
+            dp[0][1] = max(dp[0][1], dp[0][0] + prices[i]);
+            for(int k = 1; k < K; ++k)
+            {
+                dp[k][0] = max(dp[k][0], dp[k - 1][1] - prices[i]);
+                dp[k][1] = max(dp[k][1], dp[k][0] + prices[i]);
+            }
+        }
+        return dp[K - 1][1];
     }
 
 private:

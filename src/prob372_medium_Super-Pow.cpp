@@ -23,7 +23,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_2 {
 public:
     int superPow(int a, vector<int>& b) {
         // a > 0, b > 0
@@ -67,5 +67,65 @@ private:
             n >>= 1;
         }
         return ans;
+    }
+};
+
+
+//---------------------------------------------------
+
+
+
+vector<int> get_phi(int n)
+{
+    if(n < 2) return {};
+    vector<bool> vec(n, true);
+    vec[0] = false;
+    vec[1] = false;
+    int cnt = 0;
+    vector<int> primes;
+    vector<int> phi(n, -1);
+    phi[1] = 1;
+    for(int i = 2; i < n; ++i)
+    {
+        if(vec[i])
+        {
+            ++cnt;
+            phi[i] = i - 1; // 性质2
+            primes.push_back(i);
+        }
+        for(int j = 0; j < cnt && i * primes[j] < n; ++j)
+        {
+            vec[i * primes[j]] = false;
+            if(i % primes[j] == 0)
+            {
+                phi[i * primes[j]] = phi[i] * primes[j]; // 性质4
+                break;
+            }
+            else
+                phi[i * primes[j]] = phi[i] * (primes[j] - 1); // 性质1: 积性函数
+        }
+    }
+    return phi;
+}
+
+class Solution {
+public:
+    int superPow(int a, vector<int>& b) {
+        const int M = 1337;
+        int phi = get_phi(M + 1)[M];
+        int numB = b[0]; // 从高位开始
+        a = a % M;
+        if(a == 0) return 0;
+        for(int i = 1; i < (int)b.size(); ++i)
+            numB = (numB * 10 + b[i]) % phi;
+        numB += phi;
+        int x = a;
+        for(int j = 0; j < numB; ++j)
+        {
+            x = x % M;
+            x *= a;
+        }
+        x /= a;
+        return x;
     }
 };

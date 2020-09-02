@@ -84,3 +84,31 @@ private:
             + _levelOrder(root -> right, level_result, level - 1);
     }
 };
+
+// 双指针
+class Solution_3 {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int> > result;
+        if(root == nullptr) return result;
+        vector<TreeNode*> nodes;
+        nodes.push_back(root);
+        int cur = 0, end = 1;
+        while(cur < (int)nodes.size()) // 随着更新，nodes 的 size 动态变化
+        {
+            result.push_back({});
+            end = nodes.size();
+            while(cur < end)
+            {
+                // 处理节点数据 nodes[cur] -> data
+                result.back().push_back(nodes[cur] -> val);
+                if(nodes[cur] -> left)
+                    nodes.push_back(nodes[cur] -> left);
+                if(nodes[cur] -> right)
+                    nodes.push_back(nodes[cur] -> right);
+                ++cur;
+            }
+        }
+        return result;
+    }
+};

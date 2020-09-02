@@ -65,3 +65,95 @@ public:
     }
 };
 
+class Solution_2 {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int> > g(numCourses);
+        vector<int> indegrees(numCourses, 0);
+        for(vector<int> &prerequisite: prerequisites)
+        {
+            g[prerequisite[1]].push_back(prerequisite[0]);
+            ++indegrees[prerequisite[0]];
+        }
+
+        vector<int> result = top_sort(g, indegrees);
+        if((int)result.size() != numCourses) return vector<int>();
+        return result;
+    }
+
+    vector<int> top_sort(const vector<vector<int> >& g, vector<int>& indegrees)
+    {
+        int n = g.size();
+        queue<int> q;
+        for(int i = 0; i < n; ++i)
+        {
+            if(indegrees[i] == 0)
+                q.push(i);
+        }
+        vector<int> result;
+        while(!q.empty())
+        {
+            int cur = q.front();
+            q.pop();
+            result.push_back(cur);
+            for(int son: g[cur])
+            {
+                --indegrees[son];
+                if(indegrees[son] == 0)
+                    q.push(son);
+            }
+        }
+        return result;
+    }
+};
+
+
+#include <stack>
+#include <algorithm>
+
+class Solution_3 {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int> > g(numCourses);
+        vector<int> indegrees(numCourses, 0);
+        for(vector<int> &prerequisite: prerequisites)
+        {
+            g[prerequisite[1]].push_back(prerequisite[0]);
+            ++indegrees[prerequisite[0]];
+        }
+
+        vector<int> result = top_sort(g, indegrees);
+        if((int)result.size() != numCourses) return vector<int>();
+        return result;
+    }
+
+    vector<int> top_sort(const vector<vector<int> >& g, vector<int>& indegrees)
+    {
+        int n = g.size();
+        vector<int> result;
+        vector<int> visited(n, 0);
+        for(int i = 0; i < n; ++i)
+        {
+            if(indegrees[i] == 0)
+                if(!dfs(g, i, visited, result))
+                    return {};
+        }
+        reverse(result.begin(), result.end());
+        return result;
+    }
+
+    bool dfs(const vector<vector<int> >& g, int node, vector<int>& visited, vector<int>& result)
+    {
+        if(visited[node] == 2)
+            return true;
+        if(visited[node] == 1)
+            return false;
+        visited[node] = 1;
+        for(int son: g[node])
+            if(!dfs(g, son, visited, result))
+                return false;
+        result.push_back(node);
+        visited[node] = 2;
+        return true;
+    }
+};

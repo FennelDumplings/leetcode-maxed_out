@@ -24,7 +24,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_2 {
 public:
     int hIndex(vector<int>& citations) {
         if(citations.empty()) return 0;
@@ -49,5 +49,20 @@ private:
             if(citation - mid >= 0)
                 ++cnt;
         return cnt >= mid;
+    }
+};
+
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        if(citations.empty()) return 0;
+        int n = citations.size();
+        vector<int> cnt(n + 1, 0);
+        for(int i: citations)
+            ++cnt[min(i, n)];
+        int k = n;
+        for(int s = cnt[n]; k > s; s += cnt[k])
+            --k;
+        return k;
     }
 };

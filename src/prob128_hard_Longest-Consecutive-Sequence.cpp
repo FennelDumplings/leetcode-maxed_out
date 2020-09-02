@@ -31,12 +31,12 @@ public:
         int result = 0;
         for(int num: setting)
         {
-            if(num != INT_MIN && setting.find(num - 1) != setting.end())
+            if(num != INT_MIN && setting.count(num - 1) > 0)
                 continue;
             // 找到了一个序列的最左元素
             int cnt = 1;
             ++num;
-            while(setting.find(num) != setting.end())
+            while(setting.count(num) > 0)
             {
                 ++cnt;
                 ++num;
@@ -53,9 +53,8 @@ public:
     UnionFindSet(const vector<int>& nums)
     {
         int n = nums.size();
-        _item_size = n;
-        _set_size = n;
-        for(int i = 0; i < _item_size; ++i)
+        _set_num = n;
+        for(int i = 0; i < n; ++i)
         {
             _father[nums[i]] = nums[i];
             _size[nums[i]] = 1;
@@ -81,7 +80,7 @@ public:
         {
             _father[x] = y;
             _size[y] += _size[x];
-            --_set_size;
+            --_set_num;
             return _size[y];
         }
         else
@@ -90,7 +89,7 @@ public:
             _size[x] += _size[y];
             if(_rank[x] == _rank[y])
                 ++_rank[x];
-            --_set_size;
+            --_set_num;
             return _size[x];
         }
     }
@@ -106,22 +105,16 @@ public:
         return _size[_find(x)];
     }
 
-    int item_size()
-    {
-        return _item_size;
-    }
-
     int set_num()
     {
-        return _set_size;
+        return _set_num;
     }
 
 private:
     unordered_map<int, int> _father;
     unordered_map<int, int> _rank;
-    unordered_map<int, int> _size;
-    int _item_size;
-    int _set_size;
+    unordered_map<int, int> _size; // 集合级的权
+    int _set_num;
 
     int _find(int x)
     {
@@ -129,17 +122,16 @@ private:
             return x;
         else
             return _father[x] = _find(_father[x]); // 路径压缩
-            // return _find(_father[x]);
     }
 };
 
-class Solution_2 {
+class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
         if(nums.empty()) return 0;
         UnionFindSet unionfindset(nums);
 
-        int result = 1; // 没出现任何一次 merge 时候返回1
+        int result = 1;
         for(int i: nums)
         {
             if(i != INT_MAX && unionfindset.count(i + 1))
@@ -148,4 +140,3 @@ public:
         return result;
     }
 };
-

@@ -36,7 +36,7 @@ private:
     }
 };
 
-// 递归，一次进栈
+// 非递归，一次进栈
 class Solution_2 {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
