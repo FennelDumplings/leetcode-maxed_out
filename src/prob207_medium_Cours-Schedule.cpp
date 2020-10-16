@@ -16,7 +16,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_2 {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int> > g(numCourses);
@@ -46,5 +46,43 @@ public:
             }
         }
         return n == 0;
+    }
+};
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int> > g(numCourses);
+        vector<int> indegrees(numCourses, 0);
+        for(vector<int> &prerequisite: prerequisites)
+        {
+            g[prerequisite[1]].push_back(prerequisite[0]);
+            ++indegrees[prerequisite[0]];
+        }
+        vector<int> visited(numCourses, 0);
+        for(int i = 0; i < numCourses; ++i)
+        {
+            if(visited[i] != 0) continue;
+            visited[i] = 1;
+            if(dfs(g, i, visited))
+                return false;
+            visited[i] = 2;
+        }
+        return true;
+    }
+
+private:
+    bool dfs(const vector<vector<int>>& g, int node, vector<int>& visited)
+    {
+        for(int son: g[node])
+        {
+            if(visited[son] == 1)
+                return true;
+            visited[son] = 1;
+            if(dfs(g, son, visited))
+                return true;
+            visited[son] = 2;
+        }
+        return false;
     }
 };

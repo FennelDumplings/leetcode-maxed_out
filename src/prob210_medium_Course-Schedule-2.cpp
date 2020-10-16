@@ -146,7 +146,7 @@ public:
     {
         if(visited[node] == 2)
             return true;
-        if(visited[node] == 1)
+        if(visited[node] == 1) // 环
             return false;
         visited[node] = 1;
         for(int son: g[node])
@@ -157,3 +157,5 @@ public:
         return true;
     }
 };
+
+

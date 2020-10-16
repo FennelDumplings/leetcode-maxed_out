@@ -94,3 +94,176 @@ public:
         return vector<int>();
     }
 };
+
+
+//  DFS
+/*
+bool dfs(const vector<vector<int>>& g, int u, vector<bool>& visited, int s)
+{
+    visited[u] = true;
+    for(int v: g[u])
+    {
+        if(visited[v])
+            continue;
+        if(v == s)
+            return true;
+        if(dfs(g, v, visited, s))
+        {
+            visited[u] = false;
+            return true;
+        }
+    }
+    visited[u] = false;
+    return false;
+}
+
+bool is_cycle(const vector<vector<int>>& g, int u, int v, vector<bool>& visited)
+{
+    // (u, v)
+    // 是否存在另一条 u -> v
+    visited[u] = true;
+    for(int son: g[u])
+    {
+        if(son == v) continue;
+        if(dfs(g, son, visited, v))
+        {
+            visited[u] = false;
+            return true;
+        }
+    }
+    visited[u] = false;
+    return false;
+}
+
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int N = edges.size();
+        vector<vector<int>> g(N + 1);
+        for(const vector<int> &edge: edges)
+        {
+            g[edge[0]].push_back(edge[1]);
+            g[edge[1]].push_back(edge[0]);
+        }
+        vector<bool> visited(N, false);
+        for(int i = N - 1; i >= 0; --i)
+        {
+            if(is_cycle(g, edges[i][0], edges[i][1], visited))
+                return edges[i];
+        }
+        return {};
+    }
+};
+*/
+
+
+//BFS
+#include <queue>
+bool bfs(const vector<vector<int>>& g, vector<bool>& visited, int start, int s)
+{
+    queue<int> q;
+    q.push(start);
+    visited[start] = true;
+    while(!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        for(int son: g[u])
+        {
+            if(visited[son])
+                continue;
+            if(son == s)
+                return true;
+            visited[son] = true;
+            q.push(son);
+        }
+    }
+    return false;
+}
+
+bool is_cycle(const vector<vector<int>>& g, int u, int v, vector<bool>& visited)
+{
+    for(int son: g[u])
+    {
+        if(son == v)
+            continue;
+        if(bfs(g, visited, son, v))
+            return true;
+    }
+    return false;
+}
+
+class Solution_3 {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int N = edges.size();
+        vector<vector<int>> g(N + 1);
+        for(const vector<int> &edge: edges)
+        {
+            g[edge[0]].push_back(edge[1]);
+            g[edge[1]].push_back(edge[0]);
+        }
+        vector<bool> visited(N, false);
+        for(int i = N - 1; i >= 0; --i)
+        {
+            visited.assign(N, false);
+            if(is_cycle(g, edges[i][0], edges[i][1], visited))
+                return edges[i];
+        }
+        return {};
+    }
+};
+
+// Topsort
+void topsort(const vector<vector<int>>& g, vector<int>& degrees)
+{
+    int n = g.size(); // g 从 1 开始，共 n - 1 个点
+    for(int u = 0; u < n; ++u)
+        degrees[u] = g[u].size();
+
+    queue<int> q;
+    vector<bool> visited(n, false);
+    for(int u = 0; u < n; ++u)
+        if(degrees[u] == 1)
+        {
+            q.push(u);
+            visited[u] = true;
+        }
+
+    while(!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        for(int v: g[u])
+        {
+            if(visited[v])
+                continue;
+            --degrees[v];
+            if(degrees[v] == 1)
+            {
+                visited[v] = true;
+                q.push(v);
+            }
+        }
+    }
+}
+
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int N = edges.size();
+        vector<vector<int>> g(N + 1);
+        for(const vector<int> &edge: edges)
+        {
+            g[edge[0]].push_back(edge[1]);
+            g[edge[1]].push_back(edge[0]);
+        }
+
+        vector<int> degrees(N + 1, 0);
+        topsort(g, degrees);
+        for(int i = N - 1; i >= 0; --i)
+            if(degrees[edges[i][0]] > 1 && degrees[edges[i][1]] > 1)
+                return edges[i];
+        return {};
+    }
+};

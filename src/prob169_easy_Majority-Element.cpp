@@ -20,7 +20,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_4 {
 public:
     int majorityElement(vector<int>& nums) {
         int n = nums.size();
@@ -69,5 +69,39 @@ public:
                 --cnt;
         }
         return v;
+    }
+};
+
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int n = nums.size();
+        return solve(nums, 0, n - 1);
+    }
+
+private:
+    int solve(const vector<int>& nums, int l, int r)
+    {
+        if(l == r)
+            return nums[l];
+        int mid = (l + r) / 2;
+        int left = solve(nums, l, mid);
+        int right = solve(nums, mid + 1, r);
+        if(left == right)
+            return left;
+        int cnt_left = 0;
+        int cnt_right = 0;
+        for(int i = l; i <= r; ++i)
+        {
+            if(nums[i] == left)
+                ++cnt_left;
+            if(nums[i] == right)
+                ++cnt_right;
+        }
+        if(cnt_left > cnt_right)
+            return left;
+        else
+            return right;
     }
 };

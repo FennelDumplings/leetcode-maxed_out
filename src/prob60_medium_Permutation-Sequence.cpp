@@ -241,3 +241,26 @@ private:
     }
 };
 
+
+// Cantor unfolds
+class Solution_6 {
+public:
+    string getPermutation(int n, int k) {
+        vector<int> nums(n, 0);
+        vector<int> factorials(n, 1);
+        for(int i = 0; i < n; ++i) nums[i] = i + 1;
+        for(int i = 1; i < n; ++i) factorials[i] = factorials[i - 1] * i;
+
+        // fit k in the invertal 0 .. (n! - 1)
+        --k; // 从零计数
+        int ans = 0;
+        for(int i = n - 1; i >= 0; --i) // 从高位往低位选
+        {
+            int idx = k / factorials[i];
+            k -= idx * factorials[i];
+            ans = ans * 10 + nums[idx];
+            nums.erase(nums.begin() + idx);
+        }
+        return to_string(ans);
+    }
+};

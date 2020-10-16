@@ -1077,3 +1077,121 @@ private:
 // 优化1：快速 BFS(四周填充 0)
 // 优化 2：手写队列
 // 优化 3：间隔 BFS
+
+// --------------------------------------------------------------------------------------------
+
+// Astar
+struct Tree
+{
+    int pos, val;
+    Tree(int pos, int val):pos(pos),val(val){}
+};
+
+struct Cmp
+{
+    bool operator()(const Tree& point1, const Tree& point2) const
+    {
+        return point1.val < point2.val;
+    }
+};
+
+struct AstarPoint
+{
+    int pos;
+    int g;
+    int f, h;
+    AstarPoint(int pos, int g, int h=-1):pos(pos),g(g),h(h)
+    {
+        f = g + h;
+    }
+};
+
+struct AstarCmp
+{
+    bool operator()(const AstarPoint& point1, const AstarPoint& point2) const
+    {
+        return point1.f > point2.f;
+    }
+};
+
+class Solution {
+public:
+    int cutOffTree(vector<vector<int>>& forest) {
+        if(forest[0][0] == 0) return -1;
+        int n = forest.size(), m = forest[0].size();
+        Cmp cmp;
+        vector<Tree> trees;
+        vector<int> spread(m * n);
+        for(int i = 0; i < n; ++i)
+            for(int j = 0; j < m; ++j)
+            {
+                spread[i * m + j] = forest[i][j];
+                if(forest[i][j] > 1)
+                    trees.push_back(Tree(i * m + j, spread[i * m + j]));
+            }
+        sort(trees.begin(), trees.end(), cmp);
+
+        int ntree = trees.size();
+        int result = 0;
+        bool *visited = new bool[n * m]; // 动态数组只能开在堆上，因为 m, n 编译时不确定
+        for(int i = 0; i < ntree; ++i)
+        {
+            int d;
+            if(i == 0)
+            {
+                AstarPoint s(0, 0, h(0, trees[i].pos, m));
+                d = bfs(s, trees[i].pos, spread, visited, m);
+            }
+            else
+            {
+                AstarPoint s(trees[i - 1].pos, 0, h(trees[i - 1].pos, trees[i].pos, m));
+                d = bfs(s, trees[i].pos, spread, visited, m);
+            }
+            if(d == -1)
+                return -1;
+            result += d;
+        }
+        return result;
+    }
+
+private:
+    int bfs(AstarPoint p1, int p2_pos, const vector<int>& forest, bool* visited, int m)
+    {
+        if(p1.pos == p2_pos)
+            return 0;
+        int N = forest.size();
+        priority_queue<AstarPoint, vector<AstarPoint>, AstarCmp> pq;
+        memset(visited, false, sizeof(bool) * N);
+        visited[p1.pos] = true;
+        pq.push(p1);
+        int d[4] = {1, -1, m, -m}; // m 为矩阵的列数
+        while(!pq.empty())
+        {
+            AstarPoint p = pq.top();
+            pq.pop();
+            if(p.pos == p2_pos) // 改成一维后，只能放在这里，不能放在前面
+                return p.g;
+            visited[p.pos] = true;
+            int py = p.pos % m;
+            for(int i = 0; i < 4; ++i)
+            {
+                if(py == 0 && i == 1) continue;
+                if(py == m - 1 && i == 0) continue;
+                int pos = p.pos + d[i];
+                if(pos < 0 || pos >= N) continue;
+                if(visited[pos]) continue;
+                if(forest[pos] == 0) continue;
+                AstarPoint nxt(pos, p.g + 1, h(pos, p2_pos, m));
+                pq.push(nxt);
+            }
+        }
+        return -1;
+    }
+
+    int h(int pos, int t, int m)
+    {
+        int h = abs(pos / m - t / m);
+        int w = abs(pos % m - t % m);
+        return w + h;
+    }
+};

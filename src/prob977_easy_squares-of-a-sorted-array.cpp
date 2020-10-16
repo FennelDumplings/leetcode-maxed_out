@@ -72,7 +72,6 @@ public:
         int n = A.size();
         vector<int> result(n, 0);
         int near_zero_pos = positionNearZero(A);
-        cout << near_zero_pos << endl;
         int i = 0;
         result[i] = A[near_zero_pos] * A[near_zero_pos];
         ++i;
@@ -120,46 +119,24 @@ private:
         // return the position where the element is nearest to zero
         // vec is a sorted array
         int n = vec.size();
-        if(n == 1)
-        {
-            return 0;
-        }
+        if(n == 1) return 0;
         int left = 0;
         int right = n - 1;
-        if(vec[left] > 0)
+        if(vec[left] > 0) return left;
+        if(vec[right] < 0) return right;
+        while(left + 1 < right)
         {
-            return left;
-        }
-        else if(vec[right] < 0)
-        {
-            return right;
-        }
-        else
-        {
-            while(right - left > 1)
-            {
-                int middle = (left + right) / 2;
-                if(vec[middle] == 0)
-                {
-                    return middle;
-                }
-                else if(vec[middle] > 0)
-                {
-                    right = middle;
-                }
-                else
-                {
-                    left = middle;
-                }
-            }
-            if(-vec[left] <= vec[right])
-            {
-                return left;
-            }
+            int mid = (left + right) / 2;
+            if(vec[mid] == 0)
+                return mid;
+            else if(vec[mid] > 0)
+                right = mid;
             else
-            {
-                return right;
-            }
+                left = mid;
         }
+        if(-vec[left] <= vec[right])
+            return left;
+        else
+            return right;
     }
 };

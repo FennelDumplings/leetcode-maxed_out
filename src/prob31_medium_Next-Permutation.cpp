@@ -24,6 +24,29 @@ public:
         if(nums.empty()) return;
         int n = nums.size();
         if(n == 1) return;
+        // 找到从 n-1 开始往左，第一个不单调不降的位置 t
+        int t = n - 2;
+        while(t >= 0 && nums[t] >= nums[t + 1])
+            --t;
+        if(t < 0)
+            reverse(nums.begin(), nums.end());
+        else
+        {
+            int k = n - 1;
+            while(k > t && nums[t] >= nums[k])
+                --k;
+            swap(nums[t], nums[k]);
+            reverse(nums.begin() + t + 1, nums.end());
+        }
+    }
+};
+
+class Solution_2 {
+public:
+    void nextPermutation(vector<int>& nums) {
+        if(nums.empty()) return;
+        int n = nums.size();
+        if(n == 1) return;
         // 找到从 n-1 开始往右，第一个不单调不降的位置 t
         int t = n - 2;
         int mx = nums[n - 1];

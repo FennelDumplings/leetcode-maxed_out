@@ -18,6 +18,7 @@
  */
 
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -25,26 +26,23 @@ class Solution {
 public:
     string convertToBase7(int num) {
         if(num == 0) return "0";
-        string result = "";
+        bool nega = false;
         if(num < 0)
         {
-            result += '-';
+            nega = true;
             num = -num;
         }
-        int n = 0, p = 7; // p 是 7 的 n + 1 次幂
-        while(p <= num)
+        string result = "";
+        int base = 7;
+        while(num >= base)
         {
-            p *= 7;
-            ++n;
+            int r = num % base;
+            num /= base;
+            result += '0' + r;
         }
-        p /= 7; // p 从 7 的 n + 1 次幂更正为 7 的 n 次幂, 对应七进制数有 n + 1 位
-        while(p >= 1)
-        {
-            int digit = num / p;
-            result += '0' + digit;
-            num %= p;
-            p /= 7;
-        }
+        result += '0' + num;
+        if(nega) result += '-';
+        reverse(result.begin(), result.end());
         return result;
     }
 };

@@ -33,7 +33,6 @@ public:
     int minIncrementForUnique(vector<int>& A) {
         int n = A.size();
         if(n < 2) return 0;
-        // sort(A.begin(), A.end());
         int M = 40000;
         _countingsort(A, M);
         int cur = A[0];
@@ -88,6 +87,7 @@ public:
         }
         return res;
     }
+
     // 线性探测寻址(状态压缩)
     int _findPos(int a, vector<int>& pos)
     {

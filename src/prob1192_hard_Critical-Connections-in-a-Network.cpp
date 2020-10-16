@@ -18,31 +18,35 @@ public:
             g[edge[1]].push_back(edge[0]);
         }
 
-        vector<bool> visited(n, false);
-        vector<int> ord(n, n);
-        vector<int> low(n, n);
+        vector<int> dfn(n);
+        vector<int> low(n);
         vector<vector<int>> result;
-        dfs(g, 0, -1, visited, ord, low, 0, result);
+        int dfnid = 0;
+        dfs(g, 0, -1, dfn, low, dfnid, result);
         return result;
     }
 
 private:
-    void dfs(const vector<vector<int>>& g, int node, int prev, vector<bool>& visited, vector<int>& ord,
-            vector<int>& low, int total, vector<vector<int>>& result)
+    void dfs(const vector<vector<int>>& g, int node, int prev, vector<int>& dfn,
+            vector<int>& low, int& dfnid, vector<vector<int>>& result)
     {
-        if(visited[node])
+        if(dfn[node] != 0)
             return;
-        visited[node] = true;
-        ord[node] = total;
-        low[node] = total;
-        int min_low = total;
+        dfn[node] = ++dfnid;
+        low[node] = dfnid;
+        int min_low = dfnid;
+        int cnt = 0;
         for(int son: g[node])
         {
             // (node, son) 这条边
             if(son == prev)
+            {
+                if(++cnt > 1)
+                    min_low = min(min_low, dfn[son]);
                 continue;
-            dfs(g, son, node, visited, ord, low, total + 1, result);
-            if(low[son] > ord[node])
+            }
+            dfs(g, son, node, dfn, low, dfnid, result);
+            if(low[son] > dfn[node])
                 result.push_back({node, son});
             min_low = min(min_low, low[son]);
         }

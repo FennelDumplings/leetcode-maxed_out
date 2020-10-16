@@ -175,3 +175,43 @@ private:
     }
 };
 
+// 二分答案
+#include <algorithm>
+#include <climits>
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        const double EPS = 1e-9;
+        int n = nums1.size(), m = nums2.size();
+        int len = n + m;
+        double left = INT_MIN, right = INT_MAX;
+        while(left + EPS < right)
+        {
+            double mid = (left + right) / 2;
+            int i = upper_bound(nums1.begin(), nums1.end(), mid) - nums1.begin();
+            int j = upper_bound(nums2.begin(), nums2.end(), mid) - nums2.begin();
+            if(i + j > len / 2)
+                right = mid;
+            else
+                left = mid;
+        }
+        // a[len / 2] = mid
+        if(len & 1)
+            return left;
+        double tmp = left;
+        left = INT_MIN, right = INT_MAX;
+        while(left + EPS < right)
+        {
+            double mid = (left + right) / 2;
+            int i = upper_bound(nums1.begin(), nums1.end(), mid) - nums1.begin();
+            int j = upper_bound(nums2.begin(), nums2.end(), mid) - nums2.begin();
+            if(i + j > (len - 1) / 2)
+                right = mid;
+            else
+                left = mid;
+        }
+        return (left + tmp) / 2;
+    }
+};
+
