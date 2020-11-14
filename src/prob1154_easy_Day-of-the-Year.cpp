@@ -33,16 +33,17 @@
 
 using namespace std;
 
+
 class Solution {
 public:
     int dayOfYear(string date) {
         int y, m, d;
         stringstream ss;
-        ss << date.substr(0, 4);
-        ss >> y;
-        ss << date.substr(5, 2);
-        ss >> m;
+        ss << date.substr(0, 4) + ' ';
+        ss << date.substr(5, 2) + ' ';
         ss << date.substr(8, 2);
+        ss >> y;
+        ss >> m;
         ss >> d;
         vector<int> months({31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31});
         if(is_leap_year(y))

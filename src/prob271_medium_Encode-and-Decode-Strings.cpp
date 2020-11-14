@@ -251,7 +251,7 @@ private:
 };
 
 
-class Codec {
+class Codec2 {
 public:
     // Encodes a list of strings to a single string.
     string encode(vector<string>& strs) {
@@ -306,6 +306,258 @@ public:
 
 private:
     HuffmanTree hftree;
+    char p;
+
+    unordered_map<char, int> stat(const vector<string>& strs)
+    {
+        unordered_map<char, int> mapping;
+        for(const string& str: strs)
+        {
+            for(const char& ch: str)
+                ++mapping[ch];
+        }
+        return mapping;
+    }
+};
+
+// k叉
+#include <queue>
+
+using KHFType = char;
+const KHFType PLACEHOLDER = (char)256;
+
+struct KHFNode
+{
+    KHFType data;
+    int weight;
+    KHFNode *parent;
+    vector<KHFNode*> children;
+    KHFNode(){}
+    KHFNode(int k, const KHFType& v, int w)
+    {
+        children = vector<KHFNode*>(k);
+        data = v;
+        weight = w;
+    }
+};
+
+struct KHFCode
+{
+    KHFType data;
+    string code;
+};
+
+struct HeapCmp
+{
+    bool operator()(KHFNode*& node1, KHFNode*& node2) const
+    {
+        return node1 -> weight > node2 -> weight;
+    }
+};
+
+class KHuffmanTree
+{
+private:
+    void delete_sub_tree(KHFNode* node)
+    {
+        if(!node) return;
+        for(KHFNode *child: node -> children)
+            if(child)
+                delete_sub_tree(child);
+        delete node;
+        node = nullptr;
+    }
+
+public:
+    KHuffmanTree()
+    {
+        root = nullptr;
+    }
+    ~KHuffmanTree()
+    {
+        delete_sub_tree(root);
+    }
+
+    int charset_size()
+    {
+        return n;
+    }
+
+    void build(const string& v, const vector<int>& w, int K)
+    {
+        this -> n = v.size();
+        this -> k = K;
+        if(n == 0) return;
+        // n 个叶子节点
+        priority_queue<KHFNode*, vector<KHFNode*>, HeapCmp> pq; // 小顶堆
+        for(int i = 0; i < n; ++i)
+        {
+            KHFNode *node = new KHFNode(k, v[i], w[i]);
+            pq.push(node);
+        }
+        // 如果有必要，加 m 个虚节点
+        if((n - 1) % (k - 1) != 0)
+        {
+            int m = k - ((n - 1) % (k - 1)) - 1;
+            for(int i = 0; i < m; ++i)
+            {
+                KHFNode *node = new KHFNode(k, PLACEHOLDER, 0);
+                pq.push(node);
+            }
+        }
+
+        while((int)pq.size() > 1)
+        {
+            KHFNode *fa = new KHFNode(k, PLACEHOLDER, 0);
+            for(int j = 0; j < k; ++j)
+            {
+                KHFNode *node = pq.top();
+                pq.pop();
+                fa -> weight += node -> weight;
+                (fa -> children)[j] = node;
+                node -> parent = fa;
+            }
+            pq.push(fa);
+        }
+        root = pq.top();
+    }
+
+private:
+    void dfs(KHFNode *node, vector<KHFCode>& khfcodes, string& code)
+    {
+        if(!(node -> children)[0])
+        {
+            khfcodes.push_back(KHFCode());
+            khfcodes.back().data = node -> data;
+            khfcodes.back().code = code;
+            return;
+        }
+        for(int i = 0; i < k; ++i)
+        {
+            KHFNode *child = (node -> children)[i];
+            if(child)
+            {
+                code += '0' + i;
+                dfs(child, khfcodes, code);
+                code.pop_back();
+            }
+        }
+    }
+
+public:
+    vector<KHFCode> get_code()
+    {
+        vector<KHFCode> result;
+        string code;
+        dfs(root, result, code);
+        return result;
+    }
+
+    string encode(const string& data)
+    {
+        vector<KHFCode> khfcode = get_code();
+        string result;
+        for(const KHFType &item: data)
+        {
+            for(const KHFCode &code_info: khfcode)
+                if(code_info.data == item)
+                    result += code_info.code;
+        }
+        return result;
+    }
+
+private:
+    KHFType _decode(KHFNode* node, const string& seq, int& iter)
+    {
+        while((node -> children)[0])
+        {
+            node = (node -> children)[seq[iter] - '0'];
+            ++iter;
+        }
+        return node -> data;
+    }
+
+public:
+    string decode(const string& seq)
+    {
+        string result;
+        int n_seq = seq.size();
+        int iter = 0;
+        while(iter < n_seq)
+        {
+            KHFNode *node = root;
+            KHFType data = _decode(node, seq, iter);
+            result.push_back(data);
+        }
+        return result;
+    }
+
+private:
+    KHFNode *root;
+    int k; // 字符集大小
+    int n; // 叶节点个数
+};
+
+
+class Codec {
+public:
+    // Encodes a list of strings to a single string.
+    string encode(vector<string>& strs) {
+        if(strs.empty()) return "";
+        unordered_map<char, int> mapping = stat(strs);
+        string v;
+        vector<int> w;
+        for(const auto &item: mapping)
+        {
+            v.push_back(item.first);
+            w.push_back(item.second);
+        }
+        int K = 2;
+        hftree.build(v, w, K);
+        string seq;
+        p = (char)256;
+        if(hftree.charset_size() <= 1)
+        {
+            for(const string& str: strs)
+            {
+                seq += str + p;
+            }
+        }
+        else
+        {
+            for(const string& str: strs)
+            {
+                seq += hftree.encode(str) + p;
+            }
+        }
+        return seq;
+    }
+
+    // Decodes a single string to a list of strings.
+    vector<string> decode(string s) {
+        if(s.empty()) return {};
+        vector<string> result;
+        int n = s.size();
+        int left = 0;
+        while(left < n)
+        {
+            int right = left;
+            while(right < n && s[right] != p)
+                ++right;
+            string seq = s.substr(left, right - left);
+            string d_seq;
+            if(hftree.charset_size() <= 1)
+                d_seq = seq;
+            else
+                d_seq = hftree.decode(seq);
+            result.push_back(d_seq);
+            left = right + 1;
+        }
+        return result;
+    }
+
+private:
+    KHuffmanTree hftree;
     char p;
 
     unordered_map<char, int> stat(const vector<string>& strs)

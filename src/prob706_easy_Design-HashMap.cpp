@@ -34,10 +34,10 @@ using namespace std;
 
 // 哈希函数: 取模法
 // 哈希冲突: 开放寻址法 -- 线性
-class MyHashMap {
+class MyHashMap_2 {
 public:
     /** Initialize your data structure here. */
-    MyHashMap() {
+    MyHashMap_2() {
         vec = vector<PII>(N, PII(-1, -1));
     }
 
@@ -84,3 +84,57 @@ private:
  * int param_2 = obj->get(key);
  * obj->remove(key);
  */
+
+#include <list>
+
+class MyHashMap {
+public:
+    /** Initialize your data structure here. */
+    MyHashMap() {
+        vec = vector<list<PII>>(N);
+    }
+
+    /** value will always be non-negative. */
+    void put(int key, int value) {
+        int pos = hash(key);
+        list<PII>::iterator iter = vec[pos].begin();
+        while(iter != vec[pos].end() && iter -> first != key)
+            ++iter;
+        if(iter == vec[pos].end())
+            vec[pos].push_front(PII(key, value));
+        else
+            iter -> second = value;
+    }
+
+    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+    int get(int key) {
+        int pos = hash(key);
+        list<PII>::iterator iter = vec[pos].begin();
+        while(iter != vec[pos].end() && iter -> first != key)
+            ++iter;
+        if(iter == vec[pos].end())
+            return -1;
+        return iter -> second;
+    }
+
+    /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+    void remove(int key) {
+        int pos = hash(key);
+        list<PII>::iterator iter = vec[pos].begin();
+        while(iter != vec[pos].end() && iter -> first != key)
+            ++iter;
+        if(iter != vec[pos].end())
+            vec[pos].erase(iter);
+    }
+
+private:
+    const int N = 20011;
+    using PII = pair<int, int>;
+    vector<list<PII>> vec;
+
+    int hash(int x)
+    {
+        return x % N;
+    }
+};
+

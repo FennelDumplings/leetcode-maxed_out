@@ -102,38 +102,35 @@ public:
 
 // 滑动窗口 + 哈希表 最坏O(Nk)
 // 30ms
-class Solution {
+class Solution_3 {
 public:
     int lengthOfLongestSubstringKDistinct(string s, int k) {
         if(s.empty() || k == 0) return 0;
         int n = s.size();
-
-        int left = 0, right = left + 1;
         unordered_map<char, int> mapping;
-        mapping[s[left]] = 1;
-        int result = 0;
-        while(true)
+        int left = 0, right = 0;
+        int ans = 0;
+        while(right < n)
         {
             while(right < n)
             {
-                auto it = mapping.find(s[right]);
-                if(it != mapping.end())
-                    ++(it -> second);
-                else if((int)mapping.size() < k)
+                if(mapping.count(s[right]) == 0 && (int)mapping.size() == k)
+                    break;
+                if(mapping.count(s[right]) == 0)
                     mapping[s[right]] = 1;
                 else
-                    break;
+                    ++mapping[s[right]];
                 ++right;
             }
-            if(right >= n) return max(result, right - left);
-            result = max(result, right - left);
+            ans = max(ans, right - left);
             while((int)mapping.size() == k)
             {
                 --mapping[s[left]];
                 if(mapping[s[left]] == 0)
-                    mapping.erase(mapping.find(s[left]));
+                    mapping.erase(s[left]);
                 ++left;
             }
         }
+        return ans;
     }
 };

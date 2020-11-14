@@ -33,10 +33,10 @@
 using namespace std;
 
 // 开放寻址法
-class MyHashSet {
+class MyHashSet1 {
 public:
     /** Initialize your data structure here. */
-    MyHashSet() {
+    MyHashSet1() {
         vec = vector<int>(N, -1);
     }
 
@@ -77,4 +77,163 @@ private:
     {
         return x % N;
     }
+};
+
+// -----
+const int INF = 1e9;
+typedef int hashType;
+
+class CloseHashTable
+{
+private:
+    struct Node
+    {
+        hashType data;
+        int state; // 0: Empty  1: active  2: deleted
+        Node()
+        {
+            state = 0;
+        }
+    };
+
+    Node *arraytable;
+    int sizetable;
+    int (*key)(const hashType& x);
+    const double A = 0.6180339887;
+
+    static int defaultKey(const int &k)
+    {
+        return k;
+    }
+
+    int hash1(const hashType& x) const
+    {
+        return (key(x) + INF) % sizetable;
+    }
+
+    int hash2(const hashType& x) const
+    {
+        double d = key(x) * A;
+        return (int)(sizetable * (d - (int)d));
+    }
+
+public:
+    CloseHashTable(int length=20011, int (*f)(const hashType &x)=defaultKey)
+    {
+        sizetable = length;
+        arraytable = new Node[sizetable];
+        key = f;
+    }
+
+    ~CloseHashTable()
+    {
+        delete[]arraytable;
+    }
+
+    bool findx(const hashType &x) const;
+    bool insertx(const hashType &x);
+    bool removex(const hashType &x);
+    void rehash();
+};
+
+bool CloseHashTable::findx(const hashType &x) const
+{
+    int initPos = hash1(x);
+    int pos = initPos;
+
+    do
+    {
+        if(arraytable[pos].state == 0)
+            return false;
+        if(arraytable[pos].state == 1 && key(arraytable[pos].data) == key(x))
+            return true;
+        pos = (pos + 1) % sizetable;
+    }while(pos != initPos);
+
+    return false;
+}
+
+bool CloseHashTable::insertx(const hashType &x)
+{
+    int initPos = hash1(x);
+    int pos = initPos;
+
+    do{
+        if(arraytable[pos].state != 1)
+        {
+            arraytable[pos].data = x;
+            arraytable[pos].state = 1;
+            return true;
+        }
+        if(arraytable[pos].state == 1 && key(arraytable[pos].data) == key(x))
+            return true;
+        pos = (pos + 1) % sizetable;
+    }while(pos != initPos);
+
+    return false;
+}
+
+bool CloseHashTable::removex(const hashType &x)
+{
+    int initPos = hash1(x);
+    int pos = initPos;
+
+    do
+    {
+        if(arraytable[pos].state == 0)
+            return false;
+        if(arraytable[pos].state==1 && key(arraytable[pos].data) == key(x))
+        {
+            arraytable[pos].state = 2;
+            return true;
+        }
+        pos = (pos + 1) % sizetable;
+    }while(pos != initPos);
+
+    return false;
+}
+
+void CloseHashTable::rehash()
+{
+    Node *tmp = arraytable;
+    arraytable = new Node[sizetable];
+
+    for(int i = 0; i < sizetable; ++i)
+    {
+        if(tmp[i].state == 1)
+            insertx(tmp[i].data);
+    }
+
+    delete [] tmp;
+}
+
+class MyHashSet {
+public:
+    /** Initialize your data structure here. */
+    MyHashSet() {
+        table = new CloseHashTable(N);
+    }
+
+    ~MyHashSet()
+    {
+        delete table;
+        table = nullptr;
+    }
+
+    void add(int key) {
+        table -> insertx(key);
+    }
+
+    void remove(int key) {
+        table -> removex(key);
+    }
+
+    /** Returns true if this set contains the specified element */
+    bool contains(int key) {
+        return table -> findx(key);
+    }
+
+private:
+    const int N = 99991;
+    CloseHashTable *table;
 };

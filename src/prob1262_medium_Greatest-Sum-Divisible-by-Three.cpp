@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_3 {
 public:
     int maxSumDivThree(vector<int>& nums) {
         const int MAXX = 4e4 + 1;
@@ -77,7 +77,26 @@ nums[i] % 3 == 2:
     dp[i][1] = max(dp[i-1][1], dp[i-1][2] + nums[i])
     dp[i][2] = max(dp[i-1][2], dp[i-1][0] + nums[i])
 
+dp[i][j] = max(dp[i - 1][j],
+                dp[i - 1][(j - nums[i] % 3 + 3) % 3] + nums[i])
 */
+
+class Solution {
+public:
+    int maxSumDivThree(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> dp(n + 1, vector<int>(3));
+        dp[0][0] = 0; dp[0][1] = dp[0][2] = INT_MIN;
+        for (int i = 1; i <= n; i++) {
+            int x = nums[i - 1];
+            for(int j = 0; j < 3; ++j)
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][(j - (x % 3) + 3) % 3]);
+        }
+        return dp[n][0];
+    }
+};
+
+
 
 class Solution_2 {
 public:

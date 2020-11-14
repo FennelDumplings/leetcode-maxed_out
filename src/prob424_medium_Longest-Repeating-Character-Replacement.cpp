@@ -30,6 +30,7 @@
  */
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 using namespace std;
@@ -41,7 +42,7 @@ using namespace std;
 // 我们可以通过在右边添加一个字符来扩展窗口，或者将整个窗口向右边移动一个字符。
 // 而且我们只在新字符的计数超过历史最大计数(来自覆盖有效子字符串的前一个窗口)时才增长窗口。
 // 也就是说，我们不需要精确的当前窗口的最大计数;我们只关心最大计数是否超过历史最大计数;这只会因为新字符而发生。
-class Solution {
+class Solution_2 {
 public:
     int characterReplacement(string s, int k) {
         int n = s.size();
@@ -63,5 +64,48 @@ public:
         }
 
         return result;
+    }
+};
+
+#include <algorithm>
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        vector<int> cnts(26);
+        int n = s.size();
+        int left = 0, right = 0;
+        int ans = 0;
+        while(right < n)
+        {
+            while(right < n)
+            {
+                ++cnts[s[right] - 'A'];
+                if(!check(cnts, k, left, right))
+                    break;
+                ++right;
+            }
+            ans = max(ans, right - left);
+            if(right == n) break;
+            while(!check(cnts, k, left, right))
+            {
+                --cnts[s[left] - 'A'];
+                ++left;
+            }
+            ++right;
+        }
+        return ans;
+    }
+
+private:
+    bool check(const vector<int>& cnts, int k, int l, int r)
+    {
+        int max_cnt = 0;
+        for(int c: cnts)
+        {
+            max_cnt = max(max_cnt, c);
+        }
+        int len = r - l + 1;
+        return len - max_cnt <= k;
     }
 };

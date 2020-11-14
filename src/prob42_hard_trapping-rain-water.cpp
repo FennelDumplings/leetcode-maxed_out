@@ -17,7 +17,7 @@
 using namespace std;
 
 // 1. 暴力
-class Solution {
+class Solution_5 {
 public:
     int trap(vector<int>& height) {
         if(height.empty()) return 0;
@@ -168,5 +168,46 @@ public:
             }
         }
         return result;
+    }
+};
+
+#include <climits>
+#include <cmath>
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        return solve(height, 0, n - 1);
+    }
+
+private:
+    int solve(const vector<int>& h, int l, int r)
+    {
+        if(r - l <= 1)
+            return 0;
+        int m1 = -1, m2 = -1;
+        int max1 = INT_MIN, max2 = INT_MIN;
+        for(int i = l; i <= r; ++i)
+        {
+            if(h[i] > max1)
+            {
+                max2 = max1;
+                m2 = m1;
+                max1 = h[i];
+                m1 = i;
+            }
+            else if(h[i] > max2)
+            {
+                max2 = h[i];
+                m2 = i;
+            }
+        }
+        int ans = (abs(m1 - m2) - 1) * max2;
+        for(int i = min(m1, m2) + 1; i <= max(m1, m2) - 1; ++i)
+            ans -= h[i];
+        ans += solve(h, l, min(m1, m2));
+        ans += solve(h, max(m1, m2), r);
+        return ans;
     }
 };

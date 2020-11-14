@@ -22,10 +22,53 @@
  * The answer with the calculation error less than 10-5 will be accepted.
  */
 
+#include <vector>
+
+using namespace std;
 
 class Solution {
 public:
     double findMaxAverage(vector<int>& nums, int k) {
+        int minx = nums[0], maxx = nums[0];
+        for(int i: nums)
+        {
+            minx = min(minx, i);
+            maxx = max(maxx, i);
+        }
+        double left = minx, right = maxx;
+        while(left + EPS < right)
+        {
+            double mid = (left + right) / 2;
+            if(check(nums, mid, k))
+                right = mid;
+            else
+                left = mid;
+        }
+        return left;
+    }
 
+private:
+    const double EPS = 1e-7;
+
+    bool check(const vector<int>& nums, double mid, const int k)
+    {
+        int n = nums.size();
+        double sum = 0.0;
+        double prev = 0.0;
+        for(int i = 0; i < k; ++i)
+        {
+            sum += nums[i] - mid;
+        }
+        if(sum + EPS > 0)
+            return true;
+        for(int i = k; i < n; ++i)
+        {
+            sum -= nums[i - k];
+            sum += nums[i];
+            prev = max(prev + nums[i - k] - mid, nums[i - k] - mid);
+            if(sum + max(0.0, prev) + EPS > 0)
+                return true;
+        }
+        return false;
     }
 };

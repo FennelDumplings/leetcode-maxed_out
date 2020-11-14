@@ -30,7 +30,7 @@
 using namespace std;
 
 // 字符计数
-class Solution {
+class Solution_3 {
 public:
     vector<int> findAnagrams(string s, string p) {
         if(s.empty()) return vector<int>();
@@ -177,4 +177,36 @@ private:
             ++result[s[i] - 'a'];
         return result;
     }
+};
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string pattern) {
+        vector<int> cnts_p(26);
+        for(char ch: pattern)
+            ++cnts_p[ch - 'a'];
+        int hash_p = 0;
+        for(int c: cnts_p)
+        {
+            hash_p = (hash_p * (ll)p) % MOD;
+            hash_p = (hash_p + (ll)c) % MOD;
+        }
+        int n = s.size();
+        int m = pattern.size();
+        vector<int> cnts(26);
+        for(int i = 0; i < m; ++i)
+            ++cnts[s[i] - 'a'];
+        int hash = 0;
+        for(int c: cnts)
+        {
+            hash = (hash * (ll)p) % MOD;
+            hash = (hash + (ll)c) % MOD;
+        }
+        if(hash_p == hash)
+    }
+
+private:
+    using ll = long long;
+    const int MOD = 1e9 + 7;
+    const int p = 201326611;
 };

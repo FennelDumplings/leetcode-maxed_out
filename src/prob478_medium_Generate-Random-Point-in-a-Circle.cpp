@@ -9,9 +9,9 @@
 
 using namespace std;
 
-class Solution {
+class Solution_2 {
 public:
-    Solution(double radius, double x_center, double y_center) {
+    Solution_2(double radius, double x_center, double y_center) {
         r = radius;
         x = x_center;
         y = y_center;
@@ -43,4 +43,34 @@ private:
     std::default_random_engine dre;
     std::uniform_real_distribution<double> dr_x;
     std::uniform_real_distribution<double> dr_y;
+};
+
+
+#include <cmath>
+
+class Solution {
+public:
+    Solution(double radius, double x_center, double y_center) {
+        x = x_center;
+        y = y_center;
+        r = radius;
+        dre = std::default_random_engine();
+        d_theta = std::uniform_real_distribution<double>(0, 2 * PI);
+        d_r = std::uniform_real_distribution<double>(0.0, std::nextafter(1.0, std::numeric_limits<double>::max()));
+    }
+
+    vector<double> randPoint() {
+        double r = sqrt(d_r(dre)) * (this -> r);
+        double theta = d_theta(dre);
+        double x = r * cos(theta);
+        double y = r * sin(theta);
+        return {this -> x + x, this -> y + y};
+    }
+
+private:
+    const long double PI = 3.14159265358979323846;
+    double r, x, y;
+    std::default_random_engine dre;
+    std::uniform_real_distribution<double> d_theta;
+    std::uniform_real_distribution<double> d_r;
 };

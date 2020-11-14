@@ -28,7 +28,7 @@
 #include <unordered_map>
 using namespace std;
 
-class Solution
+class Solution_2
 {
 public:
     int lengthOfLongestSubstring(string s) {
@@ -97,3 +97,38 @@ int main()
  * Longest Substring with At Most K Distinct Characters
  * Subarrays with K Different Integers
  */
+
+#include <bitset>
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.empty()) return 0;
+        int n = s.size();
+        int i = 0, j = 0;
+        bitset<128> state;
+        int ans = 0;
+        while(i < n && j < n)
+        {
+            // 推进 j
+            while(j < n && !state[(int)s[j]])
+            {
+                state.set((int)s[j]);
+                ++j;
+            }
+            // [i..j-1] 为候选答案
+            ans = max(ans, j - i);
+            // 推进 i
+            if(j == n) break;
+            char target = s[j];
+            while(s[i] != target)
+            {
+                state.reset((int)s[i]);
+                ++i;
+            }
+            state.reset((int)s[i]);
+            ++i;
+        }
+        return ans;
+    }
+};

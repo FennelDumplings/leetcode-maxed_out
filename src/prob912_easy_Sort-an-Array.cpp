@@ -18,7 +18,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_2 {
 public:
     vector<int> sortArray(vector<int>& nums) {
         // sort(nums.begin(), nums.end());
@@ -566,4 +566,34 @@ private:
         while(i--) x /= 10;
         return x % 10;
     }
+};
+
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> indexes(n);
+        for(int i = 1; i < n; ++i)
+            indexes[i] = i;
+        Cmp cmp(&nums);
+        sort(indexes.begin(), indexes.end(), cmp);
+        vector<int> result;
+        for(int i: indexes)
+            result.push_back(nums[i]);
+        return result;
+    }
+
+private:
+    struct Cmp
+    {
+        vector<int> *data;
+        Cmp(vector<int>* const nums)
+        {
+            data = nums;
+        }
+        bool operator()(const int& i1, const int& i2) const
+        {
+            return data -> at(i1) < data -> at(i2);
+        }
+    };
 };

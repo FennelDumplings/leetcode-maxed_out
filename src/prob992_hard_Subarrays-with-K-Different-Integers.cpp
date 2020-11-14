@@ -38,7 +38,7 @@ using namespace std;
 // 具体做法：
 // lower[right]: 遍历一遍，记录对应的 left1
 // upper[right]: 遍历一遍，记录对应的 left2
-class Solution {
+class Solution_2 {
 public:
     int subarraysWithKDistinct(vector<int>& A, int K) {
         int n = A.size();
@@ -70,5 +70,36 @@ private:
             // [j, i] 含有 K 个元素
             last[i] = j;
         }
+    }
+};
+
+class Solution {
+public:
+    int subarraysWithKDistinct(vector<int>& A, int K) {
+        int n = A.size();
+        vector<int> cnts(n + 1);
+        int num = 0;
+        int left = 0, right = 0;
+        int ans = 0;
+        while(right < n)
+        {
+            while(right < n && num < K)
+            {
+                if(cnts[A[right]] == 0)
+                    ++num;
+                ++cnts[A[right]];
+                ++right;
+            }
+            // 推进 left 时计数
+            while(num == K)
+            {
+                ++ans;
+                --cnts[A[left]];
+                if(cnts[A[left]] == 0)
+                    --num;
+                ++left;
+            }
+        }
+        return ans;
     }
 };

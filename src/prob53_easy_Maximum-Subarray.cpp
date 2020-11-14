@@ -18,7 +18,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_4 {
 public:
     int maxSubArray(vector<int>& nums) {
         // 默认 nums 不为空
@@ -106,5 +106,36 @@ private:
         mid_result = mid_result + left_maxsum + right_maxsum;
 
         return max(max(left_result, right_result), mid_result);
+    }
+};
+
+// 单调队列
+/*
+a[0..i] 的和 sums[i+1] 求出后
+问 sums[0..i] 的最小值是多少
+*/
+
+#include <deque>
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> sums(n + 1, 0);
+        deque<int> deq;
+        deq.push_back(0); // sums[0] = 0
+        int ans = INT_MIN;
+        for(int i = 0; i < n; ++i)
+        {
+            sums[i + 1] = sums[i] + nums[i];
+            // 此时问：sums[0..i] 上的最小值 mx 是多少
+            // ans = max(ans, sums[i + 1] - mx)
+            int  mx = sums[deq.front()];
+            ans = max(ans, sums[i + 1] - mx);
+            while(!deq.empty() && sums[deq.back()] >= sums[i + 1])
+                deq.pop_back();
+            deq.push_back(i + 1);
+        }
+        return ans;
     }
 };

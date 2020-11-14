@@ -95,14 +95,14 @@ private:
             while(left < right && !pointGreater(pivot, points[right])) --right;
             if(left < right)
             {
-                _swap(points, left, right);
+                swap(points[left], points[right]);
                 ++left;
             }
             // pivot 在 right
             while(left < right && !pointGreater(points[left], pivot)) ++left;
             if(left < right)
             {
-                _swap(points, left, right);
+                swap(points[left], points[right]);
                 --right;
             }
         }
@@ -111,12 +111,6 @@ private:
         if(left == K) return;
         else if(left > K) _quicksort(points, l, left - 1, K);
         else _quicksort(points, left + 1, r, K);
-    }
-
-    void _swap(vector<vector<int> >& points, int a, int b) {
-        vector<int> tmp = points[a];
-        points[a] = points[b];
-        points[b] = tmp;
     }
 
     bool pointLess(const vector<int>& a, const vector<int>& b) {

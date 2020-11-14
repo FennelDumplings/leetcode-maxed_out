@@ -31,7 +31,7 @@ using namespace std;
 
 // O(MN) 算法
 // 基本的双指针
-class Solution {
+class Solution_9 {
 public:
     int strStr(string haystack, string needle) {
         if(needle.empty()) return 0;
@@ -516,3 +516,104 @@ private:
     }
 };
 
+// 后缀数组 + 二分
+class Solution {
+public:
+    int strStr(string s, string p) {
+        if(p.empty()) return 0;
+        if(s.empty()) return -1;
+        vector<int> sa = get_sa(s);
+        vector<int> matches = match(s, sa, p);
+        if(matches.empty()) return -1;
+        return *min_element(matches.begin(), matches.end());
+    }
+private:
+    const int ALPHABET = 128;
+
+    vector<int> get_sa(const string& s)
+    {
+        vector<int> c(ALPHABET);
+        int n = s.size();
+        vector<int> rank(n); // 第一关键字
+        vector<int> y(n); // 第二关键字
+        vector<int> sa(n);
+
+        for(int i = 0; i < n; ++i)
+        {
+            ++c[s[i]];
+            rank[i] = s[i];
+        }
+        for(int i = 1; i < ALPHABET; ++i)
+            c[i] += c[i - 1];
+        for(int i = n - 1; i >= 0; --i)
+        {
+            sa[--c[rank[i]]] = i;
+        }
+
+        int m = ALPHABET; // 关键字种类数
+        for(int k = 1; k <= n; k <<= 1)
+        {
+            int p = 0;
+            for(int i = n - k; i < n; ++i)
+                y[p++] = i;
+            for(int i = 0; i < n; ++i)
+                if(sa[i] >= k)
+                    y[p++] = sa[i] - k;
+
+            c.assign(m, 0);
+            for(int i = 0; i < n; ++i)
+                ++c[rank[i]];
+            for(int i = 1; i < m; ++i)
+                c[i] += c[i - 1];
+            for(int i = n - 1; i >= 0; --i)
+                sa[--c[rank[y[i]]]] = y[i];
+
+            rank.swap(y);
+            p = 1; // 分配的关键字
+            rank[sa[0]] = 0;
+            for(int i = 1; i < n; ++i)
+            {
+                // 此时 y 持有的是长为 len 的第一关键字
+                // 长为 len 的第二关键字从 sa 获得
+                // 合并后的长为 len * 2 的第一关键字放在 rank
+                if(y[sa[i - 1]] == y[sa[i]] &&
+                        (sa[i - 1] + k >= n ? -1 : y[sa[i - 1] + k]) == (sa[i] + k >= n ? -1 : y[sa[i] + k]))
+                    rank[sa[i]] = p - 1;
+                else
+                {
+                    rank[sa[i]] = p;
+                    p++;
+                }
+            }
+
+            // 下一轮的关键字种类数
+            if(p >= n)
+                break;
+            m = p;
+        }
+
+        return sa;
+    }
+
+    vector<int> match(string_view s, vector<int>& sa, string_view p)
+    {
+        int n = s.size(), m = p.size();
+        int left = 0, right = n - 1;
+        while(left < right)
+        {
+            int mid = (left + right) / 2;
+            // 比较 s 从 sa[mid] 开始长度为 m 的子串与 p
+            if(s.substr(sa[mid], min(m, n - sa[mid])) < p)
+                left = mid + 1;
+            else
+                right = mid;
+        }
+        vector<int> result;
+        while(left < n && s.substr(sa[left], min(m, n - sa[left])) == p)
+        {
+            result.push_back(sa[left]);
+            ++left;
+        }
+        return result;
+    }
+};

@@ -17,7 +17,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_2 {
 public:
     vector<string> generateAbbreviations(string word) {
         vector<string> result;
@@ -43,5 +43,42 @@ private:
             dfs(word, i + 1, item + num + word[i], result);
         }
         dfs(word, n + 1, item + to_string(n - left), result);
+    }
+};
+
+class Solution {
+public:
+    vector<string> generateAbbreviations(string word) {
+        int n = word.size();
+        vector<string> result((1 << n), "");
+        for(int state = 0; state < (1 << n); ++state)
+            result[state] = construct(state, word);
+        return result;
+    }
+
+private:
+    string construct(int state, const string& s)
+    {
+        int n = s.size();
+        int i = 0;
+        string result;
+        while(i < n)
+        {
+            if(state >> i & 1)
+            {
+                // s[i] 用了缩写
+                int j = i;
+                while(j < n && (state >> j & 1))
+                    ++j;
+                result += to_string(j - i);
+                i = j;
+            }
+            else
+            {
+                // s[i] 没用缩写
+                result += s[i++];
+            }
+        }
+        return result;
     }
 };

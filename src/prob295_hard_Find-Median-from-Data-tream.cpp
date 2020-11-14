@@ -29,10 +29,10 @@
 
 using namespace std;
 
-class MedianFinder {
+class MedianFinder1 {
 public:
     /** initialize your data structure here. */
-    MedianFinder() {
+    MedianFinder1() {
         pq_left = priority_queue<int>(); // 大顶堆
         pq_right = priority_queue<int, vector<int>, greater<int> >(); // 小顶堆
     }
@@ -83,3 +83,80 @@ private:
  * obj->addNum(num);
  * double param_2 = obj->findMedian();
  */
+
+
+class OppositeHeap {
+public:
+    OppositeHeap()
+    {
+        pq_right = priority_queue<int, vector<int>, greater<int>>();
+        pq_left = priority_queue<int>();
+        left_cnt = 0, right_cnt = 0;
+    }
+
+    double query()
+    {
+        double left = pq_left.top();
+        if(left_cnt == right_cnt + 1)
+            return left;
+        double right = pq_right.top();
+        return (left + right) / 2;
+    }
+
+    void insert(int x)
+    {
+        if(pq_left.empty() || x <= pq_left.top())
+        {
+            pq_left.push(x);
+            ++left_cnt;
+        }
+        else
+        {
+            pq_right.push(x);
+            ++right_cnt;
+        }
+        balance();
+    }
+
+private:
+    priority_queue<int, vector<int>, greater<int>> pq_right;
+    priority_queue<int> pq_left;
+    int left_cnt, right_cnt;
+
+    void balance()
+    {
+        if(left_cnt > right_cnt + 1)
+        {
+            pq_right.push(pq_left.top());
+            pq_left.pop();
+            ++right_cnt;
+            --left_cnt;
+        }
+        else if(left_cnt < right_cnt)
+        {
+            pq_left.push(pq_right.top());
+            pq_right.pop();
+            ++left_cnt;
+            --right_cnt;
+        }
+    }
+};
+
+
+class MedianFinder {
+public:
+    MedianFinder() {
+        opposite_heap = OppositeHeap();
+    }
+
+    void addNum(int num) {
+        opposite_heap.insert(num);
+    }
+
+    double findMedian() {
+        return opposite_heap.query();
+    }
+
+private:
+    OppositeHeap opposite_heap;
+};
