@@ -19,10 +19,8 @@ public:
         for(int i = 1; i < m; ++i)
         {
             for(int j = 0; j < i; ++j)
-            {
                 if(less(j, i, A))
                     dp[i] = max(dp[i], dp[j]);
-            }
             ++dp[i];
         }
         int ans = 0;

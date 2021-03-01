@@ -37,12 +37,14 @@
 #include <iostream>
 #include <random>
 #include <algorithm>
+#include <map>
+#include <set>
 #include <cmath>
 
 using namespace std;
 
 // 哈希表，自定义哈希函数
-class Solution {
+class Solution4 {
 public:
     int maxPoints(vector<vector<int>>& points) {
         if(points.empty()) return 0;
@@ -476,3 +478,53 @@ public:
         return ans;
     }
 };
+
+//
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        if(n == 1)
+            return 1;
+        int max_cnt = 0;
+        for(int i = 0; i < n - 1; ++i)
+        {
+            // 经过 points[i] 的直线
+            // mapping[i][j] := 方向向量除以最大公约数后为 (i, j) 的点数, i >= 0
+            map<int, map<int, int>> mapping;
+            int duplicate = 1;
+            for(int j = i + 1; j < n; ++j)
+            {
+                int a = points[i][0] - points[j][0];
+                int b = points[i][1] - points[j][1];
+                if(a == 0 && b == 0)
+                {
+                    ++duplicate;
+                    continue;
+                }
+                if(a < 0)
+                {
+                    a = -a;
+                    b = -b;
+                }
+                if(a != 0 && b != 0)
+                {
+                    int gcd_ = gcd<int>(abs(a), abs(b));
+                    a /= gcd_;
+                    b /= gcd_;
+                }
+                else if(b != 0)
+                    b = INT_MAX / 2;
+                else if(a != 0)
+                    a = INT_MAX / 2;
+                ++mapping[a][b];
+            }
+            max_cnt = max(max_cnt, duplicate);
+            for(auto a: mapping)
+                for(auto b: a.second)
+                    max_cnt = max(max_cnt, b.second + duplicate);
+        }
+        return max_cnt;
+    }
+};
+

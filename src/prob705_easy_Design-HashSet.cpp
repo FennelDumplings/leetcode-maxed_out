@@ -237,3 +237,163 @@ private:
     const int N = 99991;
     CloseHashTable *table;
 };
+
+
+typedef int hashType;
+const int INF = 1e9;
+
+class OpenHashTable
+{
+private:
+    struct Node
+    {
+        hashType data;
+        int cnt;
+        Node *next;
+        Node(const hashType &x)
+        {
+            data = x;
+            cnt = 1;
+            next = nullptr;
+        }
+        Node()
+        {
+            cnt = 0;
+            next = nullptr;
+        }
+    };
+
+    Node **arraytable;
+    int sizetable;
+    int (*key)(const hashType &x);
+    const double A = 0.6180339887;
+
+    static int defaultKey(const int &k)
+    {
+        return k;
+    }
+
+    int hash1(const hashType& x) const
+    {
+        if(key(x) < 0)
+            return (key(x) + INF) % sizetable;
+        return key(x) % sizetable;
+    }
+
+    int hash2(const hashType& x) const
+    {
+        double d;
+        if(key(x) < 0)
+            d = (key(x) + INF) * A;
+        else
+            d = (key(x)) * A;
+        return (int)(sizetable * (d - (int)d));
+    }
+
+public:
+    OpenHashTable(int length = 20011, int (*f)(const hashType &x) = defaultKey)
+    {
+        sizetable = length;
+        arraytable = new Node*[sizetable];
+        key = f;
+        for(int i = 0; i < sizetable; ++i)
+        {
+            arraytable[i] = new Node;
+        }
+    }
+
+    ~OpenHashTable()
+    {
+        Node *p,*q;
+        for(int i = 0; i < sizetable; ++i)
+        {
+            p = arraytable[i];
+            // 头删
+            do
+            {
+                q = p -> next;
+                delete p;
+                p = q;
+            }while(p != nullptr);
+        }
+        delete [] arraytable;
+    }
+
+    int findx(const hashType &x) const
+    {
+        int pos = hash2(x);
+        Node *p = arraytable[pos];
+        while(p -> next != nullptr && (p -> next -> data != x))
+            p = p -> next;
+        if(p -> next != nullptr)
+            return p -> next -> cnt;
+        else
+            return 0;
+    }
+
+    bool insertx(const hashType &x)
+    {
+        int pos = hash2(x);
+        Node *p = arraytable[pos] -> next;
+        while(p != nullptr && p -> data != x)
+            p = p -> next;
+        // 没找到就头插
+        if(p == nullptr)
+        {
+            p = new Node(x);
+            p -> next = arraytable[pos] -> next;
+            arraytable[pos] -> next = p;
+            return true;
+        }
+        return false;
+    }
+
+    bool removex(const hashType &x)
+    {
+        int pos = hash2(x);
+        Node *p = arraytable[pos];
+        Node *q;
+        while(p -> next != nullptr && p -> next -> data != x)
+            p = p -> next;
+        if(p -> next == nullptr)
+            return false;
+        else
+        {
+            q = p -> next;
+            p -> next = q -> next;
+            delete q;
+            return true;
+        }
+    }
+};
+
+class MyHashSet {
+public:
+    /** Initialize your data structure here. */
+    MyHashSet() {
+        table = new OpenHashTable(N);
+    }
+
+    ~MyHashSet()
+    {
+        delete table;
+        table = nullptr;
+    }
+
+    void add(int key) {
+        table -> insertx(key);
+    }
+
+    void remove(int key) {
+        table -> removex(key);
+    }
+
+    /** Returns true if this set contains the specified element */
+    bool contains(int key) {
+        return table -> findx(key);
+    }
+
+private:
+    const int N = 20011;
+    OpenHashTable *table;
+};

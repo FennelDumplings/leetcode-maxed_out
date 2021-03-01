@@ -19,11 +19,6 @@
 
 ## 代数
 
-## 几何
-[223. 矩形面积](https://leetcode-cn.com/problems/rectangle-area/)
-[836. 矩形重叠]
-
-
 ## 数论
 [258. 各位相加](https://leetcode-cn.com/problems/add-digits/)
 

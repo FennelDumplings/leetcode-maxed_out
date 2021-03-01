@@ -18,11 +18,11 @@ public:
         {
             if(A[i] == A[i - 1]) continue;
             ++dp[i];
-            if(dp[i - 1] == 1) continue;
-            if(A[i - 2] < A[i - 1] && A[i - 1] > A[i])
-                dp[i] += dp[i - 1] - 1;
-            if(A[i - 2] > A[i - 1] && A[i - 1] < A[i])
-                dp[i] += dp[i - 1] - 1;
+            // if(dp[i - 1] == 1) continue;
+            if(i > 1 && A[i - 2] < A[i - 1] && A[i - 1] > A[i])
+                dp[i] = dp[i - 1] + 1;
+            if(i > 1 && A[i - 2] > A[i - 1] && A[i - 1] < A[i])
+                dp[i] = dp[i - 1] + 1;
         }
         int ans = 0;
         for(int i: dp)

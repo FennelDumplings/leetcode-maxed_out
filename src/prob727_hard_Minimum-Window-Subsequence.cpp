@@ -49,23 +49,25 @@ public:
     }
 };
 
+
+// dp[i][j] := 两个串分别考虑到 S[0..j], T[0..i]
+//             且 S 中以 j 为右端点时，包含 T[0..i] 的最短子串的左端点
+//             T[0..i] 与 S[dp[i][j], j] 对应
+//             若不存在，为 -1
+// 初始化：全初始化 -1
+//         dp[0][0] = 0 若 S[0] == T[0]
+//         dp[0][j] = j 若 S[j] == T[0]
+//                  = dp[0][j - 1]
+// 转移：
+// dp[i][j] = dp[i - 1][j - 1]   (T[i] == S[j])
+//          = dp[i][j - 1]       (T[i] != S[j])
+
 // 双串 dp[i][j]
 class Solution_2 {
 public:
     string minWindow(string S, string T) {
         if(S == T) return S;
         int n = S.size(), m = T.size();
-        // dp[i][j] := 两个串分别考虑到 S[0..j], T[0..i]
-        //             且 S 中以 j 为右端点时，包含 T[0..i] 的最短子串的左端点
-        //             T[0..i] 与 S[dp[i][j], j] 对应
-        //             若不存在，为 -1
-        // 初始化：全初始化 -1
-        //         dp[0][0] = 0 若 S[0] == T[0]
-        //         dp[0][j] = j 若 S[j] == T[0]
-        //                  = dp[0][j - 1]
-        // 转移：
-        // dp[i][j] = dp[i - 1][j - 1]   (T[i] == S[j])
-        //          = dp[i][j - 1]       (T[i] != S[j])
         vector<vector<int>> dp(m, vector<int>(n, -1));
         if(S[0] == T[0])
             dp[0][0] = 0;

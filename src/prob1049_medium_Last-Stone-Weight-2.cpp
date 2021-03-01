@@ -41,7 +41,7 @@ public:
         int W = 0;
         for(int i: stones) W += i;
         int target = W / 2;
-        // 选，使得和 小于等于 target 同时尽可能接近 target
+        // 使得和 小于等于 target 同时尽可能接近 target
         vector<int> &v = stones; // 物品体积
         int &V = target; // 背包容量
         int n = v.size();

@@ -27,26 +27,23 @@ public:
         if(envelopes.empty()) return 0;
         int n = envelopes.size();
         sort(envelopes.begin(), envelopes.end(), cmp);
-        vector<int> dp;
+        vector<int> vec;
         for(int i = 0; i < n; ++i)
         {
-            int idx = lower_bound(dp.begin(), dp.end(), envelopes[i][1]) - dp.begin();
-            if(idx < (int)dp.size())
-                dp[idx] = envelopes[i][1];
+            int idx = lower_bound(vec.begin(), vec.end(), envelopes[i][1]) - vec.begin();
+            if(idx < (int)vec.size())
+                vec[idx] = envelopes[i][1];
             else
-                dp.push_back(envelopes[i][1]);
+                vec.push_back(envelopes[i][1]);
         }
-        return dp.size();
+        return vec.size();
     }
 
 private:
     static bool cmp(const vector<int>& vec1, const vector<int>& vec2)
     {
-        if(vec1[0] < vec2[0])
-            return true;
-        else if(vec1[0] > vec2[0])
-            return false;
-        else
+        if(vec1[0] == vec2[0])
             return vec1[1] > vec2[1];
+        return vec1[0] < vec2[0];
     }
 };

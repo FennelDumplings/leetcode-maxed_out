@@ -25,7 +25,7 @@ public:
         if(nums.empty()) return {};
         sort(nums.begin(), nums.end());
         int n = nums.size();
-        vector<int> dp(n, 1); // dp[i] := 以 i 为最大值的最大整除自己
+        vector<int> dp(n, 1); // dp[i] := 以 i 为最大值的最大整除子集的大小
         vector<int> father(n, -1);
         for(int i = 1; i < n; ++i)
         {

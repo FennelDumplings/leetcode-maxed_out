@@ -5,6 +5,7 @@
  */
 
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -49,3 +50,8 @@ public:
         return st.empty();
     }
 };
+
+int main()
+{
+    fstream fin("./prob1000_hard_Minimum-Cost-to-Merge-Stones.cpp");
+}
