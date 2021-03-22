@@ -102,7 +102,6 @@ public:
         for(int i = 0; i < n; ++i)
             if(A[i] != B[i])
                 ++D[A[i] - 'a'][B[i] - 'a'];
-        check(D);
         int ans = 0;
         vector<vector<int>> adj;
         bool flag = true;
@@ -155,7 +154,7 @@ private:
                     }
             }
         }
-        int min_score = m;
+        int min_score = m + 1;
         int idx = m;
         for(int i = 0; i < m; ++i)
         {
