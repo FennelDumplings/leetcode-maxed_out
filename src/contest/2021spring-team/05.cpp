@@ -1,7 +1,6 @@
 
 #include <vector>
 #include <cmath>
-#include <algorithm>
 #include <map>
 #include <set>
 
@@ -110,22 +109,6 @@ struct Vector2
     }
 };
 
-// 判定两个向量的方向
-// ccw: counter clock wise
-double ccw(const Vector2& a, const Vector2& b)
-{
-    // 正数: b 在 a 的逆时针 180 度内
-    // 负数: b 在 a 的顺时针 180 度内
-    // 0: 平行
-    return a.cross(b);
-}
-double ccw(const Vector2& p, const Vector2& a, const Vector2& b)
-{
-    // 正数: 以 p 为基准点时，b 在 a 的逆时针 180 度内
-    // 负数: 以 p 为基准点时，b 在 a 的顺时针 180 度内
-    return ccw(a - p, b - p);
-}
-
 struct Line
 {
     // line: a+pb, a 是点, b 是方向向量
@@ -157,45 +140,22 @@ bool line_intersection(const Line& l1, const Line& l2, Vector2& x)
     return true;
 }
 
-// 凸包
-vector<Vector2> convex_hull(vector<Vector2>& p)
-{
-    int n = p.size();
-    sort(p.begin(), p.end());
-    vector<Vector2> result(n * 2);
-    int k = 0; // 当前的凸包点个数，即 result.size()
-    // 构造凸包的下侧
-    for(int i = 0; i < n; ++i)
-    {
-        while(k > 1 && (result[k - 1] - result[k - 2]).cross(p[i] - result[k - 1]) < 0)
-            --k;
-        result[k++] = p[i];
-    }
-    // 构造凸包的上侧
-    int t = k;
-    for(int i = n - 2; i >= 0; --i)
-    {
-        while(k > t && (result[k - 1] - result[k - 2]).cross(p[i] - result[k - 1]) < 0)
-            --k;
-        result[k++] = p[i];
-    }
-    result.resize(k - 1);
-    return result;
-}
-
 class Solution {
 public:
     double minRecSize(vector<vector<int>>& lines_) {
         int n = lines_.size();
         if(n <= 2)
             return 0;
+        // 按斜率分桶，并用 map 维护升序，桶内是从小到大的截距
         map<int, set<int>> mapping;
         for(const vector<int>& l: lines_)
             mapping[l[0]].insert(l[1]);
-        auto it = mapping.begin();
+        // 每个斜率取最大和最小的截距构造线段，并按 map 中的顺序(也就是斜率从小到大的顺序)保存在 vector 中
         vector<vector<Line>> lines;
+        auto it = mapping.begin();
         while(it != mapping.end())
         {
+            // 遇到了新的斜率，需要新分配该斜率的桶
             lines.push_back({});
             Vector2 b(1, it -> first); // 方向向量
             Vector2 a(0, *(it -> second).begin()); // 截距点
@@ -208,13 +168,15 @@ public:
             }
             ++it;
         }
-        if(lines.size() < 2)
+        if(lines.size() < 2) // 所有直线只有一种斜率不会有交点
             return 0;
 
-        vector<Vector2> points; // 相邻直线的交点
+        vector<Vector2> points; // 在桶中所有相邻斜率的直线形成的交点
         for(int i = 0; i < (int)lines.size(); ++i)
         {
             int j = (i + 1) % (int)lines.size();
+            // lines[i] 为当前斜率对应的一条或两条需要考虑的直线
+            // lines[j] 为相邻的下一个斜率对应的一条或两条需要考虑的直线
             for(Line l1: lines[i])
                 for(Line l2: lines[j])
                 {
@@ -223,14 +185,13 @@ public:
                         points.push_back(x);
                 }
         }
-        if(points.empty())
-            return 0;
-        vector<Vector2> chs = convex_hull(points);
-        double min_x = chs[0].x;
-        double min_y = chs[0].y;
-        double max_x = chs[0].x;
-        double max_y = chs[0].y;
-        for(Vector2 p: chs)
+
+        // 统计答案
+        double min_x = points[0].x;
+        double min_y = points[0].y;
+        double max_x = points[0].x;
+        double max_y = points[0].y;
+        for(Vector2 p: points)
         {
             min_x = min(min_x, p.x);
             min_y = min(min_y, p.y);
