@@ -20,17 +20,7 @@ struct TrieNode
         terminate = false;
         children = vector<TrieNode*>(ALPHABET, nullptr);
     }
-    ~TrieNode()
-    {
-        for(TrieNode *child: children)
-        {
-            if(child)
-            {
-                delete child;
-                child = nullptr;
-            }
-        }
-    }
+    ~TrieNode(){}
 };
 
 class Trie
@@ -44,10 +34,7 @@ public:
     ~Trie()
     {
         if(root)
-        {
-            delete root;
-            root = nullptr;
-        }
+            delete_subtree(root);
     }
 
     void insert(const string& word)
@@ -89,6 +76,15 @@ private:
         if(!(node -> children)[cur - 'a'])
             (node -> children)[cur - 'a'] = new TrieNode();
         _insert((node -> children)[cur - 'a'], word, pos - 1);
+    }
+
+    void delete_subtree(TrieNode *node)
+    {
+        for(TrieNode *child: node -> children)
+            if(child)
+                delete_subtree(child);
+        delete node;
+        node = nullptr;
     }
 };
 
