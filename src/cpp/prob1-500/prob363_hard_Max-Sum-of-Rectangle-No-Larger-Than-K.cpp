@@ -58,8 +58,8 @@ private:
             sums[i] = {sums[i - 1].first + nums[i - 1], i};
         sort(sums.begin(), sums.end());
         int max_diff = INT_MIN;
-        int i = n - 2, j = n - 1;
-        while(i >= 0)
+        int i = 0, j = 1;
+        while(j < n)
         {
             int diff = sums[i].first - sums[j].first;
             // [i..j]
@@ -67,14 +67,12 @@ private:
             {
                 if(sums[i].second > sums[j].second)
                     max_diff = max(max_diff, diff);
-                --i;
+                ++i;
+                if(i == j)
+                    ++j;
             }
             else
-            {
-                --j;
-                if(i == j)
-                    --i;
-            }
+                ++j;
         }
         i = 0, j = 1;
         while(j < n)
