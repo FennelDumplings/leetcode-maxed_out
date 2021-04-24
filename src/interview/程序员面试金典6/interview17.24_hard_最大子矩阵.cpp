@@ -23,7 +23,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution_2 {
 public:
     vector<int> getMaxMatrix(vector<vector<int>>& matrix) {
         if(matrix.empty()) return {};
@@ -79,5 +79,42 @@ private:
     int rec_sum(int i1, int j1, int i2, int j2, const vector<vector<int>>& sums)
     {
         return sums[i1 + 1][j1 + 1] - sums[i1 + 1][j2] - sums[i2][j1 + 1] + sums[i2][j2];
+    }
+};
+
+
+class Solution {
+public:
+    vector<int> getMaxMatrix(vector<vector<int>>& matrix) {
+        if(matrix.empty()) return {};
+        int n = matrix.size(), m = matrix[0].size();
+
+        vector<vector<int>> sums(n + 1, vector<int>(m + 1,0));
+        for(int i = 1; i <= n; ++i)
+            for(int j = 1; j <= m; ++j)
+                sums[i][j] = sums[i - 1][j] + sums[i][j - 1] - sums[i - 1][j - 1] + matrix[i - 1][j - 1];
+
+        int max_sum = INT_MIN;
+        vector<int> result;
+        for(int j1 = 0; j1 < m; ++j1)
+        {
+            for(int j2 = j1; j2 < m; ++j2)
+            {
+                // 枚举 axis=1 方向的区间 [j1, j2]
+                // 固定 axis=1 方向的区间后，在 axis=0 方向做一维的 Kadane
+                for(int i2 = 0, i1 = 0; i2 < n; ++i2)
+                {
+                    int val = sums[i2 + 1][j2 + 1] - sums[i2 + 1][j1] - sums[i1][j2 + 1] + sums[i1][j1];
+                    if(val > max_sum)
+                    {
+                        max_sum = val;
+                        result = {i1, j1, i2, j2};
+                    }
+                    if(val <= 0)
+                        i1 = i2 + 1;
+                }
+            }
+        }
+        return result;
     }
 };
