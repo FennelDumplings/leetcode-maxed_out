@@ -53,25 +53,25 @@ public:
     }
 
 private:
-    void _inOrder(TreeNode* root, TreeNode*& precursor, TreeNode*& result)
+    void _inOrder(TreeNode* node, TreeNode*& precursor, TreeNode*& result)
     {
-        if(root -> left)
+        if(node -> left)
         {
-            _inOrder(root -> left, precursor, result);
+            _inOrder(node -> left, precursor, result);
         }
 
         if(!precursor)
-            result = root;
+            result = node;
         else
         {
-            precursor -> right = root;
+            precursor -> right = node;
             precursor -> left = nullptr;
         }
-        precursor = root;
+        precursor = node;
 
-        if(root -> right)
+        if(node -> right)
         {
-            _inOrder(root -> right, precursor, result);
+            _inOrder(node -> right, precursor, result);
         }
     }
 };
