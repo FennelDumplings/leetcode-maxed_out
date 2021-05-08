@@ -32,7 +32,6 @@
 *.app
 
 # User
-build/
 test/
 .ycm_extra_conf.py
 lines.sh
