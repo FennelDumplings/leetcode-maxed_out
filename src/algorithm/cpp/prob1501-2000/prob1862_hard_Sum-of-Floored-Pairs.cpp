@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class Solution {
+class Solution2 {
 public:
     int sumOfFlooredPairs(vector<int>& nums) {
         int n = nums.size();
@@ -39,3 +39,32 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    int sumOfFlooredPairs(vector<int>& nums) {
+        using ll = long long;
+        const int MOD = 1e9 + 7;
+        // const int U = 1e5;
+        const int U = *max_element(nums.begin(), nums.end());;
+
+        vector<int> cnt(U + 1);
+        for(int x: nums) ++cnt[x];
+        vector<int> sums(U + 2);
+        for(int x = 1; x <= U + 1; ++x)
+            sums[x] = sums[x - 1] + cnt[x - 1];
+
+        ll ans = 0;
+        for(int y = 1; y <= U; ++y)
+        {
+            for(int t = 1; t * y <= U; ++t)
+            {
+                int k = sums[min((t + 1) * y - 1, U) + 1] - sums[t * y];
+                ans += cnt[y] * (ll)k * t;
+            }
+        }
+        return ans % MOD;
+    }
+};
+
