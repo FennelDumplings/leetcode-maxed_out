@@ -7,31 +7,31 @@ using namespace std;
 class Solution {
 public:
     int minSpeedOnTime(vector<int>& dist, double hour) {
-        double r = 1e7 + 1;
-        double l = 1;
+        int r = 1e7 + 1;
+        int l = 1;
         if(!check(dist, hour, r))
             return -1;
-        while(r > l + EPS)
+        while(l < r)
         {
             double mid = (l + r) / 2;
             if(check(dist, hour, mid))
                 r = mid;
             else
-                l = mid;
+                l = mid + 1;
         }
-        return ceil(l);
+        return l;
     }
 
 private:
     const double EPS = 1e-9;
 
-    bool check(const vector<int>& dist, const double hour, double v)
+    bool check(const vector<int>& dist, const double hour, int v)
     {
         int n = dist.size();
         double total = 0;
         for(int i = 0; i < n - 1; ++i)
-            total += ceil(dist[i] / v);
-        total += dist[n - 1] / v;
+            total += ceil(dist[i] / (double)v);
+        total += dist[n - 1] / (double)v;
         return total < hour + EPS;
     }
 };
