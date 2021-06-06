@@ -2,6 +2,6 @@
 
 -- https://leetcode-cn.com/problems/rank-scores/
 
-SELECT A.score
-FROM Scores AS A
-ORDER BY A.score DESC
+SELECT Score,
+    DENSE_RANK() OVER(ORDER BY Score DESC) AS 'Rank'
+FROM Scores
