@@ -32,8 +32,4 @@
 *.app
 
 # User
-test/
-cluster/
-src/weekly/
-.ycm_extra_conf.py
-lines.sh
+./src/
