@@ -136,38 +136,22 @@ public:
         if(height.empty()) return 0;
         int n = height.size();
         if(n <= 2) return 0;
-        stack<pair<int, int>> st;
-        int max_h = 0; // 栈底特判
-        int result = 0;
+        stack<int> st;
+        int ans = 0;
         for(int i = 0; i < n; ++i)
         {
-            int cur_h = height[i];
-            if(cur_h >= max_h)
+            while(!st.empty() && height[st.top()] <= height[i])
             {
-                while(!st.empty())
-                {
-                    int h = st.top().first;
-                    int j = st.top().second;
-                    st.pop();
-                    if(st.empty()) break;
-                    result += (j - st.top().second) * (max_h - h);
-                }
-                max_h = cur_h;
-                st.push(pair<int, int>(cur_h, i));
+                int j = st.top();
+                st.pop();
+                if(st.empty())
+                    break;
+                int k = st.top();
+                ans += (i - k - 1) * (min(height[k], height[i]) - height[j]);
             }
-            else
-            {
-                while(st.top().first <= cur_h)
-                {
-                    int h = st.top().first;
-                    int j = st.top().second;
-                    st.pop();
-                    result += (j - st.top().second) * (cur_h - h);
-                }
-                st.push(pair<int, int>(cur_h, i));
-            }
+            st.push(i);
         }
-        return result;
+        return ans;
     }
 };
 
