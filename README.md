@@ -14,3 +14,5 @@ maxed out 的意思是刷爆，原意主要是指信用卡的刷爆。
 - `LCP`: leetcode 举办的竞赛的题
 - `multithread`: leetcode 的多线程题目
 - `shell`: leetcode 的 shell 题目
+- `xmind`: 各个粒度的算法标签和对应题目的思维导图
+- `cluster`: 细粒度算法标签和对应题目
