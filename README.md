@@ -22,4 +22,4 @@ maxed out 的意思是刷爆，原意主要是指信用卡的刷爆。
 
 ---
 
-![](https://raw.githubusercontent.com/FennelDumplings/images/master/mp/qrcode_baguwen.jpeg?token=AGK6ROBY6FBNEUC7FRSHKRLA7QCRO)
+![](https://github.com/FennelDumplings/images/blob/master/mp/qrcode_baguwen.jpeg?raw=true)
