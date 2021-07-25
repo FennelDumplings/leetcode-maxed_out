@@ -1,6 +1,6 @@
 maxed out 的意思是刷爆，原意主要是指信用卡的刷爆。
 
-用这个名称的含义就是说这是个刷爆 leetcode 算法题的仓库，并随着每周的周赛等新增题目进行日常更新。编程语言以 C++ 为主，Python 为辅，少量 Java。
+本仓库用这个名称的含义就是说这是个刷爆 leetcode 算法题的仓库，并随着每周的周赛等新增题目进行日常更新。编程语言以 C++ 为主，Python 为辅，少量 Java。
 
 目录结构如下:
 
@@ -16,3 +16,10 @@ maxed out 的意思是刷爆，原意主要是指信用卡的刷爆。
 - `shell`: leetcode 的 shell 题目
 - `xmind`: 各个粒度的算法标签和对应题目的思维导图
 - `cluster`: 细粒度算法标签和对应题目
+- `recommend`: 从面试官的角度推荐的面试题
+
+比较关键的是 algorithm，xmind，cluster，和 recommend 这四个目录。
+
+---
+
+![](https://raw.githubusercontent.com/FennelDumplings/images/master/mp/qrcode_baguwen.jpeg?token=AGK6ROBY6FBNEUC7FRSHKRLA7QCRO)
