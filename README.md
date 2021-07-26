@@ -14,19 +14,18 @@ maxed out 的意思是刷爆，原意主要是指信用卡的刷爆。
 - `LCP`: leetcode 举办的竞赛的题
 - `multithread`: leetcode 的多线程题目
 - `shell`: leetcode 的 shell 题目
-- `xmind`: 各个粒度的算法标签和对应题目的思维导图
-- `cluster`: 细粒度算法标签和对应题目
+- `cluster`: 各个粒度的算法标签和对应题目的思维导图
 - `recommend`: 从面试官的角度推荐的面试题
 
-比较关键的是 algorithm，xmind，cluster，和 recommend 这四个目录。
+比较关键的是 algorithm，cluster，和 recommend 这四个目录。
 
 (1) algorithm 中记录的是每道题的代码，所有代码均为我在刷题时写的，并且每道题都有关于优化方法或者一题多解的代码记录。由于刷题过程很长，早期的代码显然不如中后期的代码好看，不过刷了 100 题左右基本就好了，贵在真实。
 
-(2) xmind 中记录各个粒度的算法标签以及其对应的题目编号，以思维导图的形式呈现。
+(2) cluster 中记录各个粒度的算法标签以及其对应的题目编号，以思维导图的形式呈现。
 
-(3) cluster 中记录细粒度算法标签以及简要介绍，附带对应题目的链接
+(3) recommend: 我比较推荐的适合用来面试的题
 
-(4) recommend: 我比较推荐的适合用来面试的题
+![](https://github.com/FennelDumplings/images/blob/master/mp/algo_ds.png?raw=true)
 
 ---
 
