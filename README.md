@@ -25,8 +25,8 @@ maxed out 的意思是刷爆，原意主要是指信用卡的刷爆。
 
 (3) recommend: 我比较推荐的适合用来面试的题
 
-![算法与数据结构](https://chengzhaoxi.xyz/about/algo_ds.png)
+![算法与数据结构](https://raw.githubusercontent.com/FennelDumplings/leetcode-maxed_out/master/images/algo_ds.png)
 
 ---
 
-![算法题刷刷](https://chengzhaoxi.xyz/about/qrcode_baguwen.jpeg)
+![算法题刷刷](https://raw.githubusercontent.com/FennelDumplings/leetcode-maxed_out/master/images/qrcode_baguwen.jpeg)
