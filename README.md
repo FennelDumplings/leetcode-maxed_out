@@ -25,7 +25,7 @@ maxed out 的意思是刷爆，原意主要是指信用卡的刷爆。
 
 (3) recommend: 我比较推荐的适合用来面试的题
 
-![](/images/algo_ds.png)
+![](images/algo_ds.png)
 
 ---
 
