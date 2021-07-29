@@ -23,7 +23,7 @@ maxed out 这个词组的意思是刷爆，原意主要是指信用卡的刷爆�
 
 ---
 
-比较关键的是 algorithm，cluster，和 recommend 这四个目录。
+下面介绍以下比较关键的 algorithm，cluster，和 recommend 这三个目录。
 
 (1) algorithm 中记录的是每道题的代码。
 
