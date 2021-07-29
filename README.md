@@ -29,4 +29,4 @@ maxed out 的意思是刷爆，原意主要是指信用卡的刷爆。
 
 ---
 
-![算法题刷刷](https://raw.githubusercontent.com/FennelDumplings/leetcode-maxed_out/master/images/qrcode_baguwen.jpeg)
+![算法题刷刷](https://i.loli.net/2021/07/29/GvVjM2Dt6NkWlof.jpg)
