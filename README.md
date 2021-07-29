@@ -17,6 +17,12 @@ maxed out 这个词组的意思是刷爆，原意主要是指信用卡的刷爆�
 - `cluster`: 细粒度标签题目列表的思维导图，包含问题场景、数据结构、算法三个维度。正在更新中。
 - `recommend`: 从面试官的角度推荐的适合面试的题，需要满足一些条件，持续更新中。
 
+---
+
+![算法题刷刷](https://i.loli.net/2021/07/29/GvVjM2Dt6NkWlof.jpg)
+
+---
+
 比较关键的是 algorithm，cluster，和 recommend 这四个目录。
 
 (1) algorithm 中记录的是每道题的代码。
@@ -33,15 +39,11 @@ maxed out 这个词组的意思是刷爆，原意主要是指信用卡的刷爆�
 
 ![leetcode设计功能系统](https://i.loli.net/2021/07/29/i8MezqHmQFwdP36.png)
 
-在算法这个维度中，我们将算法那层面相同的题组织到一起。例如常见的前缀和，我们组织
+在算法这个维度中，我们将算法那层面相同的题组织到一起。例如常见的前缀和，虽然大量的题都属于前缀和的题，但是套路是很多的，我们将所有前缀和的题按照各个套路聚合到一起，方便大家集中刷题。
 
 ![leetcode前缀和](https://i.loli.net/2021/07/29/ZLMuDqb6nQerCtF.png)
 
 (3) recommend: 我比较推荐的适合用来面试的题。
-
----
-
-![算法题刷刷](https://i.loli.net/2021/07/29/GvVjM2Dt6NkWlof.jpg)
 
 ---
 
