@@ -57,7 +57,7 @@ public:
                 // a[k] + a[j] = a[i]
                 int target = A[i] - A[j];
                 // 在 [0..j-1] 中找 target
-                auto it = lower_bound(A.begin(), A.begin() + j, target);
+                auto it = lower_bound(A.begin(), A.begin() + j - 1, target);
                 if((*it) == target)
                 {
                     int k = it - A.begin();
