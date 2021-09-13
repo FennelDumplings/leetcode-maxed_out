@@ -28,50 +28,28 @@ public:
         if(points.empty()) return 0;
         int n = points.size();
         if(n < 3) return 0;
-        int result = 0;
+        int ans = 0;
         for(int i = 0; i < n; ++i)
         {
-            const vector<int> &point_i = points[i];
-            unordered_map<PVV, int, MyHash, MyCmp> mapping; //  点对 -> 距离相等的个数
+            unordered_map<int, int> mapping; // 距离 -> 个数
             for(int j = 0; j < n; ++j)
             {
                 if(j == i) continue;
-                const vector<int> &point_j = points[j];
-                result += mapping[PVV({point_i, point_j})] * 2;
-                ++mapping[PVV({point_i, point_j})];
+                int d = dist(points[i], points[j]);
+                ans += mapping[d] * 2;
+                ++mapping[d];
             }
         }
-        return result;
+        return ans;
     }
 
 private:
-    // 500 个点，固定一个点时，有 499 中距离，哈希表开1000以上, 找1000 以上的质数
-    // const static int MOD = 5e5 + 9;
-    const static int MOD = 1009;
-    using ll = long long;
-    using PVV = pair<vector<int>, vector<int> >; // 点对
-
-    struct MyHash
+    int dist(const vector<int>& p1, const vector<int>& p2)
     {
-        int operator()(const PVV& point_pair) const
-        {
-            int x = point_pair.first[0] - point_pair.second[0];
-            int y = point_pair.first[1] - point_pair.second[1];
-            return (((ll)x * x) + ((ll)y * y)) % MOD;
-        }
-    };
-
-    struct MyCmp
-    {
-        bool operator()(const PVV& point_pair1, const PVV& point_pair2) const
-        {
-            int x1 = point_pair1.first[0] - point_pair1.second[0];
-            int y1 = point_pair1.first[1] - point_pair1.second[1];
-            int x2 = point_pair2.first[0] - point_pair2.second[0];
-            int y2 = point_pair2.first[1] - point_pair2.second[1];
-            return (ll)x1 * x1 + (ll)y1 * y1 == (ll)x2 * x2 + (ll)y2 * y2;
-        }
-    };
+        int x = p1[0] - p2[0];
+        int y = p1[1] - p2[1];
+        return x * x + y * y;
+    }
 };
 
 // 双重循环优化
