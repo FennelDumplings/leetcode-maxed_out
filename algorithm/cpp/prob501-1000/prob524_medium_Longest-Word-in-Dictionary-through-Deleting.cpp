@@ -35,33 +35,12 @@ using namespace std;
 
 struct Cmp
 {
-    string origin;
-    Cmp(const string& origin):origin(origin){}
+    Cmp(){}
     bool operator()(const string& word1, const string& word2) const
     {
-        bool flag1 = check(word1), flag2 = check(word2);
-        if(!flag2) return false;
-        if(!flag1) return true;
         if(word1.size() == word2.size())
-            return word1 > word2;
-        return word1.size() < word2.size();
-    }
-    bool check(const string& word) const
-    {
-        // word 是否可以通过 origin 删除某些字符得到
-        int n = origin.size();
-        int m = word.size();
-        if(m > n) return false;
-        int i = 0, j = 0;
-        while(i < n && j < m)
-        {
-            if(origin[i] == word[j])
-                ++j;
-            ++i;
-            if(m - j > n - i)
-                return false;
-        }
-        return j == m;
+            return word1 < word2;
+        return word1.size() > word2.size();
     }
 };
 
@@ -69,10 +48,30 @@ class Solution {
 public:
     string findLongestWord(string s, vector<string>& d) {
         if(s.empty() || d.empty()) return "";
-        Cmp cmp(s);
-        auto it = max_element(d.begin(), d.end(), cmp);
-        if(cmp.check(*it))
-            return *it;
+        Cmp cmp;
+        sort(d.begin(), d.end(), cmp);
+        for(const string& word: d)
+            if(check(s, word))
+                return word;
         return "";
+    }
+
+private:
+    bool check(const string& s, const string& word) const
+    {
+        // word 是否可以通过 origin 删除某些字符得到
+        int n = s.size();
+        int m = word.size();
+        if(m > n) return false;
+        int i = 0, j = 0;
+        while(i < n && j < m)
+        {
+            if(s[i] == word[j])
+                ++j;
+            ++i;
+            if(m - j > n - i)
+                return false;
+        }
+        return j == m;
     }
 };

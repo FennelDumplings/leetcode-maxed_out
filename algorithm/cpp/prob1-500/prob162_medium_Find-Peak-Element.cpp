@@ -52,21 +52,8 @@ public:
 
 private:
     bool check_left(int index, vector<int> &nums)
-    {
-        // 查 index 左边的
-        // index : [1 .. n - 1]
-        if(nums[index - 1] < nums[index])
-            return true;
-        else
-            return false;
-    }
+        return nums[index - 1] < nums[index]
+
     bool check_right(int index, vector<int> &nums)
-    {
-        // 查 index 右边的
-        // index : [0 .. n - 2]
-        if(nums[index] > nums[index + 1])
-            return true;
-        else
-            return false;
-    }
+        return nums[index] > nums[index + 1]
 };
