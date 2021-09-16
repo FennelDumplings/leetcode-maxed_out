@@ -41,21 +41,23 @@ struct TrieNode
         terminate = false;
         children = vector<TrieNode*>(ALPHABETS, nullptr);
     }
-    ~TrieNode()
-    {
-        for(TrieNode *child: children)
-        {
-            if(child)
-            {
-                delete  child;
-                child = nullptr;
-            }
-        }
-    }
+    ~TrieNode(){}
 };
 
 class Trie
 {
+private:
+    void delete_sub_tree(TrieNode* node)
+    {
+        for(TrieNode *child: node -> children)
+        {
+            if(child)
+                delete_sub_tree(child);
+            delete child;
+            child = nullptr;
+        }
+    }
+
 public:
     Trie()
     {
@@ -65,10 +67,9 @@ public:
     ~Trie()
     {
         if(root)
-        {
-            delete root;
-            root = nullptr;
-        }
+            delete_sub_tree(root);
+        delete root;
+        root = nullptr;
     }
 
     void insert(const string& word)
@@ -76,7 +77,7 @@ public:
         TrieNode *iter = root;
         for(const char& ch: word)
         {
-            TrieNode *&nxt = (iter -> children)[_char2int(ch)];
+            TrieNode *&nxt = (iter -> children)[ch - 'a'];
             if(!nxt)
                 nxt = new TrieNode();
             iter = nxt;
@@ -91,16 +92,11 @@ public:
 
     TrieNode* get_nxt(char ch, TrieNode* iter)
     {
-        return (iter -> children)[_char2int(ch)];
+        return (iter -> children)[ch - 'a'];
     }
 
 private:
     TrieNode *root;
-
-    int _char2int(const char& ch)
-    {
-        return ch - 'a';
-    }
 };
 
 
