@@ -35,58 +35,54 @@ struct TrieNode {
         terminal = false;
         children = vector<TrieNode*>(ALPHABETS, nullptr);
     }
-    ~TrieNode()
-    {
-        for(TrieNode *child: children)
-            if(child)
-            {
-                delete child;
-                child = nullptr;
-            }
-    }
+    ~TrieNode(){}
 };
 
 class Trie {
 public:
-    /** Initialize your data structure here. */
-    Trie() {
+    Trie()
+    {
         root = new TrieNode();
     }
 
-    ~Trie() {
-        delete root;
-        root = nullptr;
+    ~Trie()
+    {
+        delete_sub_tree(root);
     }
 
-    /** Inserts a word into the trie. */
-    void insert(string word) {
+    void insert(string word)
+    {
         TrieNode *iter = root;
         for(const char c: word)
         {
-            if(!(iter -> children[_to_int(c)]))
-                (iter -> children)[_to_int(c)] = new TrieNode();
-            iter = (iter -> children)[_to_int(c)];
+            if(!(iter -> children[c - 'a']))
+                (iter -> children)[c - 'a'] = new TrieNode();
+            iter = (iter -> children)[c - 'a'];
         }
         iter -> terminal = true;
     }
 
-    /** Returns if the word is in the trie. */
-    bool search(string word) {
+    bool search(string word)
+    {
         const TrieNode* iter = find(word);
         return iter && iter -> terminal;
     }
 
-    /** Returns if there is any word in the trie that starts with the given prefix. */
-    bool startsWith(string prefix) {
+    bool startsWith(string prefix)
+    {
         return find(prefix) != nullptr;
     }
 
 private:
     TrieNode *root;
 
-    int _to_int(char ch) const
+    void delete_sub_tree(TrieNode *node)
     {
-        return ch - 'a';
+        for(TrieNode *child: node -> children)
+            if(child)
+                delete_sub_tree(child);
+        delete node;
+        node = nullptr;
     }
 
     const TrieNode* find(const string& prefix) const
@@ -94,19 +90,9 @@ private:
         const TrieNode* iter = root;
         for(const char c: prefix)
         {
-            iter = (iter -> children)[_to_int(c)];
+            iter = (iter -> children)[c - 'a'];
             if(iter == nullptr) break;
         }
         return iter;
     }
 };
-
-/**
- * Your Trie object will be instantiated and called as such:
- * Trie* obj = new Trie();
- * obj->insert(word);
- * bool param_2 = obj->search(word);
- * bool param_3 = obj->startsWith(prefix);
- */
-
-

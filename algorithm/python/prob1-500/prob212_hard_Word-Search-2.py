@@ -1,46 +1,29 @@
-import copy
-
 ALPHABETS = 26
 
 class TrieNode:
     def __init__(self):
-        self.terminate = False
+        self.terminal = False
         self.children = [None] * ALPHABETS
+        self.word = ""
+
+    def get_nxt(self, ch):
+        return self.children[ord(ch) - ord('a')]
 
 class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    def insert(self, word):
+    def insert(self, word: str) -> None:
         node_iter = self.root
-        for ch in word:
-            if node_iter.children[ord(ch) - ord('a')] is None:
-                node_iter.children[ord(ch) - ord('a')] = TrieNode()
-            node_iter = node_iter.children[ord(ch) - ord('a')]
-        node_iter.terminate = True
+        for c in word:
+            if node_iter.children[ord(c) - ord('a')] is None:
+                node_iter.children[ord(c) - ord('a')] = TrieNode()
+            node_iter = node_iter.children[ord(c) - ord('a')]
+        node_iter.terminal = True
+        node_iter.word = word
 
     def get_root(self):
         return self.root
-
-    def get_nxt(self, ch, node_iter):
-        return node_iter.children[ord(ch) - ord('a')]
-
-    def show(self):
-        word = []
-        self.dfs(self.root, word)
-
-    def dfs(self, node, word):
-        if node.terminate:
-            print("".join(word))
-        for i in range(ALPHABETS):
-            if node.children[i] is None:
-                continue
-            print(i)
-            nxt = node.children[i]
-            ch = chr(ord('a') + i)
-            word += ch
-            self.dfs(nxt, word)
-            word.pop()
 
 
 class Solution:
@@ -52,38 +35,35 @@ class Solution:
         trie = Trie()
         for word in words:
             trie.insert(word)
-        visited = []
         result = []
-        cur = []
-        node_iter = trie.get_root()
+        visited = []
+        for i in range(n):
+            visited.append([False] * m)
         for i in range(n):
             for j in range(m):
-                visited = [[False] * m] * n
+                node_iter = trie.get_root()
                 visited[i][j] = True
-                cur += board[i][j]
-                self.dfs(board, visited, i, j, cur, result, trie, copy.copy(node_iter))
-                cur.pop()
+                self.dfs(board, visited, i, j, result, node_iter)
                 visited[i][j] = False
         return result
 
-    def dfs(self, board, visited, i, j, cur, result, trie, node_iter):
-        nxt = trie.get_nxt(board[i][j], node_iter)
+    def dfs(self, board, visited, i, j, result, node_iter):
+        nxt = node_iter.get_nxt(board[i][j])
         if nxt is None:
             return
         node_iter = nxt
-        if node_iter.terminate:
-            print("".join(cur))
-            result.append("".join(cur))
-            node_iter.terminate = False
+        if node_iter.terminal:
+            result.append(node_iter.word)
+            node_iter.terminal = False
         n = len(board)
         m = len(board[0])
         for d in range(4):
             x = i + self.dx[d]
             y = j + self.dy[d]
-            if x < 0 or x >= n or y < 0 or y >= m or visited[x][y]:
+            if x < 0 or x >= n or y < 0 or y >= m:
+                continue
+            if visited[x][y]:
                 continue
             visited[x][y] = True
-            cur += board[x][y]
-            self.dfs(board, visited, x, y, cur, result, trie, copy.copy(node_iter))
-            cur.pop()
+            self.dfs(board, visited, x, y, result, node_iter)
             visited[x][y] = False
