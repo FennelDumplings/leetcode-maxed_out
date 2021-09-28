@@ -30,34 +30,105 @@
 
 using namespace std;
 
+/*
 const int ALPHABETS = 26;
+
+struct TrieNode {
+    const int ALPHABETS = 26;
+    vector<TrieNode*> children;
+    bool terminal;
+    TrieNode()
+    {
+        terminal = false;
+        children = vector<TrieNode*>(ALPHABETS, nullptr);
+    }
+    ~TrieNode(){}
+};
+
+class Trie {
+public:
+    Trie()
+    {
+        root = new TrieNode();
+    }
+
+    ~Trie()
+    {
+        delete_sub_tree(root);
+    }
+
+    void insert(string word)
+    {
+        TrieNode *iter = root;
+        for(const char c: word)
+        {
+            if(!(iter -> children[c - 'a']))
+                (iter -> children)[c - 'a'] = new TrieNode();
+            iter = (iter -> children)[c - 'a'];
+        }
+        iter -> terminal = true;
+    }
+
+    bool search(string word)
+    {
+        const TrieNode* iter = find(word);
+        return iter && iter -> terminal;
+    }
+
+    bool startsWith(string prefix)
+    {
+        return find(prefix) != nullptr;
+    }
+
+    TrieNode* get_root()
+    {
+        return root;
+    }
+
+    TrieNode* get_nxt(char ch, TrieNode* iter)
+    {
+        return (iter -> children)[ch - 'a'];
+    }
+
+private:
+    TrieNode *root;
+
+    void delete_sub_tree(TrieNode *node)
+    {
+        for(TrieNode *child: node -> children)
+            if(child)
+                delete_sub_tree(child);
+        delete node;
+        node = nullptr;
+    }
+
+    const TrieNode* find(const string& prefix) const
+    {
+        const TrieNode* iter = root;
+        for(const char c: prefix)
+        {
+            iter = (iter -> children)[c - 'a'];
+            if(iter == nullptr) break;
+        }
+        return iter;
+    }
+};
+*/
 
 struct TrieNode
 {
-    bool terminate;
-    vector<TrieNode*> children;
+    bool terminal;
+    unordered_map<char, TrieNode*> children;
     TrieNode()
     {
-        terminate = false;
-        children = vector<TrieNode*>(ALPHABETS, nullptr);
+        terminal = false;
+        children = unordered_map<char, TrieNode*>();
     }
     ~TrieNode(){}
 };
 
 class Trie
 {
-private:
-    void delete_sub_tree(TrieNode* node)
-    {
-        for(TrieNode *child: node -> children)
-        {
-            if(child)
-                delete_sub_tree(child);
-            delete child;
-            child = nullptr;
-        }
-    }
-
 public:
     Trie()
     {
@@ -77,12 +148,22 @@ public:
         TrieNode *iter = root;
         for(const char& ch: word)
         {
-            TrieNode *&nxt = (iter -> children)[ch - 'a'];
-            if(!nxt)
-                nxt = new TrieNode();
-            iter = nxt;
+            if((iter -> children).count(ch) == 0)
+                (iter -> children)[ch] = new TrieNode();
+            iter = (iter -> children)[ch];
         }
-        iter -> terminate = true;
+        iter -> terminal = true;
+    }
+
+    bool search(string word)
+    {
+        const TrieNode* iter = find(word);
+        return iter && iter -> terminal;
+    }
+
+    bool startsWith(string prefix)
+    {
+        return find(prefix) != nullptr;
     }
 
     TrieNode* get_root()
@@ -92,11 +173,39 @@ public:
 
     TrieNode* get_nxt(char ch, TrieNode* iter)
     {
-        return (iter -> children)[ch - 'a'];
+        if((iter -> children).count(ch) == 0)
+            return nullptr;
+        return (iter -> children)[ch];
     }
 
 private:
     TrieNode *root;
+
+    void delete_sub_tree(TrieNode* node)
+    {
+        auto it = (node -> children).begin();
+        while(it != (node -> children).end())
+        {
+            TrieNode *child = it -> second;
+            if(child)
+                delete_sub_tree(child);
+            delete child;
+            child = nullptr;
+            ++it;
+        }
+    }
+
+    const TrieNode* find(const string& prefix) const
+    {
+        TrieNode* iter = root;
+        for(const char c: prefix)
+        {
+            if((iter -> children).count(c) == 0)
+                return nullptr;
+            iter = (iter -> children)[c];
+        }
+        return iter;
+    }
 };
 
 
@@ -137,10 +246,10 @@ private:
         TrieNode *nxt = trie -> get_nxt(board[i][j], iter);
         if(!nxt) return;
         iter = nxt;
-        if(iter -> terminate)
+        if(iter -> terminal)
         {
             result.push_back(cur);
-            iter -> terminate = false;
+            iter -> terminal = false;
         }
 
         int n = board.size(), m = board[0].size();
