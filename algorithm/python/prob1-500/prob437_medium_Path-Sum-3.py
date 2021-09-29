@@ -1,6 +1,5 @@
 from collections import Counter
 
-# Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -13,18 +12,18 @@ class Solution:
             return 0
         self.ans = 0
         self.presum = 0
-        self.counter = Counter()
-        self.counter.update([0])
+        self.mapping = Counter()
+        self.mapping.update([0])
         self._preOrder(root, targetSum)
         return self.ans
 
     def _preOrder(self, node: TreeNode, targetSum: int) -> None:
         self.presum += node.val
-        self.ans += self.counter[self.presum - targetSum]
-        self.counter.update([self.presum])
+        self.ans += self.mapping[self.presum - targetSum]
+        self.mapping.update([self.presum])
         if node.left is not None:
             self._preOrder(node.left, targetSum)
         if node.right is not None:
             self._preOrder(node.right, targetSum)
-        self.counter.subtract([self.presum])
+        self.mapping.subtract([self.presum])
         self.presum -= node.val

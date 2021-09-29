@@ -15,47 +15,27 @@ using namespace std;
 
 class Solution {
 public:
-    int pathSum(TreeNode* root, int sum) {
+    int pathSum(TreeNode* root, int targetSum) {
         if(!root) return 0;
-        int result = 0;
-        vector<int> sums(1, 0);
-        unordered_map<int, int> mapping;
-        mapping.insert(PII(0, 1));
-        _preOrder(root, result, sums, mapping, sum);
-        return result;
+        mapping = unordered_map<int, int>();
+        mapping[0] = 1;
+        int ans = 0;
+        _preOrder(root, targetSum, 0, ans);
+        return ans;
     }
 
 private:
-    using PII = pair<int, int>;
+    unordered_map<int, int> mapping;
 
-    void _preOrder(TreeNode* root, int& result, vector<int>& sums,
-            unordered_map<int, int>& mapping, int target)
+    void _preOrder(TreeNode* node, const int targetSum, int presum, int& ans)
     {
-        // 调用方保证 root 合法
-        int cur = root -> val;
-        int cur_sum = cur + sums.back();
-        int gap = cur_sum - target;
-        if(mapping.find(gap) != mapping.end())
-            result += mapping[gap];
-
-        if(!(root -> left) && !(root -> right))
-            return;
-
-        sums.push_back(cur_sum);
-        if(mapping.find(cur_sum) != mapping.end())
-            ++mapping[cur_sum];
-        else
-            mapping[cur_sum] = 1;
-
-        if(root -> left)
-            _preOrder(root -> left, result, sums, mapping, target);
-        if(root -> right)
-            _preOrder(root -> right, result, sums, mapping, target);
-
-        sums.pop_back();
-        if(mapping[cur_sum] == 1)
-            mapping.erase(mapping.find(cur_sum));
-        else
-            --mapping[cur_sum];
+        presum += node -> val;
+        ans += mapping[presum - targetSum];
+        ++mapping[presum];
+        if(node -> left)
+            _preOrder(node -> left, targetSum, presum, ans);
+        if(node -> right)
+            _preOrder(node -> right, targetSum, presum, ans);
+        --mapping[presum];
     }
 };
