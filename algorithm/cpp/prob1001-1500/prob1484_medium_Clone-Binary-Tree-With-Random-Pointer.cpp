@@ -37,37 +37,37 @@ class Solution {
 public:
     NodeCopy* copyRandomBinaryTree(Node* root) {
         if(!root) return nullptr;
-        NodeCopy *clone = dfs1(root);
-        dfs2(clone);
-        return clone;
+        return dfs(root);
     }
 
 private:
-    unordered_map<Node*, NodeCopy*> mapping1;
-    unordered_map<NodeCopy*, Node*> mapping2;
+    unordered_map<Node*, NodeCopy*> mapping;
 
-    void dfs2(NodeCopy* node)
+    NodeCopy* dfs(Node* node)
     {
-        if(mapping2[node] -> random)
-            node -> random = mapping1[mapping2[node] -> random];
+        NodeCopy *new_node = new NodeCopy(node -> val);
+        mapping[node] = new_node;
         if(node -> left)
-            dfs2(node -> left);
+        {
+            if(mapping.count(node -> left) > 0)
+                new_node -> left = mapping[node -> left];
+            else
+                new_node -> left = dfs(node -> left);
+        }
         if(node -> right)
-            dfs2(node -> right);
-    }
-
-    NodeCopy* dfs1(Node* node)
-    {
-        NodeCopy *left = nullptr, *right = nullptr;
-        if(node -> left)
-            left = dfs1(node -> left);
-        if(node -> right)
-            right = dfs1(node -> right);
-        NodeCopy *clone = new NodeCopy(node -> val);
-        clone -> left = left;
-        clone -> right = right;
-        mapping1[node] = clone;
-        mapping2[clone] = node;
-        return clone;
+        {
+            if(mapping.count(node -> right) > 0)
+                new_node -> right = mapping[node -> right];
+            else
+                new_node -> right = dfs(node -> right);
+        }
+        if(node -> random)
+        {
+            if(mapping.count(node -> random) > 0)
+                new_node -> random = mapping[node -> random];
+            else
+                new_node -> random = dfs(node -> random);
+        }
+        return new_node;
     }
 };
