@@ -38,17 +38,27 @@ using namespace std;
 class Solution {
 public:
     bool stoneGame(vector<int>& piles) {
-        sort(piles.begin(), piles.end(), greater<int>());
         int n = piles.size();
-        int s1 = 0, s2 = 0;
-        for(int i = n - 1; i >= 0; --i)
+        vector<vector<int>> dp(n, vector<int>(n));
+        int all = 0;
+        for(int i = 0; i < n; ++i)
         {
-            if(i & 1)
-                s2 += piles[i];
-            else
-                s1 += piles[i];
+            all += piles[i];
+            dp[i][i] = piles[i];
         }
-        if(s1 > s2) return true;
-        else return false;
+        for(int i = 0; i < n - 1; ++i)
+            dp[i][i + 1] = max(piles[i], piles[i + 1]);
+        for(int l = 3; l <= n; ++l)
+        {
+            // l 为区间长度
+            for(int i = 0; i + l <= n; ++i)
+            {
+                int j = i + l - 1;
+                dp[i][j] = max(piles[i] + min(dp[i + 2][j], dp[i + 1][j - 1])
+                              ,piles[j] + min(dp[i + 1][j - 1], dp[i][j - 2])
+                              );
+            }
+        }
+        return dp[0][n - 1] * 2 > all;
     }
 };

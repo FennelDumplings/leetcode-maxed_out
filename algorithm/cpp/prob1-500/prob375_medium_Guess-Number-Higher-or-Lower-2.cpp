@@ -30,7 +30,6 @@ using namespace std;
 class Solution {
 public:
     int getMoneyAmount(int n) {
-        // [0..n], n >= 1
         vector<vector<int> > dp(n + 1, vector<int>(n + 1, INT_MAX));
         for(int i = 1; i <= n; ++i)
             dp[i][i] = 0;

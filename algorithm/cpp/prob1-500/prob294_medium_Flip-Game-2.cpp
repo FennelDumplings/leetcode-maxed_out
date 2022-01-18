@@ -27,35 +27,30 @@ public:
     bool canWin(string s) {
         int n = s.size();
         if(n < 2) return false;
-        unordered_map<string, bool> mapping;
-        string state = s;
-        return _canWin(state, mapping);
+        unordered_map<string, bool> dp;
+        return solve(s, dp);
     }
 
 private:
-    bool _canWin(string& state, unordered_map<string, bool>& mapping)
+    bool solve(string& s, unordered_map<string, bool>& dp)
     {
-        int n = state.size();
-        if(mapping.find(state) != mapping.end()) // 该状态已经算过
-            return mapping[state];
+        int n = s.size();
+        if(dp.find(s) != dp.end()) // 该状态已经算过
+            return dp[s];
         for(int i = 0; i < n - 1; ++i) // 枚举所有次态
         {
-            if(state[i] == '+' && state[i + 1] == '+')
+            if(s[i] == '+' && s[i + 1] == '+')
             {
-                state[i] = '-';
-                state[i + 1] = '-';
-                bool f = _canWin(state, mapping);
-                state[i] = '+';
-                state[i + 1] = '+';
+                s[i] = '-';
+                s[i + 1] = '-';
+                bool f = solve(s, dp);
+                s[i] = '+';
+                s[i + 1] = '+';
                 if(!f)
-                {
-                    mapping[state] = true;
-                    return true;
-                }
+                    return dp[s] = true;
             }
         }
-        mapping[state] = false;
-        return false;
+        return dp[s] = false;
     }
 };
 
