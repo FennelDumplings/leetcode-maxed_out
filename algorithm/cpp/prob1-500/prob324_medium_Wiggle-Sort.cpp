@@ -277,3 +277,19 @@ public:
                 cur++;
     }
 };
+
+class Solution {
+public:
+    void wiggleSort(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> vec(nums);
+        sort(vec.begin(), vec.end());
+        for(int j = 0; j < n; ++j)
+        {
+            if(j & 1)
+                nums[j] = vec[n - 1 - (j - 1) / 2];
+            else
+                nums[j] = vec[(n - 1) / 2 - j / 2];
+        }
+    }
+};
