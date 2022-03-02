@@ -43,7 +43,7 @@ public:
 
     bool dfs(const vector<vector<int>>& g, vector<bool>& visited, int u)
     {
-        //
+        if()
     }
 
     int dx[4] = {1, -1, 0, 0};
