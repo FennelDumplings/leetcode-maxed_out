@@ -8,11 +8,11 @@ public:
         vector<vector<int>> g(n * m);
         unordered_set<int> setting;
         for(const vector<int>& b: broken)
-            setting.insert(key(b[0], b[1], n));
+            setting.insert(key(b[0], b[1], m));
         for(int i = 0; i < n; ++i)
             for(int j = 0; j < m; ++j)
             {
-                int u = key(i, j, n);
+                int u = key(i, j, m);
                 if(setting.count(u) > 0)
                     continue;
                 for(int d = 0; d < 4; ++d)
@@ -21,37 +21,50 @@ public:
                     int y = j + dy[d];
                     if(x < 0 || x >= n || y < 0 || y >= m)
                         continue;
-                    int v = key(x, y, n);
+                    int v = key(x, y, m);
+                    if(setting.count(v) > 0)
+                        continue;
                     g[u].push_back(v);
-                    g[v].push_back(u);
                 }
             }
         int ans = 0;
         vector<bool> visited;
+        vector<int> match(n * m, -1);
         for(int i = 0; i < n; ++i)
             for(int j = 0; j < m; ++j)
             {
-                int u = key(i, j, n);
+                int u = key(i, j, m);
                 if(setting.count(u) > 0)
                     continue;
                 visited.assign(n * m, false);
-                if(dfs(u, g, visited))
+                visited[u] = true;
+                if(dfs(u, g, visited, match))
                     ++ans;
             }
-        return ans;
+        return ans / 2;
     }
 
-    bool dfs(const vector<vector<int>>& g, vector<bool>& visited, int u)
+    bool dfs(int u, const vector<vector<int>>& g, vector<bool>& visited, vector<int>& match)
     {
-        if()
+        for(int v: g[u])
+        {
+            if(visited[v])
+                continue;
+            visited[v] = true;
+            if(match[v] == -1 || dfs(match[v], g, visited, match))
+            {
+                match[v] = u;
+                return true;
+            }
+        }
+        return false;
     }
 
     int dx[4] = {1, -1, 0, 0};
     int dy[4] = {0, 0, 1, -1};
 
-    int key(int x, int y, int n)
+    int key(int x, int y, int m)
     {
-        return x * n + y;
+        return x * m + y;
     }
-
 };
