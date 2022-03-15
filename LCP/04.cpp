@@ -1,6 +1,7 @@
 #include <unordered_set>
 #include <vector>
 
+/*
 class Solution {
 public:
     int domino(int n, int m, vector<vector<int>>& broken) {
@@ -62,6 +63,78 @@ public:
 
     int dx[4] = {1, -1, 0, 0};
     int dy[4] = {0, 0, 1, -1};
+
+    int key(int x, int y, int m)
+    {
+        return x * m + y;
+    }
+};
+*/
+
+class Solution {
+public:
+    int domino(int n, int m, vector<vector<int>>& broken) {
+        int n_broken = broken.size();
+        setting = unordered_set<int>();
+        for(const vector<int>& b: broken)
+            setting.insert(key(b[0], b[1], m));
+        vector<vector<int>> dp(n + 1, vector<int>(1 << m));
+        dp[0][0] = 1;
+        for(int i = 1; i <= n; ++i)
+        {
+            for(int s = 0; s < (1 << m); ++s)
+            {
+                if(!check1(s, i - 1, m))
+                    continue;
+                for(int t = 0; t < (1 << m); ++t)
+                {
+                    if(!check1(t, i - 1, m))
+                        continue;
+                    if((s & t) != 0)
+                        continue;
+                    if(!check2(s | t, i - 1, m))
+                        continue;
+                    dp[i][s] += dp[i - 1][t];
+                }
+            }
+        }
+        return dp[n][0];
+    }
+
+    unordered_set<int> setting;
+
+    bool check2(const int s, const int i, const int m)
+    {
+        // 检查 s 中所有连续 0 的长度是否均为偶数(障碍点跳过)
+        int j = m - 1;
+        while(j >= 0)
+        {
+            int len = 0;
+            while(j >= 0 && setting.count(key(i, j, m)) == 0 && (s >> j & 1) == 0)
+            {
+                --j;
+                ++len;
+            }
+            if(len & 1)
+                return false;
+            while(j >= 0 && (setting.count(key(i, j, m)) > 0 || (s >> j & 1) == 1))
+                --j;
+        }
+        return true;
+    }
+
+    bool check1(const int s, const int i, const int m)
+    {
+        // 检查 s 为 1 的位置是否是障碍点
+        for(int j = 0; j < m; ++j)
+        {
+            if((s >> j & 1) == 0)
+                continue;
+            if(setting.count(key(i, j, m)) > 0)
+                return false;
+        }
+        return true;
+    }
 
     int key(int x, int y, int m)
     {
