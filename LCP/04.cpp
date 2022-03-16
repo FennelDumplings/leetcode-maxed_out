@@ -74,70 +74,62 @@ public:
 class Solution {
 public:
     int domino(int n, int m, vector<vector<int>>& broken) {
-        int n_broken = broken.size();
-        setting = unordered_set<int>();
-        for(const vector<int>& b: broken)
-            setting.insert(key(b[0], b[1], m));
-        vector<vector<int>> dp(n + 1, vector<int>(1 << m));
-        dp[0][0] = 1;
-        for(int i = 1; i <= n; ++i)
+        vector<int> b(n + 1, 0);
+        b[n] = (1 << m) - 1;
+        for(const vector<int>& broken_point: broken)
         {
-            for(int s = 0; s < (1 << m); ++s)
-            {
-                if(!check1(s, i - 1, m))
-                    continue;
-                for(int t = 0; t < (1 << m); ++t)
-                {
-                    if(!check1(t, i - 1, m))
-                        continue;
-                    if((s & t) != 0)
-                        continue;
-                    if(!check2(s | t, i - 1, m))
-                        continue;
-                    dp[i][s] += dp[i - 1][t];
-                }
-            }
+            int i = broken_point[0];
+            int j = broken_point[1];
+            b[i] |= (1 << j);
         }
-        return dp[n][0];
+        vector<vector<int>> dp(n + 1, vector<int>(1 << m, -1));
+        for(int s = 0; s < (1 << m); ++s)
+            dp[n][s] = 0;
+        return solve(0, ~b[0], b, dp);
     }
 
-    unordered_set<int> setting;
-
-    bool check2(const int s, const int i, const int m)
+    int solve(int i, int s, const vector<int>& b, vector<vector<int>>& dp)
     {
-        // 检查 s 中所有连续 0 的长度是否均为偶数(障碍点跳过)
-        int j = m - 1;
-        while(j >= 0)
+        if(dp[i][s] != 0)
+            return dp[i][s];
+        dp[i][s] = 0;
+        for(int t = (s - 1) & s; t != s; t = (t - 1) & s)
         {
-            int len = 0;
-            while(j >= 0 && setting.count(key(i, j, m)) == 0 && (s >> j & 1) == 0)
-            {
-                --j;
-                ++len;
-            }
-            if(len & 1)
-                return false;
-            while(j >= 0 && (setting.count(key(i, j, m)) > 0 || (s >> j & 1) == 1))
-                --j;
-        }
-        return true;
-    }
-
-    bool check1(const int s, const int i, const int m)
-    {
-        // 检查 s 为 1 的位置是否是障碍点
-        for(int j = 0; j < m; ++j)
-        {
-            if((s >> j & 1) == 0)
+            if((t & b[i + 1]) != 0)
                 continue;
-            if(setting.count(key(i, j, m)) > 0)
-                return false;
+            int n1 = check1(t);
+            int n2 = check2(s & (~t));
+            dp[i][s] = max(dp[i][s], n1 + n2 + solve(i + 1, ~(t | b[i + 1]), b, dp));
         }
-        return true;
+        return dp[i][s];
     }
 
-    int key(int x, int y, int m)
+    int check2(int x)
     {
-        return x * m + y;
+        int n = 0;
+        while(x > 0)
+        {
+            while(x > 0 && (x & 1) == 0)
+                x >>= 1;
+            x >>= 1;
+            if((x & 1) == 1)
+            {
+                x >>= 1;
+                ++n;
+            }
+        }
+        return n;
+    }
+
+    int check1(int x)
+    {
+        int n = 0;
+        while(x > 0)
+        {
+            if((x & 1) == 1)
+                ++n;
+            x >>= 1;
+        }
+        return n;
     }
 };
