@@ -27,7 +27,7 @@ using namespace std;
 // stack<TreeNode*>
 // 进栈时候，栈内一些元素因为比进栈元素小而弹出
 // 先弹出元素是后弹出元素的右子树根, 最后弹出元素是进栈元素的左子树根
-class Solution {
+class Solution1 {
 public:
     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
         if(nums.empty()) return nullptr;
@@ -60,6 +60,38 @@ public:
             result = st.top();
             st.pop();
         }
+        return result;
+    }
+};
+
+class Solution {
+public:
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        if(nums.empty()) return nullptr;
+        int n = nums.size();
+        TreeNode *result = build_tree(nums, 0, n - 1);
+        return result;
+    }
+
+    TreeNode* build_tree(const vector<int>& nums, int left, int right)
+    {
+        if(left > right)
+        {
+            return nullptr;
+        }
+        int max_idx = -1;
+        int max_num = -1;
+        for(int i = left; i <= right; ++i)
+        {
+            if(nums[i] > max_num)
+            {
+                max_num = nums[i];
+                max_idx = i;
+            }
+        }
+        TreeNode *result = new TreeNode(max_num);
+        result -> left = build_tree(nums, left, max_idx - 1);
+        result -> right = build_tree(nums, max_idx + 1, right);
         return result;
     }
 };

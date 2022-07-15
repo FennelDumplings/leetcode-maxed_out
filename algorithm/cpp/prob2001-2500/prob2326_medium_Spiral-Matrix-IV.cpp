@@ -24,7 +24,7 @@ public:
                 ++left;
                 --right;
             }
-            else if(x + dx[d] < up || x + dx[d] > down | y + dy[d] < left || y + dy[d] > right)
+            else if(x + dx[d] < up || x + dx[d] > down || y + dy[d] < left || y + dy[d] > right)
             {
                 d++;
             }
