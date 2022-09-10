@@ -26,31 +26,31 @@
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
-        if(!head) return nullptr;
-        if(!head -> next || !head -> next -> next) return head;
-        ListNode *iter_odd = head, *iter_even = head -> next, *head_even = head -> next;
-        int odd = 1;
+        if(!head || !head -> next || !head -> next -> next)
+            return head;
+        ListNode *iter_odd = head;
+        ListNode *iter_even = head -> next;
         ListNode *iter = head -> next -> next;
+        ListNode *head_even = head -> next;
         iter_odd -> next = nullptr;
         iter_even -> next = nullptr;
+        int odd = 1;
         while(iter)
         {
-            if(odd == 1)
+            if(odd & 1)
             {
                 iter_odd -> next = iter;
-                iter = iter -> next;
                 iter_odd = iter_odd -> next;
                 iter_odd -> next = nullptr;
-                odd ^= 1;
             }
             else
             {
                 iter_even -> next = iter;
-                iter = iter -> next;
                 iter_even = iter_even -> next;
                 iter_even -> next = nullptr;
-                odd ^= 1;
             }
+            iter = iter -> next;
+            odd ^= 1;
         }
         iter_odd -> next = head_even;
         return head;
