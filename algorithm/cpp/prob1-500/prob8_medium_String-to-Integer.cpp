@@ -19,7 +19,8 @@ using namespace std;
 class Solution {
 public:
     int myAtoi(string str) {
-        if(str.empty()) return 0; // 空串的情况
+        if(str.empty())
+            return 0; // 空串的情况
         int n = str.size();
 
         int sign = 1;
@@ -27,8 +28,10 @@ public:
         for(; start < n; ++start)
             if(str[start] != ' ')
                 break;
-        if(start == n) return 0; // 仅含空字符的情况
-        if(!is_intchar(str[start])) return 0; // 第一个非空字符不是有效整数字符的情况
+        if(start == n)
+            return 0; // 仅含空字符的情况
+        if(!is_digit(str[start]) && !is_sign(str[start]))
+            return 0; // 第一个非空字符不是有效整数字符的情况
         if(is_sign(str[start]))
         {
             if(str[start] == '-')
@@ -36,15 +39,10 @@ public:
             ++start;
         }
 
-        // const string numbers = "0123456789";
-        // for(int i = 0; i <= 9; ++i)
-        //     mapping[numbers[i]] = i;
-
         int result = 0;
-        // 一上来 start 就等于 n 是 +- 号之后紧跟着非数字的情况，不进循环, result为0不变
+        // 一上来 start 就等于 n 是 +- 号之后紧跟着非数字的情况，不进循环, result 为 0 不变
         while(start < n && is_digit(str[start]))
         {
-            // int iter = mapping[str[start]];
             int iter = char2int(str[start]);
             if(result > (INT_MAX - iter) / 10)
             {
@@ -63,58 +61,21 @@ public:
     }
 
 private:
-    // unordered_map<char, int> mapping;
-
     int char2int(const char &c)
     {
-        switch(c)
-        {
-            case '0': return 0;
-            case '1': return 1;
-            case '2': return 2;
-            case '3': return 3;
-            case '4': return 4;
-            case '5': return 5;
-            case '6': return 6;
-            case '7': return 7;
-            case '8': return 8;
-            case '9': return 9;
-            default: return -1;
-        }
+        if(c - '0' >= 0 && c - '0' <= 9)
+            return c - '0';
+        return -1;
     }
 
     bool is_digit(const char &c)
     {
-        switch(c)
-        {
-            case '0': return true;
-            case '1': return true;
-            case '2': return true;
-            case '3': return true;
-            case '4': return true;
-            case '5': return true;
-            case '6': return true;
-            case '7': return true;
-            case '8': return true;
-            case '9': return true;
-            default: return false;
-        }
+        return c - '0' >= 0 && c - '0' <= 9;
     }
 
     bool is_sign(const char &c)
     {
-        if(c == '+' || c == '-')
-            return true;
-        else
-            return false;
-    }
-
-    bool is_intchar(const char &c)
-    {
-        if(is_digit(c) || is_sign(c))
-            return true;
-        else
-            return false;
+        return (c == '+') || (c == '-');
     }
 };
 
