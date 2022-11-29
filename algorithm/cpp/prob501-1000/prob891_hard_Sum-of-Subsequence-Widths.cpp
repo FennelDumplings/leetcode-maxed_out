@@ -22,19 +22,51 @@
 
 using namespace std;
 
+const int MOD = 1e9 + 7;
+using ll = long long;
+
+int quickpower(int a, int n, int mod)
+{
+    int ans = 1;
+    while(n)
+    {
+        if(n & 1)
+            ans = ((ll)ans * a) % mod;
+        a = (ll)a * a % mod;
+        n >>= 1;
+    }
+    return ans % mod;
+}
+
 class Solution {
 public:
     int sumSubseqWidths(vector<int>& A) {
-        int mod = 1e9 + 7;
-
         sort(A.begin(), A.end());
-        long long res = 0, p = 1, sum = 0; // p 是累计的次方数，sum 是累计 Y 的值
-        for(auto x: A)
+        int n = A.size();
+        int ans = 0;
+        for(int i = 0; i < n; ++i)
         {
-            res = (res + x * (p - 1) - sum) % mod;
-            sum = (x + sum * 2) % mod;
-            p = p * 2 % mod;
+            ans = (ans + (ll)A[i] * quickpower(2, i, MOD)) % MOD;
+            ans = (ans - (ll)A[i] * quickpower(2, n - 1 - i, MOD) + MOD) % MOD;
         }
-        return (res + mod) % mod;
+        return ans;
     }
 };
+
+// class Solution {
+// public:
+//     int sumSubseqWidths(vector<int>& A) {
+//         sort(A.begin(), A.end());
+//         int n = A.size();
+//         long long ans = 0, p = 1, sum = 0; // p 是累计的次方数，sum 是累计 Y 的值
+//         for(int i = 0; i < n; ++i)
+//         {
+//             // 此时 p = 2 ^ i
+//             ans = (ans + A[i] * (p - 1) - sum) % MOD;
+//             sum = (A[i] + sum * 2) % MOD;
+//             p = p * 2 % MOD;
+//         }
+//         return (ans + MOD) % MOD;
+//     }
+//
+// };

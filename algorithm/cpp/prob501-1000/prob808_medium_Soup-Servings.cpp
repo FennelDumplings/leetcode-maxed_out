@@ -36,22 +36,28 @@ using namespace std;
 class Solution {
 public:
     double soupServings(int N) {
-        if(N % 25 == 0) N /= 25;
-        else N = N / 25 + 1;
-        if(N >= 500) return 1.0;
+        if(N % 25 == 0)
+            N /= 25;
+        else
+            N = N / 25 + 1;
+        if(N >= 500)
+            return 1.0;
 
         vector<vector<double> > dp(N + 1, vector<double>(N + 1, 0));
         for(int i = 0; i <= N; ++i)
             for(int j = 0; j <= N; ++j)
             {
-                if(j < 0 || j > N) continue;
+                if(j < 0 || j > N)
+                    continue;
                 double ans = 0.0;
-                if(i == 0) ans = 1.0;
-                if(i == 0 && j == 0) ans = 0.5;
+                if(i == 0)
+                    ans = 1.0;
+                if(i == 0 && j == 0)
+                    ans = 0.5;
                 if(i > 0 && j > 0)
                 {
-                    ans = 0.25 * (dp[_relu(i - 4)][j] + dp[_relu(i - 3)][j - 1]
-                            + dp[_relu(i - 2)][_relu(j - 2)] + dp[_relu(i - 1)][_relu(j - 3)]);
+                    ans = 0.25 * (dp[relu(i - 4)][j] + dp[relu(i - 3)][j - 1]
+                            + dp[relu(i - 2)][relu(j - 2)] + dp[relu(i - 1)][relu(j - 3)]);
                 }
                 dp[i][j] = ans;
             }
@@ -59,7 +65,7 @@ public:
     }
 
 private:
-    int _relu(int x)
+    int relu(int x)
     {
         return max(0, x);
     }

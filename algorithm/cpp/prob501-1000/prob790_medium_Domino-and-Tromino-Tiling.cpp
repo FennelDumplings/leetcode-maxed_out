@@ -34,7 +34,8 @@ public:
         if(N == 1) return 1;
         if(N == 2) return 2;
         vector<int> f(N + 1, 0), g(N + 1, 0);
-        f[1] = 1, f[2] = 2;
+        f[1] = 1;
+        f[2] = 2;
         g[1] = 1;
         g[2] = 2;
         for(int i = 3; i <= N; ++i)
