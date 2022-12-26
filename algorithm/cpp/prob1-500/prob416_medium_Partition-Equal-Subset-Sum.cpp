@@ -30,10 +30,13 @@ class Solution {
 public:
     bool canPartition(vector<int>& nums) {
         int N = nums.size(); // 背包问题物品数
-        if(N < 2) return false;
+        if(N < 2)
+            return false;
         int V = 0;
-        for(int num: nums) V += num;
-        if(V & 1) return false;
+        for(int num: nums)
+            V += num;
+        if(V & 1)
+            return false;
         V /= 2; // 背包问题的容量
         vector<int> &v = nums; // 每个物品的体积
         vector<int> dp(V + 1, INT_MIN); // 需要体积恰好取到容量，所以要初始化为负无穷
