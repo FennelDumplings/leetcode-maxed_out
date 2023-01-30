@@ -19,7 +19,7 @@ maxed out 这个词组的意思是刷爆，原意主要是指信用卡的刷爆�
 
 ---
 
-![算法题刷刷](https://i.loli.net/2021/07/29/GvVjM2Dt6NkWlof.jpg)
+![算法题刷刷](./img/qrcode_for_gh_08431e1f07b7_258.jpg)
 
 ---
 
@@ -33,18 +33,18 @@ maxed out 这个词组的意思是刷爆，原意主要是指信用卡的刷爆�
 
 在场景这个维度中，我们将同一类问题组织到一起，解法可能设计很多算法。例如区间问题属于比较大的一类问题，下面的图将 leetcode 中所有与区间相关的问题按照解决方案聚合到一起了，方便大家集中刷题。
 
-![leetcode区间问题](https://i.loli.net/2021/07/29/cEKXgFt4PsparNu.png)
+![leetcode区间问题](./img/leetcode区间问题.png)
 
 在数据结构这个维度中，我们将数据机构层面相同的题组织到一起。例如 leetcode 上设计功能系统类型的题有很多，我们将所有题按主要的数据结构组织到一起，方便集中刷题。
 
-![leetcode设计功能系统](https://i.loli.net/2021/07/29/i8MezqHmQFwdP36.png)
+![leetcode设计功能系统](./img/leetcode题目汇总-设计功能系统.png)
 
 在算法这个维度中，我们将算法那层面相同的题组织到一起。例如常见的前缀和，虽然大量的题都属于前缀和的题，但是套路是很多的，我们将所有前缀和的题按照各个套路聚合到一起，方便大家集中刷题。
 
-![leetcode前缀和](https://i.loli.net/2021/07/29/ZLMuDqb6nQerCtF.png)
+![leetcode前缀和](./img/leetcode前缀和-公众号-算法题刷刷.png)
 
 (3) recommend: 我比较推荐的适合用来面试的题。
 
 ---
 
-![算法-数据结构](https://i.loli.net/2021/07/29/eVA81NK2szlFYhH.png)
+![算法-数据结构](./img/数据结构.png)
