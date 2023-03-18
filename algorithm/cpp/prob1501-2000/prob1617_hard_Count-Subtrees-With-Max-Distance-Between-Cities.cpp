@@ -94,49 +94,81 @@ private:
 class Solution {
 public:
     vector<int> countSubgraphsForEachDiameter(int n, vector<vector<int>>& edges) {
-        dp = vector<vector<vector<int>>>(n, vector<vector<int>>(n, vector<int>(n, 0)));
-        vector<vector<int>> g(n); // 建立有根树
-        for(const vector<int>& e: edges)
+        vector<vector<int> > g(n + 1);
+        for(const auto &e: edges)
         {
-            g[e[0] - 1].push_back(e[1] - 1);
-            g[e[1] - 1].push_back(e[0] - 1);
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
         }
-        result.assign(n - 1, 0);
-        dfs(0, -1, g);
+        vector<vector<int>> dist(n + 1, vector<int>(n + 1, INT_MAX / 2));
+        for(int s = 1; s <= n; ++s)
+            bfs(g, s, dist);
+        vector<int> result(n - 1);
+        for(int i = 1; i < n; ++i)
+            for(int j = i + 1; j <= n; ++j)
+            {
+                int d = dist[i][j];
+                cout << i << ' ' << j << " " << d << endl;
+                if(d == INT_MAX / 2)
+                    continue;
+                result[d - 1] += dfs(g, dist, i, j, i, -1);
+            }
         return result;
     }
 
 private:
-    vector<vector<vector<int>>> dp;
-    vector<int> result;
-    vector<vector<int>> tmp;
+    struct State {
+        int v;
+        int d;
+        State(){}
+        State(int v, int d):v(v),d(d){}
+    };
 
-    void dfs(int u, int fa, const vector<vector<int>>& g)
+    vector<int> visited;
+    queue<State> q;
+
+    int dfs(const vector<vector<int>>& g, const vector<vector<int>>& dist, const int i, const int j, int x, int fa)
     {
-        int n = g.size();
-        dp[u][0][0] = 1;
-        for(int v: g[u])
-            if(v != fa)
+        int d = dist[i][j];
+        int c = 1; // 选 x
+        for(int y: g[x])
+        {
+            // continue 的情况是 y 不可选的情况
+            if(y == fa)
+                continue;
+            if(dist[i][y] > d || dist[j][y] > d)
+                continue;
+            if(dist[i][y] == d && y < j)
+                continue;
+            if(dist[j][y] == d && y < i)
+                continue;
+            c *= dfs(g, dist, i, j, y, x);
+        }
+        if(dist[i][x] + dist[j][x] > d)
+            c++;
+        return c;
+    }
+
+    void bfs(const vector<vector<int>>& g, int s, vector<vector<int>>& dist)
+    {
+        int n = g.size() - 1;
+        visited.assign(n + 1, 0);
+        q.push(State(s, 0));
+        visited[s] = 1;
+        while(!q.empty())
+        {
+            State cur = q.front();
+            q.pop();
+            int u = cur.v;
+            int d = cur.d;
+            dist[s][u] = d;
+            for(int v: g[u])
             {
-                dfs(v, u, g);
-                tmp.assign(n, vector<int>(n, 0));
-                for(int jf = 0; jf < n; ++jf)
-                    for(int kf = jf; kf < n; ++kf)
-                    {
-                        for(int j = 0; j + kf + 1 < n; ++j)
-                            for(int k = j; k < n; ++k)
-                            {
-                                int deep = max(jf, j + 1);
-                                int d = max(max(k, kf), jf + j + 1);
-                                tmp[deep][d] += dp[v][j][k] * dp[u][jf][kf];
-                            }
-                    }
-                for(int deep = 1; deep < n; ++deep)
-                    for(int d = deep; d < n; ++d)
-                    {
-                        dp[u][deep][d] += tmp[deep][d];
-                        result[d - 1] += tmp[deep][d];
-                    }
+                if(visited[v] == 1)
+                    continue;
+                visited[v] = 1;
+                q.push(State(v, d + 1));
             }
+        }
     }
 };
