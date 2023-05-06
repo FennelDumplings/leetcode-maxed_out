@@ -29,7 +29,7 @@ public:
         int ans = 0;
 
         int j1 = upper_bound(pos.begin(), pos.end(), startPos) - pos.begin() - 1;
-        for(int i = left; pos[i] <= startPos; ++i)
+        for(int i = left; i < n && pos[i] <= startPos; ++i)
         {
             int j2 = upper_bound(pos.begin(), pos.end(), 2 * pos[i] + k - startPos) - pos.begin() - 1;
             int j = max(j1, j2);
@@ -37,7 +37,7 @@ public:
         }
 
         int i1 = lower_bound(pos.begin(), pos.end(), startPos) - pos.begin();
-        for(int j = right; pos[j] >= startPos; --j)
+        for(int j = right; j >= 0 && pos[j] >= startPos; --j)
         {
             int i2 = lower_bound(pos.begin(), pos.end(), 2 * pos[j] - k - startPos) - pos.begin();
             int i = min(i1, i2);
