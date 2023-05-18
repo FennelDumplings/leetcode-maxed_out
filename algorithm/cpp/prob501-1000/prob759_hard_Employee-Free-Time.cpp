@@ -55,7 +55,7 @@ struct Event
     bool side; // false: 左，true 右
     Event(int idx, bool side):idx(idx),side(side){}
 };
-\
+
 struct Cmp
 {
     bool operator()(const Event& e1, const Event& e2) const
