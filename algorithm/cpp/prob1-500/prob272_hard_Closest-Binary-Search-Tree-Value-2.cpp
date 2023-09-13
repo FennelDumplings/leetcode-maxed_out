@@ -73,59 +73,59 @@ public:
     }
 
 private:
-    TreeNode* _get_precursor(TreeNode* root, unordered_map<TreeNode*, TreeNode*>& father)
+    TreeNode* _get_precursor(TreeNode* node, unordered_map<TreeNode*, TreeNode*>& father)
     {
-        if(root -> left)
+        if(node -> left)
         {
-            father[root -> left] = root;
-            root = root -> left;
-            while(root -> right)
+            father[node -> left] = node;
+            node = node -> left;
+            while(node -> right)
             {
-                father[root -> right] = root;
-                root = root -> right;
+                father[node -> right] = node;
+                node = node -> right;
             }
-            return root;
+            return node;
         }
-        while(father[root] && father[root] -> right != root)
-            root = father[root];
-        return father[root];
+        while(father[node] && father[node] -> right != node)
+            node = father[node];
+        return father[node];
     }
 
-    TreeNode* _get_successor(TreeNode* root, unordered_map<TreeNode*, TreeNode*>& father)
+    TreeNode* _get_successor(TreeNode* node, unordered_map<TreeNode*, TreeNode*>& father)
     {
-        if(root -> right)
+        if(node -> right)
         {
-            father[root -> right] = root;
-            root = root -> right;
-            while(root -> left)
+            father[node -> right] = node;
+            node = node -> right;
+            while(node -> left)
             {
-                father[root -> left] = root;
-                root = root -> left;
+                father[node -> left] = node;
+                node = node -> left;
             }
-            return root;
+            return node;
         }
-        while(father[root] && father[root] -> left != root)
-            root = father[root];
-        return father[root];
+        while(father[node] && father[node] -> left != node)
+            node = father[node];
+        return father[node];
     }
 
-    void _bisearch(TreeNode* root, double target, TreeNode*& closest, double& min_gap,
+    void _bisearch(TreeNode* node, double target, TreeNode*& closest, double& min_gap,
             unordered_map<TreeNode*, TreeNode*>& father)
     {
-        if(abs(root -> val - target) < min_gap)
+        if(abs(node -> val - target) < min_gap)
         {
-            min_gap = abs(root -> val - target);
-            closest = root;
+            min_gap = abs(node -> val - target);
+            closest = node;
         }
-        if(root -> val > target && root -> left)
+        if(node -> val > target && node -> left)
         {
-            father[root -> left] = root;
-            _bisearch(root -> left, target, closest, min_gap, father);
+            father[node -> left] = node;
+            _bisearch(node -> left, target, closest, min_gap, father);
         }
-        if(root -> val < target && root -> right)
+        if(node -> val < target && node -> right)
         {
-            father[root -> right] = root;
-            _bisearch(root -> right, target, closest, min_gap, father);
+            father[node -> right] = node;
+            _bisearch(node -> right, target, closest, min_gap, father);
         }
     }
 };
