@@ -55,9 +55,12 @@ public:
 class Solution_2 {
 public:
     int longestValidParentheses(string s) {
-        if(s.empty()) return 0;
+        if(s.empty())
+            return 0;
         int n = s.size();
-        int result_l2r = 0;
+        int ans = 0;
+
+        // 从左往右
         int start = 0;
         int left_parentheres = 0;
         int right_parentheres = 0;
@@ -70,7 +73,7 @@ public:
                 ++right_parentheres;
                 if(left_parentheres == right_parentheres)
                 {
-                    result_l2r = max(result_l2r, left_parentheres + right_parentheres);
+                    ans = max(ans, left_parentheres + right_parentheres);
                 }
                 else if(left_parentheres < right_parentheres)
                 {
@@ -80,7 +83,8 @@ public:
             }
             ++start;
         }
-        int result_r2l = 0;
+
+        // 从右往左
         start = n - 1;
         left_parentheres = 0;
         right_parentheres = 0;
@@ -93,7 +97,7 @@ public:
                 ++left_parentheres;
                 if(left_parentheres == right_parentheres)
                 {
-                    result_r2l = max(result_r2l, left_parentheres + right_parentheres);
+                    ans = max(ans, left_parentheres + right_parentheres);
                 }
                 else if(left_parentheres > right_parentheres)
                 {
@@ -103,7 +107,7 @@ public:
             }
             --start;
         }
-        return max(result_l2r, result_r2l);
+        return ans;
     }
 };
 
@@ -114,6 +118,7 @@ public:
 // s[i] = ')' 有两种情况
 // 1. '()' s[i] = ')' s[i - 1] = '(' dp[i] = dp[i - 2] + 2
 // 2. '))' s[i] = ')' s[i - 1] = ')' dp[i] = dp[i - 1] + 2 + dp[i - dp[i - 1] - 2]
+
 class Solution_3 {
 public:
     int longestValidParentheses(string s) {

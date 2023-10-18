@@ -28,7 +28,9 @@ using namespace std;
 // dl : 需要删除的 (
 // dr : 需要删除的 )
 // m: 最终匹配对数
-// 先通过cnt遍历一遍求 dl, dr, m
+//
+// 先遍历一遍 s 求 dl, dr, m
+//
 // 初始 l,r=0, dl,dr,m
 // dfs(s, result, result_item, pos, l, r, dl, dr, m)
 // 状态转移：
@@ -42,11 +44,13 @@ using namespace std;
 //     pos + 1, l, r, dl, dr, m
 // 终止条件
 //     pos == n
-//     直接加入答案，因为dfs过程中把不合法的剪枝掉了
+//     直接加入答案，因为 dfs 过程中把不合法的剪枝掉了
+//
 class Solution {
 public:
     vector<string> removeInvalidParentheses(string s) {
-        if(s.empty()) return vector<string>();
+        if(s.empty())
+            return vector<string>();
         int dl = 0, dr = 0, m = 0;
         for(char c: s)
         {
