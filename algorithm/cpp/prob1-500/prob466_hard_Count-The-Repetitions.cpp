@@ -31,6 +31,54 @@ public:
     }
 };
 
+class Solution {
+public:
+    int getMaxRepetitions(string s1, int n1, string s2, int n2) {
+        int len1 = s1.size(), len2 = s2.size();
+        int idx1 = 0, cnt1 = 0; // S1 的遍历状态
+        int idx2 = 0, cnt2 = 0; // S2 的匹配状态
+
+        unordered_map<int, vector<int>> mapping; // i_k -> k, c_k
+        mapping[0] = {0, 0};
+        bool flag = false; // 是否已经处理过循环节
+        while(cnt1 < n1)
+        {
+            while(idx1 < len1)
+            {
+                if(s1[idx1] == s2[idx2])
+                    idx2++;
+                idx1++;
+                if(idx2 == len2)
+                {
+                    cnt2++;
+                    idx2 = 0;
+                    if(mapping.count(idx1) == 0)
+                    {
+                        mapping[idx1] = {cnt2, cnt1};
+                    }
+                    else if(!flag)
+                    {
+                        // 发现循环节
+                        int K = cnt2;
+                        int iK = idx1;
+                        int cK = cnt1;
+                        int J = mapping[iK][0];
+                        int cJ = mapping[iK][1];
+                        int L = K - J;
+                        int delta_c = cK - cJ;
+                        int C = (n1 - cK) / delta_c;
+                        cnt1 = cK + C * delta_c;
+                        cnt2 = K + C * L;
+                    }
+                }
+            }
+            cnt1++;
+            idx1 = 0;
+        }
+        return cnt2 / n2;
+    }
+};
+
 // 循环节优化
 class Solution_2 {
 public:

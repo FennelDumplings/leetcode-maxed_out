@@ -42,13 +42,13 @@ public:
             dp[k][0] = 0;
             dp[k][1] = 1;
         }
-        for(int k = 2; k <= K; ++k)
-            for(int n = 2; n <= N; ++n)
+        for(int i = 2; i <= K; ++i)
+            for(int k = 2; k <= N; ++k)
             {
-                for(int i = 1; i <= n; ++i)
-                    dp[k][n] = min(dp[k][n], max(dp[k - 1][i - 1], dp[k][n - i]) + 1);
+                for(int t = 1; t <= k; ++t)
+                    dp[i][k] = min(dp[i][k], max(dp[i - 1][t - 1], dp[i][k - t]) + 1);
             }
-        return dp[K][N];
+        return dp[K][i];
     }
 };
 
