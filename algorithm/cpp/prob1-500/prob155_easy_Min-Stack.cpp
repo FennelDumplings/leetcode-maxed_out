@@ -25,7 +25,6 @@ using namespace std;
 
 class MinStack {
 public:
-    /** initialize your data structure here. */
     MinStack() {
         st = stack<int>();
         st_min = stack<int>();
