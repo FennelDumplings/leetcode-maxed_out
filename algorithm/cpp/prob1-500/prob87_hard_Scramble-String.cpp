@@ -51,54 +51,37 @@ using namespace std;
 class Solution {
 public:
     bool isScramble(string s1, string s2) {
-        int n1 = s1.size();
-        int n2 = s2.size();
-        if(n1 != n2) return false;
-        if(n1 == 1 && n2 == 1) return s1[0] == s2[0];
-        bool eq = true;
-        if(!_equal(s1, s2, eq)) return false;
-        _equal(s1, s2, eq);
-        if(eq) return true;
-
-        // 下面这种排序再判断两个串是否相等的办法比哈希表计数更快
-        // string ss1 = s1, ss2 = s2;
-        // sort(ss1.begin(), ss1.end()), sort(ss2.begin(), ss2.end());
-        // if (ss1 != ss2) return false;
-
-        for(int i = 1; i <= n1 - 1; ++i)
-        {
-            if(isScramble(s1.substr(0, i), s2.substr(0, i)) &&
-                    isScramble(s1.substr(i, n1 - i), s2.substr(i, n2 - i)))
-                return true;
-            if(isScramble(s1.substr(0, i), s2.substr(n2 - i, i)) &&
-                    isScramble(s1.substr(i, n1 - i), s2.substr(0, n2 - i)))
-                return true;
-        }
-        return false;
+        dp = unordered_set<int>();
+        return solve(s1, 0, s1.size() - 1, s2, 0, s2.size() - 1);
     }
 
-private:
-    bool _equal(const string& str1, const string& str2, bool& eq)
+    unordered_set<int> dp;
+
+    bool solve(const string& s1, int l1, int r1, const string& s2, int l2, int r2)
     {
-        int n = str1.size();
-        unordered_map<char, int> hash1;
-        unordered_map<char, int> hash2;
-        eq = true;
-        for(int i = 0; i < n; ++i)
+        if(r1 - l1 != r2 - l2)
+            return false;
+        int n = r1 - l1 + 1;
+        if(n == 1)
         {
-            if(str1[i] != str2[i]) eq = false;
-            ++hash1[str1[i]];
-            ++hash2[str2[i]];
-        }
-        if(eq) return true;
-        if(hash1.size() != hash2.size()) return false;
-        auto it1 = hash1.begin();
-        while(it1 != hash1.end() )
-        {
-            if(hash2.find(it1 -> first) == hash2.end() || hash2[it1 -> first] != it1 -> second)
+            if(s1[l1] == s2[l2])
+                return true;
+            else
                 return false;
-            ++it1;
         }
-        return true;
+        int s = (l1 * 100 + r1) * 10000 + (l2 * 100 + r2);
+        if(dp.count(s) > 0)
+            return false;
+        for(int i = 1; i < n; ++i)
+        {
+            if(solve(s1, l1, l1 + i - 1, s2, l2, l2 + i - 1)
+                    && solve(s1, l1 + i, r1, s2, l2 + i, r2))
+                return true;
+            if(solve(s1, l1, l1 + i - 1, s2, r2 - i + 1, r2)
+                    && solve(s1, l1 + i, r1, s2, l2, r2 - i))
+                return true;
+        }
+        dp.insert(s);
+        return false;
     }
 };

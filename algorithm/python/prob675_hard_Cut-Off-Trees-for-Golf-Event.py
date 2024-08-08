@@ -1,9 +1,8 @@
 #!py2
 
-class Solution(object):
-    def cutOffTree(self, forest):
+class Solution:
+    def cutOffTree(self, forest: List[List[int]]) -> int:
 
-        # Add sentinels (a border of zeros) so we don't need index-checks later on.
         forest.append([0] * len(forest[0]))
         for row in forest:
             row.append(0)
