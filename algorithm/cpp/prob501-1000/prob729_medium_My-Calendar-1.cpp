@@ -38,7 +38,8 @@ public:
     bool book(int start, int end) {
         IT l, r;
         bool has_overlap = get_overlap(start, end, l, r);
-        if(has_overlap) return false;
+        if(has_overlap)
+            return false;
         ranges[start] = end;
         return true;
     }
